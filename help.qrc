@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>doc/collection.qhc</file>
+        <file>doc/help.qch</file>
+        <file>doc/index.html</file>
+        <file>doc/info.html</file>
+        <file>doc/main.html</file>
+        <file>doc/visualisation.html</file>
+        <file>doc/viswindow.png</file>
+        <file>doc/mainwindow.png</file>
+    </qresource>
+</RCC>

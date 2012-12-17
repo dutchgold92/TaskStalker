@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<QHelpCollectionProject version="1.0">
+<assistant>
+	<title>Task Stalker Manual</title>
+	<cacheDirectory>TaskStalker</cacheDirectory>
+	<homePage>qthelp://itb.taskstalker/html/index.html</homePage>
+	<startPage>qthelp://itb.taskstalker/html/index.html</startPage>
+	<enableFilterFunctionality>false</enableFilterFunctionality>
+	<enableDocumentationManager>false</enableDocumentationManager>
+	<enableAddressBar>false</enableAddressBar>
+</assistant>
+
+<docFiles>
+	<register>
+		<file>help.qch</file>
+	</register>
+</docFiles>
+</QHelpCollectionProject>

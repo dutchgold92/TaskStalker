@@ -125,3 +125,25 @@ void Visualiser::kill_confirm_accepted()
     else
         perror("Failed to kill process");
 }
+
+void Visualiser::on_stopButton_clicked()
+{
+    if(ui->stopButton->text() == "Stop")
+    {
+        if(kill(pid, 19) == 0)
+        {
+            ui->stopButton->setText("Resume");
+        }
+        else
+            perror("Failed to stop process");
+    }
+    else
+    {
+        if(kill(pid, 18) == 0)
+        {
+            ui->stopButton->setText("Stop");
+        }
+        else
+            perror("Failed to resume process");
+    }
+}

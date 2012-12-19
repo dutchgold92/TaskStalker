@@ -34,6 +34,7 @@ private:
     QImage image;
 
 private slots:
+    void on_stopButton_clicked();
     void on_killButton_clicked();
     void on_infoTable_cellChanged(int row, int column);
     void kill_confirm_accepted();

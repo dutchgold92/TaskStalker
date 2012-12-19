@@ -3,7 +3,7 @@
 #include "proc.h"
 #include "visualiser.h"
 #include "info.h"
-#include "simulator.h"
+#include "simulatorinit.h"
 
 using namespace std;
 
@@ -111,7 +111,7 @@ void MainWindow::on_actionDocumentation_triggered()
   */
 void MainWindow::on_actionSimulate_triggered()
 {
-    new Simulator(this);
+    new SimulatorInit(this);
 }
 
 /**

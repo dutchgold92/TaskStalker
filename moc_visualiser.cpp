@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'visualiser.h'
 **
-** Created: Tue Dec 11 21:55:10 2012
+** Created: Tue Dec 18 12:08:11 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Visualiser[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,15 +32,17 @@ static const uint qt_meta_data_Visualiser[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      47,   36,   11,   11, 0x08,
-      81,   11,   11,   11, 0x08,
+      36,   11,   11,   11, 0x08,
+      71,   60,   11,   11, 0x08,
+     105,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Visualiser[] = {
-    "Visualiser\0\0on_killButton_clicked()\0"
-    "row,column\0on_infoTable_cellChanged(int,int)\0"
+    "Visualiser\0\0on_stopButton_clicked()\0"
+    "on_killButton_clicked()\0row,column\0"
+    "on_infoTable_cellChanged(int,int)\0"
     "kill_confirm_accepted()\0"
 };
 
@@ -73,12 +75,13 @@ int Visualiser::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_killButton_clicked(); break;
-        case 1: on_infoTable_cellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 2: kill_confirm_accepted(); break;
+        case 0: on_stopButton_clicked(); break;
+        case 1: on_killButton_clicked(); break;
+        case 2: on_infoTable_cellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 3: kill_confirm_accepted(); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }

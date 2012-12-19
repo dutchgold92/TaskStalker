@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Tue Dec 11 21:54:59 2012
+** Created: Tue Dec 18 12:08:06 2012
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -30,6 +30,7 @@ public:
     QLabel *visualContainer;
     QTableWidget *infoTable;
     QPushButton *killButton;
+    QPushButton *stopButton;
 
     void setupUi(QDialog *Visualiser)
     {
@@ -82,6 +83,9 @@ public:
         killButton = new QPushButton(Visualiser);
         killButton->setObjectName(QString::fromUtf8("killButton"));
         killButton->setGeometry(QRect(460, 60, 81, 27));
+        stopButton = new QPushButton(Visualiser);
+        stopButton->setObjectName(QString::fromUtf8("stopButton"));
+        stopButton->setGeometry(QRect(380, 60, 75, 27));
 
         retranslateUi(Visualiser);
         QObject::connect(buttonBox, SIGNAL(accepted()), Visualiser, SLOT(accept()));
@@ -101,6 +105,7 @@ public:
         QTableWidgetItem *___qtablewidgetitem2 = infoTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("Visualiser", "State", 0, QApplication::UnicodeUTF8));
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
+        stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

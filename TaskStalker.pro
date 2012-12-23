@@ -10,19 +10,24 @@ SOURCES += main.cpp \
     confirmkill.cpp \
     info.cpp \
     simulator.cpp \
-    simulatorinit.cpp
+    simulatorinit.cpp \
+    sys.cpp \
+    settings.cpp
 HEADERS += mainwindow.h \
     proc.h \
     visualiser.h \
     confirmkill.h \
     info.h \
     simulator.h \
-    simulatorinit.h
+    simulatorinit.h \
+    sys.h \
+    settings.h
 FORMS += mainwindow.ui \
     visualiser.ui \
     confirmkill.ui \
     info.ui \
     simulator.ui \
-    simulatorinit.ui
+    simulatorinit.ui \
+    settings.ui
 RESOURCES = images.qrc \
     help.qrc

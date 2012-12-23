@@ -4,6 +4,8 @@
 #include "visualiser.h"
 #include "info.h"
 #include "simulatorinit.h"
+#include "sys.h"
+#include "settings.h"
 
 using namespace std;
 
@@ -11,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    init_help();
     ui->setupUi(this);
     this->update = true;
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
@@ -38,6 +39,9 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
+/**
+  * Action-Listener: Quit button
+  */
 void MainWindow::on_actionQuit_triggered()
 {
     qApp->exit(0);
@@ -77,7 +81,7 @@ void MainWindow::update_table()
             }
 
             emit(updated(true));
-            sleep(3);
+            sleep(sys::get_update_interval());
         }
     }
 }
@@ -122,6 +126,9 @@ void MainWindow::on_procTable_cellDoubleClicked(int row, int column)
     new Visualiser(this, atoi(ui->procTable->item(row, 0)->text().toStdString().c_str()));
 }
 
+/**
+  * Action-Listener: Play/Pause button
+  */
 void MainWindow::on_toggleUpdateButton_clicked()
 {
     if(update)
@@ -143,27 +150,18 @@ void MainWindow::on_toggleUpdateButton_clicked()
 void MainWindow::procTable_updated(bool ready)
 {
     if(ready)
+    {
         ui->procTable->setSortingEnabled(true);
+        ui->procTable->sortByColumn(sys::get_sort_by(), Qt::AscendingOrder);
+    }
     else
         ui->procTable->setSortingEnabled(false);
 }
 
 /**
-  * Sets up the help files; Creates directory in the user's home directory, then copies the files
+  * Action-Listener: Settings button
   */
-void MainWindow::init_help()
+void MainWindow::on_actionSettings_triggered()
 {
-    QString dir = QDir::homePath() + "/.taskstalker";
-    QDir().mkdir(dir);
-    dir += "/help";
-    QDir().mkdir(dir);
-    QString helpFile = dir + "/help.qhc";
-    QFile::copy(":/doc/collection.qhc", dir + "/help.qhc");
-    QFile::copy(":/doc/help.qch", dir + "/help.qch");
-    QFile::copy(":/doc/index.html", dir + "/index.html");
-    QFile::copy(":/doc/main.html", dir + "/main.html");
-    QFile::copy(":/doc/visualisation.html", dir + "/visualisation.html");
-    QFile::copy(":/doc/info.html", dir + "/info.html");
-    QFile::copy(":/doc/mainwindow.png", dir + "/mainwindow.png");
-    QFile::copy(":/doc/viswindow.png", dir + "/viswindow.png");
+    new Settings(this);
 }

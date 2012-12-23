@@ -1,6 +1,7 @@
 #include "simulator.h"
 #include "ui_simulator.h"
 #include "proc.h"
+#include "sys.h"
 
 using namespace std;
 
@@ -68,7 +69,7 @@ void Simulator::update_state()
             cout << "Pid: " << pid << endl;
         }
 
-        sleep(1);
+        sleep(sys::get_sub_update_interval());
     }
 }
 

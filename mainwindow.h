@@ -22,13 +22,13 @@ protected:
 private:
     Ui::MainWindow *ui;
     void update_table();
-    void init_help();
     bool update;
 
 signals:
     void updated(bool);
 
 private slots:
+    void on_actionSettings_triggered();
     void on_toggleUpdateButton_clicked();
     void on_procTable_cellDoubleClicked(int row, int column);
     void on_actionSimulate_triggered();

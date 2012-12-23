@@ -2,6 +2,7 @@
 #include "ui_visualiser.h"
 #include "proc.h"
 #include "confirmkill.h"
+#include "sys.h"
 
 using namespace std;
 
@@ -72,7 +73,7 @@ void Visualiser::update_state()
             cout << "Pid: " << pid << endl;
         }
 
-        sleep(1);
+        sleep(sys::get_sub_update_interval());
     }
 }
 
@@ -126,6 +127,9 @@ void Visualiser::kill_confirm_accepted()
         perror("Failed to kill process");
 }
 
+/**
+  * Action-Listener: Stop/Resume button
+  */
 void Visualiser::on_stopButton_clicked()
 {
     if(ui->stopButton->text() == "Stop")

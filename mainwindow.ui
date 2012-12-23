@@ -142,6 +142,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionSimulate"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuID">
     <property name="title">
@@ -176,6 +177,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

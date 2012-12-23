@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Wed Dec 12 22:29:37 2012
+** Created: Fri Dec 21 11:40:51 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,18 +35,20 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       26,   11,   11,   11, 0x08,
-      69,   58,   11,   11, 0x08,
-     109,   11,   11,   11, 0x08,
+      56,   11,   11,   11, 0x08,
+      99,   88,   11,   11, 0x08,
      139,   11,   11,   11, 0x08,
-     174,   11,   11,   11, 0x08,
-     201,   11,   11,   11, 0x08,
-     227,   11,   11,   11, 0x08,
+     169,   11,   11,   11, 0x08,
+     204,   11,   11,   11, 0x08,
+     231,   11,   11,   11, 0x08,
+     257,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0updated(bool)\0"
+    "on_actionSettings_triggered()\0"
     "on_toggleUpdateButton_clicked()\0"
     "row,column\0on_procTable_cellDoubleClicked(int,int)\0"
     "on_actionSimulate_triggered()\0"
@@ -86,16 +88,17 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 1: on_toggleUpdateButton_clicked(); break;
-        case 2: on_procTable_cellDoubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 3: on_actionSimulate_triggered(); break;
-        case 4: on_actionDocumentation_triggered(); break;
-        case 5: on_actionAbout_triggered(); break;
-        case 6: on_actionQuit_triggered(); break;
-        case 7: procTable_updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 1: on_actionSettings_triggered(); break;
+        case 2: on_toggleUpdateButton_clicked(); break;
+        case 3: on_procTable_cellDoubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 4: on_actionSimulate_triggered(); break;
+        case 5: on_actionDocumentation_triggered(); break;
+        case 6: on_actionAbout_triggered(); break;
+        case 7: on_actionQuit_triggered(); break;
+        case 8: procTable_updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

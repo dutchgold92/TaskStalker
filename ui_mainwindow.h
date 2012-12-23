@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Dec 11 21:54:59 2012
+** Created: Fri Dec 21 11:41:11 2012
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,6 +33,7 @@ public:
     QAction *actionDocumentation;
     QAction *actionSimulate;
     QAction *actionAbout;
+    QAction *actionSettings;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *toggleUpdateButton;
@@ -61,6 +62,8 @@ public:
         actionSimulate->setObjectName(QString::fromUtf8("actionSimulate"));
         actionAbout = new QAction(MainWindow);
         actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
+        actionSettings = new QAction(MainWindow);
+        actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -129,6 +132,7 @@ public:
         menuHelp->addAction(actionDocumentation);
         menuHelp->addAction(actionAbout);
         menuTools->addAction(actionSimulate);
+        menuTools->addAction(actionSettings);
         menuID->addAction(actionQuit);
 
         retranslateUi(MainWindow);
@@ -143,6 +147,7 @@ public:
         actionDocumentation->setText(QApplication::translate("MainWindow", "Documentation", 0, QApplication::UnicodeUTF8));
         actionSimulate->setText(QApplication::translate("MainWindow", "Simulate", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
+        actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
         toggleUpdateButton->setText(QString());
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "Process ID", 0, QApplication::UnicodeUTF8));

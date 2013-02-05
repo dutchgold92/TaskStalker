@@ -7,7 +7,7 @@
 #include <iostream>
 #include <signal.h>
 #include <string>
-#include <sstream>
+#include <sys/resource.h>
 
 namespace Ui {
     class Simulator;
@@ -29,18 +29,25 @@ private:
     void watcher();
     pid_t pid;
     std::string state;
-    bool active;
+    bool update;
     QFuture<void> update_thread;
     QImage image;
     QString program_path;
     QProcess *process;
 
+signals:
+    void missing_process();
+    void start_program();
+
 private slots:
+    void on_endButton_clicked();
     void on_infoTable_cellChanged(int row, int column);
     void on_priorityButton_clicked();
     void on_stopButton_clicked();
     void on_killButton_clicked();
     void on_closeButton_clicked();
+    void process_not_found();
+    void program_started();
 };
 
 #endif // SIMULATOR_H

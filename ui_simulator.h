@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'simulator.ui'
 **
-** Created: Thu Dec 20 23:41:39 2012
+** Created: Fri Dec 28 18:26:10 2012
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,7 +33,6 @@ public:
     QPushButton *endButton;
     QPushButton *stopButton;
     QPushButton *priorityButton;
-    QLabel *label;
     QSpinBox *priorityBox;
 
     void setupUi(QDialog *Simulator)
@@ -41,12 +40,15 @@ public:
         if (Simulator->objectName().isEmpty())
             Simulator->setObjectName(QString::fromUtf8("Simulator"));
         Simulator->resize(549, 510);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        Simulator->setWindowIcon(icon);
         visualContainer = new QLabel(Simulator);
         visualContainer->setObjectName(QString::fromUtf8("visualContainer"));
         visualContainer->setGeometry(QRect(10, 80, 531, 401));
         killButton = new QPushButton(Simulator);
         killButton->setObjectName(QString::fromUtf8("killButton"));
-        killButton->setGeometry(QRect(500, 60, 41, 27));
+        killButton->setGeometry(QRect(500, 70, 41, 27));
         infoTable = new QTableWidget(Simulator);
         if (infoTable->columnCount() < 3)
             infoTable->setColumnCount(3);
@@ -59,7 +61,7 @@ public:
         if (infoTable->rowCount() < 1)
             infoTable->setRowCount(1);
         infoTable->setObjectName(QString::fromUtf8("infoTable"));
-        infoTable->setGeometry(QRect(0, 0, 551, 51));
+        infoTable->setGeometry(QRect(0, 0, 551, 61));
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -80,24 +82,16 @@ public:
         closeButton->setGeometry(QRect(450, 480, 91, 27));
         endButton = new QPushButton(Simulator);
         endButton->setObjectName(QString::fromUtf8("endButton"));
-        endButton->setGeometry(QRect(450, 60, 41, 27));
+        endButton->setGeometry(QRect(450, 70, 41, 27));
         stopButton = new QPushButton(Simulator);
         stopButton->setObjectName(QString::fromUtf8("stopButton"));
-        stopButton->setGeometry(QRect(370, 60, 75, 27));
+        stopButton->setGeometry(QRect(370, 70, 75, 27));
         priorityButton = new QPushButton(Simulator);
         priorityButton->setObjectName(QString::fromUtf8("priorityButton"));
-        priorityButton->setGeometry(QRect(270, 60, 91, 27));
-        label = new QLabel(Simulator);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(10, 60, 141, 16));
-        QFont font;
-        font.setPointSize(12);
-        font.setBold(true);
-        font.setWeight(75);
-        label->setFont(font);
+        priorityButton->setGeometry(QRect(270, 70, 91, 27));
         priorityBox = new QSpinBox(Simulator);
         priorityBox->setObjectName(QString::fromUtf8("priorityBox"));
-        priorityBox->setGeometry(QRect(210, 60, 55, 25));
+        priorityBox->setGeometry(QRect(210, 70, 55, 25));
         priorityBox->setMinimum(-20);
         priorityBox->setMaximum(20);
 
@@ -121,7 +115,6 @@ public:
         endButton->setText(QApplication::translate("Simulator", "End", 0, QApplication::UnicodeUTF8));
         stopButton->setText(QApplication::translate("Simulator", "Stop", 0, QApplication::UnicodeUTF8));
         priorityButton->setText(QApplication::translate("Simulator", "Set Priority", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("Simulator", "Process Actions:", 0, QApplication::UnicodeUTF8));
         priorityBox->setPrefix(QString());
     } // retranslateUi
 

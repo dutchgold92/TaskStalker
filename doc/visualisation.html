@@ -1,28 +1,57 @@
 <!DOCTYPE html>
+<head>
+	<title>Visualisation Window</title>
+	<style type="text/css">
+		@import url("style.css");
+	</style>
+</head>
 <body>
 	<h1>Visualisation Window</h1>
 	<p>Once launched, this module presents you with a dialog window. Information in this dialog is relative to the process that was selected from the main window.</p>
 
+	<br />
+
 	<img src="viswindow.png" width="549" height="510" alt="Visualisation window" />
+
+	<br />
 
 	<p>This dialog contains several elements:</p>
 
 	<h2>1) Process Information Table</h2>
-	<p>This table shows precisely the same information as the table seen in the application's main window, however it is limited to displaying the information only for the particular process. Additionally, it updates more frequently than the other table; by default, the state of the process is read and output to the table every second.</p>
+	<p>This table shows precisely the same information as the table seen in the application's main window, however it is limited to displaying the information only for the particular process. Priority information is omitted, and instead shown below the table. Additionally, it updates by default more frequently than the other table; the state of the process is read and output to the table every second, though this can be changed in the settings menu.</p>
 
 	<h2>2) Process State Model Diagram</h2>
 	<p>The image shown here is a diagram illustrating the traditional UNIX-like process state model, and is taken from William Stallings' book "Operating Systems: Internals and Design Principles". This model is significantly different from the one currently employed by Linux-based operating systems, though the concepts remain the same.</p>
 	<p>The image will show the process state highlighted in red which most closely relates to the actual state as defined by the system. This is updated every time the "State" cell is changed in the above table. A different diagram image is actually loaded for every state change, but this should occur seamlessly, appearing as if it is a single, animated image.</p>
 
-	<h2>3) Kill Button</h2>
-	<p>Clicking this button will execute a KILL([pid], 9) system call, attempting to immediately end the appropriate process. However, before this is performed, you will be presented with a smaller dialog asking you to confirm your request. It looks as follows:</p>
+	<h2>3) Set Priority Controls</h2>
+	<p>To change the priority or "nice" value this task holds in the system, adjust the numeric value in the box shown here by pressing the up or down buttons, then click the "Set Priority" button to submit the request. This may be unsuccessful depending on your user permissions and system security policy; commonly, a normal user can increase priority for their own processes, but not lower. They generally cannot modify the priority of other users' tasks or system tasks whatsoever.</p>
+
+	<h2>4) Stop/Resume Button</h2>
+	<p>Pressing this button while it shows "Stop" will send the process a SIGSTOP signal, which will cause it to enter the Stopped state. If successful, you will then see the "Resume" button, which can be used to send the process a SIGCONT signal, urging it to resume execution. If this is also successful, the button will revert to "Stop". Again, success of these actions depends on your user permissions.</p>
+
+	<h2>5) End Button</h2>
+	<p>If permitted, this button sends the task a SIGTERM signal, requesting that it finish any immediate work and terminate.</p>
+
+	<h2>6) Kill Button</h2>
+	<p>Clicking this button will execute a KILL([pid], 9) system call, attempting to immediately end the appropriate process by sending it a SIGKILL signal. SIGKILL is more immediate and demanding than SIGTERM. However, before this is performed, you will be presented with a smaller dialog asking you to confirm your request. It looks as follows:</p>
+
+	<br />
 
 	<screenshot of confirmkill dialog>
+
+	<br />
 
 	<p>This warning should not be taken lightly. Ending any process in this way can indeed cause loss of data, among other, potentially more serious problems. It cannot be recommended to go through with this action unless the relevant process is completely unresponsive and the issue cannot be otherwise resolved. Even then, you are advised to consider the implications of continuing.</p>
 	<p>Now that you realise the risks of continuing to kill the task, you have two choices; click the "Cancel" button and take no further action, or click the "Yes" button and proceed with executing the system call. If you select to continue, the system call is immediately executed and if successful, the process will be killed and you will be returned to the main window; the visualisation dialog is then closed, as there is nothing to display if the process has ended. Note that the success of the kill function depends on your permissions as a user; attempting to kill a task such as init, for example, should fail as any user other than root.</p>
 
-	<h2>4) Close Button</h2>
+	<h2>7) Close Button</h2>
 	<p>Click this button to close the visualisation system, and return to the main window of the application.</p>
+
+	<div id="navigation">
+		<span style="float: left; text-align: left;"><a href="main.html">Previous Section: Main Window</a></span>
+		&nbsp;
+		<span style="float: right; text-align: right;"><a href="simulator.html">Next Section: Simulation Window</a></span>
+	</div>
 </body>
 </html>

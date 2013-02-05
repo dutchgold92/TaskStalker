@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'info.ui'
 **
-** Created: Thu Dec 20 23:41:39 2012
-**      by: Qt User Interface Compiler version 4.6.3
+** Created: Sat Jan 19 16:35:02 2013
+**      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -43,6 +43,9 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Info->sizePolicy().hasHeightForWidth());
         Info->setSizePolicy(sizePolicy);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        Info->setWindowIcon(icon);
         buttonBox = new QDialogButtonBox(Info);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setGeometry(QRect(190, 410, 221, 41));
@@ -50,7 +53,7 @@ public:
         buttonBox->setStandardButtons(QDialogButtonBox::Close);
         label_2 = new QLabel(Info);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(70, 230, 291, 31));
+        label_2->setGeometry(QRect(10, 220, 411, 51));
         QFont font;
         font.setFamily(QString::fromUtf8("Bitstream Vera Serif"));
         label_2->setFont(font);
@@ -58,7 +61,7 @@ public:
         label_2->setWordWrap(true);
         label_3 = new QLabel(Info);
         label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setGeometry(QRect(70, 290, 291, 61));
+        label_3->setGeometry(QRect(20, 280, 391, 81));
         label_3->setFont(font);
         label_3->setAlignment(Qt::AlignCenter);
         line = new QFrame(Info);
@@ -73,7 +76,7 @@ public:
         line_2->setFrameShadow(QFrame::Sunken);
         label_4 = new QLabel(Info);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(70, 380, 281, 16));
+        label_4->setGeometry(QRect(20, 370, 391, 41));
         label_4->setFont(font);
         label_4->setAlignment(Qt::AlignCenter);
         logoLabel = new QLabel(Info);

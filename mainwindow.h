@@ -1,6 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "proc.h"
+#include "visualiser.h"
+#include "info.h"
+#include "simulatorinit.h"
+#include "sys.h"
+#include "settings.h"
+#include "viewrunning.h"
+
 #include <QMainWindow>
 #include <QtConcurrentRun>
 #include <QProcess>
@@ -22,6 +30,8 @@ protected:
 private:
     Ui::MainWindow *ui;
     void update_table();
+    int procTable_find_process(pid_t pid);
+    void procTable_remove_dead(std::vector<proc::process> proc_vector);
     bool update;
 
 signals:
@@ -36,6 +46,8 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionQuit_triggered();
     void procTable_updated(bool);
+    void procTable_sorted(int column);
+    void on_actionViewRunning_triggered();
 };
 
 #endif // MAINWINDOW_H

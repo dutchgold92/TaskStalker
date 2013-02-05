@@ -8,6 +8,7 @@
 #include <string>
 #include <sys/types.h>
 #include <signal.h>
+#include <sys/resource.h>
 
 namespace Ui {
     class Visualiser;
@@ -17,7 +18,6 @@ class Visualiser : public QDialog {
     Q_OBJECT
 
 public:
-    Visualiser(QWidget *parent = 0);
     Visualiser(QWidget *parent, pid_t pid);
     ~Visualiser();
 
@@ -29,15 +29,21 @@ private:
     Ui::Visualiser *ui;
     pid_t pid;
     std::string state;
-    bool active;
+    bool update;
     QFuture<void> update_thread;
     QImage image;
 
+signals:
+    void missing_process();
+
 private slots:
+    void on_priorityButton_clicked();
     void on_stopButton_clicked();
+    void on_endButton_clicked();
     void on_killButton_clicked();
     void on_infoTable_cellChanged(int row, int column);
     void kill_confirm_accepted();
+    void process_not_found();
 };
 
 #endif // VISUALISER_H

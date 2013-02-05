@@ -22,7 +22,7 @@ private:
 private slots:
     void on_resetAllButton_clicked();
     void on_cancelButton_clicked();
-    void on_applyButton_clicked();
+    void on_saveButton_clicked();
 };
 
 #endif // SETTINGS_H

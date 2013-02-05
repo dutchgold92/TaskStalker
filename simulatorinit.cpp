@@ -2,6 +2,8 @@
 #include "ui_simulatorinit.h"
 #include "simulator.h"
 
+using namespace std;
+
 SimulatorInit::SimulatorInit(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SimulatorInit)
@@ -44,13 +46,24 @@ void SimulatorInit::on_useDefaultButton_clicked()
   */
 void SimulatorInit::on_continueButton_clicked()
 {
-    if(QFile(ui->fileInput->text()).exists())
+    if(!ui->fileInput->text().isEmpty())
     {
-        new Simulator(this, ui->fileInput->text());
-        this->hide();
+        if(QFile(ui->fileInput->text()).exists())
+        {
+            new Simulator(this, ui->fileInput->text());
+            this->hide();
+        }
+        else
+        {
+            ui->errorLabel->setText("Invalid program path or permissions!");
+            ui->errorLabel->setVisible(true);
+        }
     }
     else
+    {
+        ui->errorLabel->setText("Enter a program path first!");
         ui->errorLabel->setVisible(true);
+    }
 }
 
 /**

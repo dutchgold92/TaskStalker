@@ -3,6 +3,15 @@
 using namespace std;
 
 /**
+  * Calls various other functions to initialise the program
+  */
+void sys::init()
+{
+    sys::init_help();
+    sys::load_config();
+}
+
+/**
   * Sets up the help files; Creates directory in the user's home directory, then copies the files
   */
 void sys::init_help()
@@ -17,9 +26,13 @@ void sys::init_help()
     QFile::copy(":/doc/index.html", dir + "/index.html");
     QFile::copy(":/doc/main.html", dir + "/main.html");
     QFile::copy(":/doc/visualisation.html", dir + "/visualisation.html");
+    QFile::copy(":/doc/simulator.html", dir + "/simulator.html");
     QFile::copy(":/doc/info.html", dir + "/info.html");
+    QFile::copy(":/doc/settings.html", dir + "/settings.html");
     QFile::copy(":/doc/mainwindow.png", dir + "/mainwindow.png");
     QFile::copy(":/doc/viswindow.png", dir + "/viswindow.png");
+    QFile::copy(":/doc/simulator.png", dir + "/simulator.png");
+    QFile::copy(":/doc/settings.png", dir + "/settings.png");
 }
 
 /**
@@ -29,7 +42,9 @@ void sys::reset_config()
 {
     sys::set_update_interval(UPDATE_INTERVAL);
     sys::set_sub_update_interval(SUB_UPDATE_INTERVAL);
-    sys::set_sort_by(SORT_BY);
+    sys::set_running_update_interval(RUNNING_UPDATE_INTERVAL);
+    sys::set_sort_by_column(SORT_BY_COLUMN);
+    sys::set_sort_by_order(SORT_BY_ORDER);
     sys::save_config();
 }
 
@@ -53,8 +68,12 @@ void sys::load_config()
                 sys::set_update_interval((line.remove(0, (line.indexOf("=") + 2))).toInt());
             else if(line.startsWith("sub_update_interval"))
                 sys::set_sub_update_interval((line.remove(0, (line.indexOf("=") + 2))).toInt());
-            else if(line.startsWith("sort_by"))
-                sys::set_sort_by((line.remove(0, (line.indexOf("=") + 2))).toInt());
+            else if(line.startsWith("running_update_interval"))
+                sys::set_running_update_interval((line.remove(0, (line.indexOf("=") + 2))).toInt());
+            else if(line.startsWith("sort_by_column"))
+                sys::set_sort_by_column((line.remove(0, (line.indexOf("=") + 2))).toInt());
+            else if(line.startsWith("sort_by_order"))
+                sys::set_sort_by_order((line.remove(0, (line.indexOf("=") + 2))).toInt());
 
             line = in.readLine();
         }
@@ -76,14 +95,16 @@ void sys::save_config()
     QTextStream config_stream(&config_file);
     config_stream << "update_interval = " << sys::get_update_interval() << "\n";
     config_stream << "sub_update_interval = " << sys::get_sub_update_interval() << "\n";
-    config_stream << "sort_by = " << sys::get_sort_by() << "\n";
+    config_stream << "running_update_interval = " << sys::get_running_update_interval() << "\n";
+    config_stream << "sort_by_column = " << sys::get_sort_by_column() << "\n";
+    config_stream << "sort_by_order = " << sys::get_sort_by_order() << "\n";
     config_file.close();
 }
 
 /**
   * Should always be used to set update_interval to avoid race conditions
   */
-void sys::set_update_interval(int value)
+void sys::set_update_interval(unsigned short value)
 {
     sys::update_interval = value;
 }
@@ -91,7 +112,7 @@ void sys::set_update_interval(int value)
 /**
   * Should always be used to get update_interval to avoid race conditions
   */
-int sys::get_update_interval()
+unsigned short sys::get_update_interval()
 {
     return sys::update_interval;
 }
@@ -99,7 +120,7 @@ int sys::get_update_interval()
 /**
   * Should always be used to set sub_update_interval to avoid race conditions
   */
-void sys::set_sub_update_interval(int value)
+void sys::set_sub_update_interval(unsigned short value)
 {
     sys::sub_update_interval = value;
 }
@@ -107,23 +128,55 @@ void sys::set_sub_update_interval(int value)
 /**
   * Should always be used to get sub_update_interval to avoid race conditions
   */
-int sys::get_sub_update_interval()
+unsigned short sys::get_sub_update_interval()
 {
     return sys::sub_update_interval;
 }
 
 /**
+  * Should always be used to set running_update_interval to avoid race conditions
+  */
+void sys::set_running_update_interval(unsigned short value)
+{
+    sys::running_update_interval = value;
+}
+
+/**
+  * Should always be used to get running_update_interval to avoid race conditions
+  */
+unsigned short sys::get_running_update_interval()
+{
+    return sys::running_update_interval;
+}
+
+/**
   * Should always be used to set sort_by to avoid race conditions
   */
-void sys::set_sort_by(int value)
+void sys::set_sort_by_column(unsigned short value)
 {
-    sys::sort_by = value;
+    sys::sort_by_column = value;
 }
 
 /**
   * Should always be used to get sort_by to avoid race conditions
   */
-int sys::get_sort_by()
+unsigned short sys::get_sort_by_column()
 {
-    return sys::sort_by;
+    return sys::sort_by_column;
+}
+
+/**
+  * Should always be used to set sort_by_order to avoid race conditions
+  */
+void sys::set_sort_by_order(unsigned short value)
+{
+    sys::sort_by_order = value;
+}
+
+/**
+  * Should always be used to get sort_by_order to avoid race conditions
+  */
+unsigned short sys::get_sort_by_order()
+{
+    return sys::sort_by_order;
 }

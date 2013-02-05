@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>About Task Stalker</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/img/icon.png</normaloff>:/img/icon.png</iconset>
+  </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
@@ -38,10 +42,10 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>230</y>
-     <width>291</width>
-     <height>31</height>
+     <x>10</x>
+     <y>220</y>
+     <width>411</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -62,10 +66,10 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>290</y>
-     <width>291</width>
-     <height>61</height>
+     <x>20</x>
+     <y>280</y>
+     <width>391</width>
+     <height>81</height>
     </rect>
    </property>
    <property name="font">
@@ -112,10 +116,10 @@ Brian McGrane (b00026934@student.itb.ie)</string>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>380</y>
-     <width>281</width>
-     <height>16</height>
+     <x>20</x>
+     <y>370</y>
+     <width>391</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -144,7 +148,9 @@ Brian McGrane (b00026934@student.itb.ie)</string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

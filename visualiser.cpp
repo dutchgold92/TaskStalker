@@ -3,15 +3,9 @@
 #include "proc.h"
 #include "confirmkill.h"
 #include "sys.h"
+#include "errordialog.h"
 
 using namespace std;
-
-Visualiser::Visualiser(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::Visualiser)
-{
-    ui->setupUi(this);
-}
 
 Visualiser::Visualiser(QWidget *parent, pid_t pid) :
     QDialog(parent),
@@ -20,10 +14,10 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid) :
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->setFixedSize(this->size());
-    this->active = true;
+    this->update = true;
     this->pid = pid;
-    this->show();
     ui->infoTable->setColumnWidth(1, 200);
+    ui->priorityBox->setValue(proc::get_priority(this->pid));
 
     QImage visualImage;
     visualImage.load(":/img/blank.png");
@@ -33,11 +27,13 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid) :
     ui->infoTable->setItem(0, 1, new QTableWidgetItem(QString::fromStdString(proc::get_name(pid)), Qt::DisplayRole));
 
     update_thread = QtConcurrent::run(this, &Visualiser::update_state);
+    connect(this, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
+    this->show();
 }
 
 Visualiser::~Visualiser()
 {
-    active = false;
+    update = false;
     update_thread.waitForFinished();
     delete ui;
 }
@@ -59,18 +55,17 @@ void Visualiser::changeEvent(QEvent *e)
   */
 void Visualiser::update_state()
 {
-    while(active)
+    while(update)
     {
         state = proc::get_state(pid);
 
         if(!state.empty())
-        {
             ui->infoTable->setItem(0, 2, new QTableWidgetItem(proc::format_state(state), Qt::DisplayRole));
-        }
         else
         {
-            perror("Not found");
-            cout << "Pid: " << pid << endl;
+            update = false;
+            emit(missing_process());
+            break;
         }
 
         sleep(sys::get_sub_update_interval());
@@ -93,7 +88,10 @@ void Visualiser::on_infoTable_cellChanged(int row, int column)
         else if(ui->infoTable->item(row, column)->text() == "Zombie")
             image.load(":/img/zombie.png");
         else if(ui->infoTable->item(row, column)->text() == "Stopped")
+        {
+            ui->stopButton->setText("Resume");
             image.load(":/img/stopped.png");
+        }
         else if(ui->infoTable->item(row, column)->text() == "Paging")
             image.load(":/img/unknown.png");  // no image for this currently
         else
@@ -116,15 +114,13 @@ void Visualiser::on_killButton_clicked()
   */
 void Visualiser::kill_confirm_accepted()
 {
-    int result = kill(pid, 9);
-
-    if(result == 0)
+    if(kill(pid, 9) == 0)
     {
-        active = false;
+        update = false;
         this->done(0);
     }
     else
-        perror("Failed to kill process");
+        new ErrorDialog(this, false, "Failed to kill process; permission denied.");
 }
 
 /**
@@ -139,7 +135,7 @@ void Visualiser::on_stopButton_clicked()
             ui->stopButton->setText("Resume");
         }
         else
-            perror("Failed to stop process");
+            new ErrorDialog(this, false, "Failed to stop process; permission denied.");
     }
     else
     {
@@ -148,6 +144,38 @@ void Visualiser::on_stopButton_clicked()
             ui->stopButton->setText("Stop");
         }
         else
-            perror("Failed to resume process");
+            new ErrorDialog(this, false, "Failed to resume process; permission denied.");
     }
+}
+
+/**
+  * Actions to undertake if the process is suddenly killed by an external means
+  */
+void Visualiser::process_not_found()
+{
+    new ErrorDialog(this, true, "The process has externally ended and can no longer be monitored.");
+}
+
+/**
+  * Action-Listener: End button
+  */
+void Visualiser::on_endButton_clicked()
+{
+    if(kill(pid, 15) == 0)
+    {
+        update = false;
+        this->done(0);
+    }
+    else
+        new ErrorDialog(this, false, "Failed to terminate process; permission denied.");
+}
+
+/**
+  * Action-Listener: Priority button
+  * Attempts the set the simulation program's nice value as per the value in ui->priorityBox
+  */
+void Visualiser::on_priorityButton_clicked()
+{
+    if(setpriority(PRIO_PROCESS, this->pid, ui->priorityBox->value()) == -1)
+        new ErrorDialog(this, false, "Failed to change process priority; you may need to be root.");
 }

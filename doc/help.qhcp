@@ -8,6 +8,8 @@
 			<section title="Introduction to Task Stalker" ref="index.html"></section>
 			<section title="Main Window" ref="main.html"></section>
 			<section title="Visualisation Window" ref="visualisation.html"></section>
+			<section title="Simulation Window" ref="simulator.html"></section>
+			<section title="Settings Menu" ref="settings.html"></section>
 			<section title="Software Information" ref="info.html"></section>
 		</toc>
 
@@ -15,16 +17,23 @@
 			<keyword name="introduction" ref="index.html" />
 			<keyword name="main" ref="main.html" />
 			<keyword name="visualisation" ref="visualisation.html" />
+			<keyword name="simulation" ref="simulator.html" />
 			<keyword name="about" ref="info.html" />
+			<keyword name="settings" ref="settings.html" />
 		</keywords>
 
 		<files>
 			<file>index.html</file>
 			<file>main.html</file>
 			<file>visualisation.html</file>
+			<file>simulator.html</file>
+			<file>settings.html</file>
 			<file>info.html</file>
 			<file>mainwindow.png</file>
 			<file>viswindow.png</file>
+			<file>settings.png</file>
+			<file>simulatorinit.png</file>
+			<file>style.css</file>
 		</files>
 	</filterSection>
 </QtHelpProject>

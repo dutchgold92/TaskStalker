@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Dec 21 11:41:11 2012
-**      by: Qt User Interface Compiler version 4.6.3
+** Created: Sat Jan 19 16:52:14 2013
+**      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -14,7 +14,9 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QGroupBox>
 #include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
@@ -34,9 +36,13 @@ public:
     QAction *actionSimulate;
     QAction *actionAbout;
     QAction *actionSettings;
+    QAction *actionViewRunning;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
+    QGroupBox *groupBox;
     QPushButton *toggleUpdateButton;
+    QLabel *processCountLabel;
+    QLabel *cpuCountLabel;
     QTableWidget *procTable;
     QMenuBar *menuBar;
     QMenu *menuHelp;
@@ -54,6 +60,10 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
+        MainWindow->setMinimumSize(QSize(600, 315));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         actionQuit = new QAction(MainWindow);
         actionQuit->setObjectName(QString::fromUtf8("actionQuit"));
         actionDocumentation = new QAction(MainWindow);
@@ -64,6 +74,8 @@ public:
         actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
         actionSettings = new QAction(MainWindow);
         actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
+        actionViewRunning = new QAction(MainWindow);
+        actionViewRunning->setObjectName(QString::fromUtf8("actionViewRunning"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -75,21 +87,41 @@ public:
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        toggleUpdateButton = new QPushButton(centralWidget);
+        verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        groupBox->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        groupBox->setFlat(false);
+        toggleUpdateButton = new QPushButton(groupBox);
         toggleUpdateButton->setObjectName(QString::fromUtf8("toggleUpdateButton"));
+        toggleUpdateButton->setGeometry(QRect(0, 0, 58, 27));
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(toggleUpdateButton->sizePolicy().hasHeightForWidth());
+        toggleUpdateButton->setSizePolicy(sizePolicy2);
+        processCountLabel = new QLabel(groupBox);
+        processCountLabel->setObjectName(QString::fromUtf8("processCountLabel"));
+        processCountLabel->setGeometry(QRect(70, 0, 321, 21));
+        cpuCountLabel = new QLabel(groupBox);
+        cpuCountLabel->setObjectName(QString::fromUtf8("cpuCountLabel"));
+        cpuCountLabel->setGeometry(QRect(400, 0, 181, 21));
+        cpuCountLabel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        cpuCountLabel->setMargin(2);
 
-        verticalLayout->addWidget(toggleUpdateButton);
+        verticalLayout->addWidget(groupBox);
 
         procTable = new QTableWidget(centralWidget);
-        if (procTable->columnCount() < 3)
-            procTable->setColumnCount(3);
+        if (procTable->columnCount() < 4)
+            procTable->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        __qtablewidgetitem->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter|Qt::AlignCenter);
         procTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        procTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         procTable->setObjectName(QString::fromUtf8("procTable"));
         sizePolicy1.setHeightForWidth(procTable->sizePolicy().hasHeightForWidth());
         procTable->setSizePolicy(sizePolicy1);
@@ -98,12 +130,13 @@ public:
         procTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         procTable->setShowGrid(true);
         procTable->setGridStyle(Qt::NoPen);
-        procTable->setSortingEnabled(false);
+        procTable->setSortingEnabled(true);
         procTable->setCornerButtonEnabled(true);
-        procTable->setColumnCount(3);
+        procTable->setColumnCount(4);
         procTable->horizontalHeader()->setVisible(true);
         procTable->horizontalHeader()->setCascadingSectionResizes(false);
         procTable->horizontalHeader()->setDefaultSectionSize(150);
+        procTable->horizontalHeader()->setProperty("showSortIndicator", QVariant(true));
         procTable->horizontalHeader()->setStretchLastSection(true);
         procTable->verticalHeader()->setVisible(false);
 
@@ -113,7 +146,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(true);
-        menuBar->setGeometry(QRect(0, 0, 600, 23));
+        menuBar->setGeometry(QRect(0, 0, 600, 29));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         menuTools = new QMenu(menuBar);
@@ -133,6 +166,7 @@ public:
         menuHelp->addAction(actionAbout);
         menuTools->addAction(actionSimulate);
         menuTools->addAction(actionSettings);
+        menuTools->addAction(actionViewRunning);
         menuID->addAction(actionQuit);
 
         retranslateUi(MainWindow);
@@ -148,13 +182,19 @@ public:
         actionSimulate->setText(QApplication::translate("MainWindow", "Simulate", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
+        actionViewRunning->setText(QApplication::translate("MainWindow", "View Running", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
+        processCountLabel->setText(QApplication::translate("MainWindow", "XXX system processes", 0, QApplication::UnicodeUTF8));
+        cpuCountLabel->setText(QApplication::translate("MainWindow", "X available CPU(s)", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "Process ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = procTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem2 = procTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "Status", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem3 = procTable->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "Priority", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
         menuID->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));

@@ -1,11 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "proc.h"
-#include "visualiser.h"
-#include "info.h"
-#include "simulatorinit.h"
-#include "sys.h"
-#include "settings.h"
 
 using namespace std;
 
@@ -16,8 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->update = true;
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
+    ui->cpuCountLabel->setText(QString::number(proc::get_cpu_count()) + " available CPU(s)");
     ui->procTable->setColumnWidth(0, 100);
     ui->procTable->setColumnWidth(1, 200);
+    connect(ui->procTable->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(procTable_sorted(int)), Qt::QueuedConnection);
     connect(this, SIGNAL(updated(bool)), this, SLOT(procTable_updated(bool)), Qt::QueuedConnection);
     QtConcurrent::run(this, &MainWindow::update_table);
 }
@@ -58,31 +54,93 @@ void MainWindow::update_table()
     QTableWidgetItem *pid_item;
     QTableWidgetItem *procname_item;
     QTableWidgetItem *procstate_item;
+    QTableWidgetItem *procprio_item;
 
     while(true)
     {
         while(update)
         {
             emit(updated(false));
-            ui->procTable->setRowCount(0);
             proc_vector = proc::list_processes();
 
             for(size_t x = 0; x < proc_vector.size(); x++)
             {
+                signed int row_position = procTable_find_process(atoi(proc_vector.at(x).pid.c_str()));
                 pid_item = new QTableWidgetItem;
                 pid_item->setData(Qt::DisplayRole, atoi(proc_vector.at(x).pid.c_str()));
                 procname_item = new QTableWidgetItem(QString::fromStdString(proc_vector.at(x).name), Qt::DisplayRole);
                 procstate_item = new QTableWidgetItem(proc::format_state(proc_vector.at(x).state), Qt::DisplayRole);
+                procprio_item = new QTableWidgetItem;
+                procprio_item->setData(Qt::DisplayRole, proc_vector.at(x).priority);
 
-                ui->procTable->insertRow(x);
-                ui->procTable->setItem(x, 0, pid_item);
-                ui->procTable->setItem(x, 1, procname_item);
-                ui->procTable->setItem(x, 2, procstate_item);
+                // Append new row
+                if(row_position == -1)
+                {
+                    signed int new_row = ui->procTable->rowCount();
+                    ui->procTable->insertRow(new_row);
+                    ui->procTable->setItem(new_row, 0, pid_item);
+                    ui->procTable->setItem(new_row, 1, procname_item);
+                    ui->procTable->setItem(new_row, 2, procstate_item);
+                    ui->procTable->setItem(new_row, 3, procprio_item);
+                }
+                // Update existing row
+                else
+                {
+                    ui->procTable->setItem(row_position, 0, pid_item);
+                    ui->procTable->setItem(row_position, 1, procname_item);
+                    ui->procTable->setItem(row_position, 2, procstate_item);
+                    ui->procTable->setItem(row_position, 3, procprio_item);
+                }
             }
 
+            procTable_remove_dead(proc_vector);
             emit(updated(true));
             sleep(sys::get_update_interval());
         }
+    }
+}
+
+/**
+  * Search the procTable for a column with the specified PID. Return its row index if found, else return -1
+  */
+int MainWindow::procTable_find_process(pid_t pid)
+{
+    signed int row = -1;
+
+    for(int x = 0; x < ui->procTable->rowCount(); x++)
+    {
+        if(ui->procTable->item(x, 0)->text().toInt() == pid)
+        {
+            row = x;
+            break;
+        }
+    }
+
+    return row;
+}
+
+/**
+  * Detects and removes rows in ui->procTable representing dead processes
+  */
+void MainWindow::procTable_remove_dead(vector<proc::process> proc_vector)
+{
+    bool exists;
+
+    for(int x = 0; x < ui->procTable->rowCount(); x++)
+    {
+        exists = false;
+
+        for(size_t y = 0; y < proc_vector.size(); y++)
+        {
+            if(ui->procTable->item(x, 0)->text().toStdString() == proc_vector.at(y).pid)
+            {
+                exists = true;
+                break;
+            }
+        }
+
+        if(!exists)
+            ui->procTable->removeRow(x);
     }
 }
 
@@ -96,7 +154,7 @@ void MainWindow::on_actionAbout_triggered()
 
 /**
   * Stuff to do when the "Documentation" menu entry is selected:
-  * Launch at Qt Assistant program, opening our documentation
+  * Launch the Qt Assistant program, opening our documentation
   */
 void MainWindow::on_actionDocumentation_triggered()
 {
@@ -151,11 +209,21 @@ void MainWindow::procTable_updated(bool ready)
 {
     if(ready)
     {
+        ui->processCountLabel->setText(QString::number(ui->procTable->rowCount()) + " system processes");
         ui->procTable->setSortingEnabled(true);
-        ui->procTable->sortByColumn(sys::get_sort_by(), Qt::AscendingOrder);
+
+        if(sys::get_sort_by_order() == 0)
+            ui->procTable->sortByColumn(sys::get_sort_by_column(), Qt::AscendingOrder);
+        else if(sys::get_sort_by_order() == 1)
+            ui->procTable->sortByColumn(sys::get_sort_by_column(), Qt::DescendingOrder);
+        else
+            ui->procTable->sortByColumn(sys::get_sort_by_column());
     }
     else
+    {
         ui->procTable->setSortingEnabled(false);
+        ui->procTable->horizontalHeader()->setSortIndicatorShown(true);
+    }
 }
 
 /**
@@ -164,4 +232,30 @@ void MainWindow::procTable_updated(bool ready)
 void MainWindow::on_actionSettings_triggered()
 {
     new Settings(this);
+}
+
+/**
+  * Slot updates sys::sort_by_column and sys::sort_by_order when ui->procTable is sorted via its header.
+  */
+void MainWindow::procTable_sorted(int column)
+{
+    // Table is already sorted by this column
+    if(column == sys::get_sort_by_column())
+    {
+        if(sys::get_sort_by_order() == 0)
+            sys::set_sort_by_order(1);
+        else
+            sys::set_sort_by_order(0);
+    }
+    // Table is already sorted by a different column
+    else
+    {
+        sys::set_sort_by_order(0);
+        sys::set_sort_by_column(column);
+    }
+}
+
+void MainWindow::on_actionViewRunning_triggered()
+{
+    new ViewRunning(this);
 }

@@ -42,7 +42,10 @@ vector<proc::process> proc::list_processes()
                         getline(file, line);
 
                         if(line.find("Pid:") != -1 && line.find("PPid:") == std::string::npos && line.find("TracerPid:") == std::string::npos)
+                        {
                             p.pid = line.erase(0, 5);
+                            p.priority = get_priority(atoi(p.pid.c_str()));
+                        }
                         else if(line.find("Name:") != -1)
                             p.name = line.erase(0, 6);
                         else if(line.find("State:") != -1)
@@ -148,6 +151,103 @@ string proc::get_name(pid_t pid)
 }
 
 /**
+  * Returns the nice value of the process
+  */
+signed short proc::get_priority(pid_t pid)
+{
+    return getpriority(PRIO_PROCESS, pid);
+}
+
+/**
+  * Returns the number of CPUs
+  */
+unsigned short proc::get_cpu_count()
+{
+    if(proc::cpu_count == 0)    // CPU count hasn't been determined yet; calculate it!
+    {
+        ifstream file;
+        string line;
+        file.open("/proc/cpuinfo");
+
+        if(file.is_open())
+        {
+            while(!file.eof())
+            {
+                getline(file, line);
+
+                if(line.find("processor") != -1)    // look for fields implying the existence of a unique CPU
+                    proc::cpu_count++;
+            }
+
+            file.close();
+        }
+        else
+            file.close();
+    }
+
+    return proc::cpu_count;
+}
+
+/**
+  * Calculates and returns the CPU usage of the process
+  * Doesn't work :(
+  */
+unsigned short proc::get_cpu_usage(pid_t pid)
+{
+    unsigned int total_cpu_time = 0;
+    unsigned int proc_cpu_time = 0;
+    QRegExp numbers("(\\d+)");  // regex for finding numbers in a string
+    unsigned int str_pos = 0;   // position variable, for searching strings with regex
+
+    // Calculate total CPU time
+    QFile stat_file("/proc/stat");
+
+    if(stat_file.exists())
+    {
+        stat_file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&stat_file);
+        QString line = in.readLine();
+
+        // sum the numerical substrings, as integers
+        while((str_pos = numbers.indexIn(line, str_pos)) != -1)
+        {
+            total_cpu_time += numbers.cap(1).toInt();
+            str_pos += numbers.matchedLength();
+        }
+
+        str_pos = 0;
+    }
+
+    stat_file.close();
+
+    // Calculate CPU time for THIS process
+    stringstream file_name;
+    file_name << PATH << pid << "/stat";
+    QFile proc_stat_file(QString::fromStdString(file_name.str()));
+
+    if(proc_stat_file.exists())
+    {
+        proc_stat_file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&proc_stat_file);
+        QString line = in.readLine();
+
+        for(unsigned short x = 0; x < 13; x++)  // remove everything up to the utime field
+            line.remove(0, (line.indexOf(" ") + 1));
+
+        for(unsigned short x = 0; x < 2 && (str_pos = numbers.indexIn(line, str_pos) != -1); x++)   // add utime and stime field values together, into proc_cpu_time
+        {
+            proc_cpu_time += numbers.cap(1).toInt();
+            str_pos += numbers.matchedLength();
+        }
+    }
+    else
+        cout << "Warning: Invalid pid specified to proc::get_cpu_usage(pid_t)" << endl;
+
+    // Derive CPU usage statistic
+    return (total_cpu_time / proc_cpu_time);
+}
+
+/**
   * Formats the std::string state, returning it in a prettier format as a QString
   * Returns empty QString if passed an unknown state
   */
@@ -190,4 +290,41 @@ string proc::format_state_std(std::string state)
         return "Paging";
     else
         return "";
+}
+
+/**
+ * Returns information about tasks that have recently entered the literally running state,
+ * as defined in /proc/sched_debug.
+ */
+QString proc::get_tasks_running()
+{
+    QString info_retrieved = QTime::currentTime().toString();
+    QFile file("/proc/sched_debug");
+
+    if(file.exists())
+    {
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        for(short x = 0; x < proc::get_cpu_count(); )
+        {
+            if(line.contains(".curr->pid"))
+            {
+                info_retrieved += "\nCPU ";
+                info_retrieved += QString::number(x);
+                info_retrieved += ": ";
+                line.remove(0, (line.indexOf(":") + 2));
+                info_retrieved += line;
+                x++;
+            }
+
+            line = in.readLine();
+        }
+    }
+    else
+        return "File could not be read: " + file.fileName() + "\n";
+
+    file.close();
+    return info_retrieved + "\n";
 }

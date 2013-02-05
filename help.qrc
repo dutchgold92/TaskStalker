@@ -8,5 +8,10 @@
         <file>doc/visualisation.html</file>
         <file>doc/viswindow.png</file>
         <file>doc/mainwindow.png</file>
+        <file>doc/settings.html</file>
+        <file>doc/settings.png</file>
+        <file>doc/simulator.html</file>
+        <file>doc/simulatorinit.png</file>
+        <file>doc/style.css</file>
     </qresource>
 </RCC>

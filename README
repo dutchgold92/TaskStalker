@@ -1,0 +1,26 @@
+Welcome! This brief manual explains how to install or remove our software, Task Stalker. Thank you for showing your interest.
+
+###########
+# Install #
+###########
+
+To install this software, simply navigate to this directory via command line and perform:
+	./install.sh
+(You may need to first do "chmod +x install.sh", if you receive an error.)
+
+From there, simply follow the instructions and all installation will be done for you. Assuming it is successful, you may then launch the program by executing:
+	/usr/bin/TaskStalker
+or, if you chose local installation, simply:
+	./TaskStalker
+
+Note: To install to /usr/bin, you will need to execute the install script with root permissions.
+
+#############
+# Uninstall #
+#############
+
+If you have finished using this program and would like to uninstall it, return to this directory via command line and similarly to installation, perform:
+	./install.sh -uninstall
+You can still reinstall the application at a later occasion, as done previously.
+
+Note: If you had installed to /usr/bin, the program cannot be removed from here unless you execute the install script with remote permissions.

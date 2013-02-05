@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'confirmkill.ui'
 **
-** Created: Thu Dec 20 23:41:39 2012
+** Created: Fri Dec 28 18:26:09 2012
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -32,6 +32,9 @@ public:
         if (ConfirmKill->objectName().isEmpty())
             ConfirmKill->setObjectName(QString::fromUtf8("ConfirmKill"));
         ConfirmKill->resize(389, 142);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        ConfirmKill->setWindowIcon(icon);
         buttonBox = new QDialogButtonBox(ConfirmKill);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setGeometry(QRect(60, 100, 221, 41));

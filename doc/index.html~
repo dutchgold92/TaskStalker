@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+	<title>Introduction to Task Stalker</title>
+	<style type="text/css">
+		@import url("style.css");
+	</style>
+</head>
+<body>
+	<h1>Welcome!</h1>
+
+	<p>This application gives you the ability to monitor and manage the processes currently residing on your 64-bit Linux-based system, with an emphasis on enabling you to visualise what is happening from the system's perspective.</p>
+
+	<p>The purpose of this software is to allow you to learn about process state transitions, while also providing useful system management facilities, all from one easy to use interface.</p>
+
+	<p>To launch the program, simply navigate via terminal to the directory in which its binary is stored, and execute the following command: ./TaskStalker<br />
+	If you are presented with a "permission denied" message, it may be first necessary to do: chmod +x TaskStalker</p>
+
+	<div id="navigation">
+		&nbsp;
+		<span style="float: right;"><a href="main.html">Next Section: Main Window</a></span>
+	</div>
+</body>
+</html>

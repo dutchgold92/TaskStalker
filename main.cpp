@@ -5,8 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    sys::init_help();
-    sys::load_config();
+    sys::init();
     MainWindow w;
     w.show();
     return a.exec();

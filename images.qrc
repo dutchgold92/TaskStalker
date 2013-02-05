@@ -1,15 +1,16 @@
- <!DOCTYPE RCC><RCC version="1.0">
- <qresource>
- 	<file>img/button_pause.png</file>
-	<file>img/button_play.png</file>
-	<file>img/executing.png</file>
-	<file>img/interruptible.png</file>
-	<file>img/logo.png</file>
-	<file>img/ready.png</file>
-	<file>img/running.png</file>
-	<file>img/stopped.png</file>
-	<file>img/uninterruptible.png</file>
-	<file>img/unknown.png</file>
-	<file>img/zombie.png</file>
- </qresource>
- </RCC>
+<RCC>
+    <qresource prefix="/">
+        <file>img/button_pause.png</file>
+        <file>img/button_play.png</file>
+        <file>img/executing.png</file>
+        <file>img/interruptible.png</file>
+        <file>img/logo.png</file>
+        <file>img/ready.png</file>
+        <file>img/running.png</file>
+        <file>img/stopped.png</file>
+        <file>img/uninterruptible.png</file>
+        <file>img/unknown.png</file>
+        <file>img/zombie.png</file>
+        <file>img/icon.png</file>
+    </qresource>
+</RCC>

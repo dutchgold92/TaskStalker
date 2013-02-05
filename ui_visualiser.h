@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Thu Dec 20 23:41:39 2012
-**      by: Qt User Interface Compiler version 4.6.3
+** Created: Wed Jan 2 20:59:54 2013
+**      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -19,6 +19,7 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
+#include <QtGui/QSpinBox>
 #include <QtGui/QTableWidget>
 
 QT_BEGIN_NAMESPACE
@@ -31,6 +32,9 @@ public:
     QTableWidget *infoTable;
     QPushButton *killButton;
     QPushButton *stopButton;
+    QPushButton *endButton;
+    QSpinBox *priorityBox;
+    QPushButton *priorityButton;
 
     void setupUi(QDialog *Visualiser)
     {
@@ -42,6 +46,9 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Visualiser->sizePolicy().hasHeightForWidth());
         Visualiser->setSizePolicy(sizePolicy);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        Visualiser->setWindowIcon(icon);
         Visualiser->setAutoFillBackground(false);
         buttonBox = new QDialogButtonBox(Visualiser);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
@@ -64,7 +71,7 @@ public:
         if (infoTable->rowCount() < 1)
             infoTable->setRowCount(1);
         infoTable->setObjectName(QString::fromUtf8("infoTable"));
-        infoTable->setGeometry(QRect(0, 0, 551, 51));
+        infoTable->setGeometry(QRect(0, 0, 551, 61));
         QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -82,10 +89,21 @@ public:
         infoTable->verticalHeader()->setVisible(false);
         killButton = new QPushButton(Visualiser);
         killButton->setObjectName(QString::fromUtf8("killButton"));
-        killButton->setGeometry(QRect(460, 60, 81, 27));
+        killButton->setGeometry(QRect(500, 70, 41, 27));
         stopButton = new QPushButton(Visualiser);
         stopButton->setObjectName(QString::fromUtf8("stopButton"));
-        stopButton->setGeometry(QRect(380, 60, 75, 27));
+        stopButton->setGeometry(QRect(370, 70, 75, 27));
+        endButton = new QPushButton(Visualiser);
+        endButton->setObjectName(QString::fromUtf8("endButton"));
+        endButton->setGeometry(QRect(450, 70, 41, 27));
+        priorityBox = new QSpinBox(Visualiser);
+        priorityBox->setObjectName(QString::fromUtf8("priorityBox"));
+        priorityBox->setGeometry(QRect(210, 70, 55, 25));
+        priorityBox->setMinimum(-20);
+        priorityBox->setMaximum(20);
+        priorityButton = new QPushButton(Visualiser);
+        priorityButton->setObjectName(QString::fromUtf8("priorityButton"));
+        priorityButton->setGeometry(QRect(270, 70, 91, 27));
 
         retranslateUi(Visualiser);
         QObject::connect(buttonBox, SIGNAL(accepted()), Visualiser, SLOT(accept()));
@@ -106,6 +124,9 @@ public:
         ___qtablewidgetitem2->setText(QApplication::translate("Visualiser", "State", 0, QApplication::UnicodeUTF8));
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
+        endButton->setText(QApplication::translate("Visualiser", "End", 0, QApplication::UnicodeUTF8));
+        priorityBox->setPrefix(QString());
+        priorityButton->setText(QApplication::translate("Visualiser", "Set Priority", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

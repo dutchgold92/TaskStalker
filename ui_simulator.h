@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'simulator.ui'
 **
-** Created: Fri Dec 28 18:26:10 2012
-**      by: Qt User Interface Compiler version 4.6.3
+** Created: Tue Feb 5 22:25:41 2013
+**      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -71,7 +71,9 @@ public:
         infoTable->setFrameShadow(QFrame::Raised);
         infoTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         infoTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        infoTable->setSelectionMode(QAbstractItemView::NoSelection);
         infoTable->setShowGrid(false);
+        infoTable->setWordWrap(false);
         infoTable->setRowCount(1);
         infoTable->setColumnCount(3);
         infoTable->horizontalHeader()->setMinimumSectionSize(40);

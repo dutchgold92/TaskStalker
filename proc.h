@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/resource.h>
+#include <signal.h>
 #include <dirent.h>
 #include <string>
 #include <cstring>
@@ -38,6 +39,11 @@ namespace proc
     std::string get_state(pid_t pid);
     std::string get_name(pid_t pid);
     signed short get_priority(pid_t pid);
+    bool set_priority(pid_t pid, signed short value);
+    bool stop_process(pid_t pid);
+    bool resume_process(pid_t pid);
+    bool end_process(pid_t pid);
+    bool kill_process(pid_t pid);
     unsigned short get_cpu_count();
     unsigned short get_cpu_usage(pid_t pid);
     QString format_state(std::string state);

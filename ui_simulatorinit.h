@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'simulatorinit.ui'
 **
-** Created: Fri Dec 28 19:51:50 2012
-**      by: Qt User Interface Compiler version 4.6.3
+** Created: Tue Feb 5 22:25:41 2013
+**      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/

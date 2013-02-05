@@ -1,7 +1,7 @@
 #include "errordialog.h"
 #include "ui_errordialog.h"
 
-ErrorDialog::ErrorDialog(QWidget *parent, bool exit_parent, QString error_message) :
+ErrorDialog::ErrorDialog(QWidget *parent, bool exit_parent, QString error_message, type error_type) :
     QDialog(parent),
     ui(new Ui::ErrorDialog)
 {
@@ -11,6 +11,14 @@ ErrorDialog::ErrorDialog(QWidget *parent, bool exit_parent, QString error_messag
     ui->errorLabel->setText(error_message);
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->setFixedSize(this->size());
+
+    if(error_type == error)
+        this->setWindowTitle("Error");
+    else if(error_type == warning)
+        this->setWindowTitle("Warning");
+    else if(error_type == notification)
+        this->setWindowTitle("Notification");
+
     this->show();
 }
 

@@ -7,7 +7,6 @@
 #include <QFutureWatcher>
 #include <string>
 #include <sys/types.h>
-#include <signal.h>
 #include <sys/resource.h>
 
 namespace Ui {

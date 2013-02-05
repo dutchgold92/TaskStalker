@@ -102,7 +102,7 @@ void Simulator::do_fork()
   */
 void Simulator::on_killButton_clicked()
 {  
-    if(kill(pid, 9) == 0)
+    if(proc::kill_process(this->pid))
         new ErrorDialog(this, false, "Failed to kill process; permission denied.");
 }
 
@@ -113,7 +113,7 @@ void Simulator::on_stopButton_clicked()
 {
     if(ui->stopButton->text() == "Stop")
     {
-        if(kill(pid, 19) == 0)
+        if(proc::stop_process(this->pid))
         {
             ui->stopButton->setText("Resume");
         }
@@ -122,7 +122,7 @@ void Simulator::on_stopButton_clicked()
     }
     else
     {
-        if(kill(pid, 18) == 0)
+        if(proc::resume_process(this->pid))
         {
             ui->stopButton->setText("Stop");
         }
@@ -137,8 +137,11 @@ void Simulator::on_stopButton_clicked()
   */
 void Simulator::on_priorityButton_clicked()
 {
-    if(setpriority(PRIO_PROCESS, this->pid, ui->priorityBox->value()) == -1)
+    if(!proc::set_priority(this->pid, ui->priorityBox->value()))
+    {
+        ui->priorityBox->setValue(proc::get_priority(this->pid));
         new ErrorDialog(this, false, "Failed to change process priority; you may need to be root.");
+    }
 }
 
 void Simulator::on_infoTable_cellChanged(int row, int column)
@@ -180,7 +183,7 @@ void Simulator::process_not_found()
   */
 void Simulator::on_endButton_clicked()
 {
-    if(kill(pid, 15) != 0)
+    if(proc::end_process(this->pid))
         new ErrorDialog(this, false, "Failed to terminate process; permission denied.");
 }
 

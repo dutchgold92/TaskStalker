@@ -159,6 +159,54 @@ signed short proc::get_priority(pid_t pid)
 }
 
 /**
+  * Wrapper method to call setpriority() as we wish to do so
+  */
+bool proc::set_priority(pid_t pid, signed short value)
+{
+    return(setpriority(PRIO_PROCESS, pid, value) == 0);
+}
+
+/**
+ * @brief proc::stop_process Wrapper method to kill(pid, SIGSTOP)
+ * @param pid
+ * @return True if success; false if failure
+ */
+bool proc::stop_process(pid_t pid)
+{
+    return(kill(pid, 19) == 0);
+}
+
+/**
+ * @brief proc::resume_process Wrapper method to kill(pid, SIGCONT)
+ * @param pid
+ * @return True if success; false if failure
+ */
+bool proc::resume_process(pid_t pid)
+{
+    return(kill(pid, 18) == 0);
+}
+
+/**
+ * @brief proc::end_process Wrapper method to kill(pid, SIGTERM)
+ * @param pid
+ * @return True if success; false if failure
+ */
+bool proc::end_process(pid_t pid)
+{
+    return(kill(pid, 15) == 0);
+}
+
+/**
+ * @brief proc::kill_process Wrapper method to kill(pid, SIGKILL)
+ * @param pid
+ * @return True if success; false if failure
+ */
+bool proc::kill_process(pid_t pid)
+{
+    return(kill(pid, 9) == 0);
+}
+
+/**
   * Returns the number of CPUs
   */
 unsigned short proc::get_cpu_count()

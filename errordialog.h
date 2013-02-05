@@ -10,7 +10,8 @@ namespace Ui {
 class ErrorDialog : public QDialog {
     Q_OBJECT
 public:
-    ErrorDialog(QWidget *parent = 0, bool exit_parent = false, QString error_message = 0);
+    enum type {error, warning, notification};
+    ErrorDialog(QWidget *parent = 0, bool exit_parent = false, QString error_message = 0, type error_type = error);
     ~ErrorDialog();
 
 protected:

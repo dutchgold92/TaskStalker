@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat Jan 19 16:52:14 2013
+** Created: Tue Feb 5 22:27:46 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -37,6 +37,7 @@ public:
     QAction *actionAbout;
     QAction *actionSettings;
     QAction *actionViewRunning;
+    QAction *actionView;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
@@ -76,6 +77,12 @@ public:
         actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         actionViewRunning = new QAction(MainWindow);
         actionViewRunning->setObjectName(QString::fromUtf8("actionViewRunning"));
+        actionView = new QAction(MainWindow);
+        actionView->setObjectName(QString::fromUtf8("actionView"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/img/view.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionView->setIcon(icon1);
+        actionView->setIconVisibleInMenu(true);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -125,12 +132,17 @@ public:
         procTable->setObjectName(QString::fromUtf8("procTable"));
         sizePolicy1.setHeightForWidth(procTable->sizePolicy().hasHeightForWidth());
         procTable->setSizePolicy(sizePolicy1);
+        procTable->setContextMenuPolicy(Qt::ActionsContextMenu);
         procTable->setLineWidth(1);
         procTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         procTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        procTable->setShowGrid(true);
+        procTable->setAlternatingRowColors(true);
+        procTable->setSelectionMode(QAbstractItemView::SingleSelection);
+        procTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+        procTable->setShowGrid(false);
         procTable->setGridStyle(Qt::NoPen);
         procTable->setSortingEnabled(true);
+        procTable->setWordWrap(false);
         procTable->setCornerButtonEnabled(true);
         procTable->setColumnCount(4);
         procTable->horizontalHeader()->setVisible(true);
@@ -183,6 +195,7 @@ public:
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
         actionViewRunning->setText(QApplication::translate("MainWindow", "View Running", 0, QApplication::UnicodeUTF8));
+        actionView->setText(QApplication::translate("MainWindow", "View", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
         processCountLabel->setText(QApplication::translate("MainWindow", "XXX system processes", 0, QApplication::UnicodeUTF8));

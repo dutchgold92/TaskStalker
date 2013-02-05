@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'simulator.h'
 **
-** Created: Wed Jan 9 22:01:54 2013
+** Created: Tue Feb 5 22:26:10 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!

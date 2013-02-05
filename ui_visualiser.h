@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Wed Jan 2 20:59:54 2013
+** Created: Tue Feb 5 22:25:41 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -81,7 +81,9 @@ public:
         infoTable->setFrameShadow(QFrame::Raised);
         infoTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         infoTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        infoTable->setSelectionMode(QAbstractItemView::NoSelection);
         infoTable->setShowGrid(false);
+        infoTable->setWordWrap(false);
         infoTable->setRowCount(1);
         infoTable->setColumnCount(3);
         infoTable->horizontalHeader()->setMinimumSectionSize(40);

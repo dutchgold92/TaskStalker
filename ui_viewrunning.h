@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'viewrunning.ui'
 **
-** Created: Wed Jan 9 22:28:08 2013
+** Created: Tue Feb 5 22:25:41 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

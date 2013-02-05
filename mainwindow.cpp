@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cpuCountLabel->setText(QString::number(proc::get_cpu_count()) + " available CPU(s)");
     ui->procTable->setColumnWidth(0, 100);
     ui->procTable->setColumnWidth(1, 200);
+    ui->procTable->horizontalHeader()->setHighlightSections(false);
+    ui->procTable->addAction(ui->actionView);
     connect(ui->procTable->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(procTable_sorted(int)), Qt::QueuedConnection);
     connect(this, SIGNAL(updated(bool)), this, SLOT(procTable_updated(bool)), Qt::QueuedConnection);
     QtConcurrent::run(this, &MainWindow::update_table);
@@ -258,4 +260,14 @@ void MainWindow::procTable_sorted(int column)
 void MainWindow::on_actionViewRunning_triggered()
 {
     new ViewRunning(this);
+}
+
+void MainWindow::on_actionView_triggered()
+{
+    new Visualiser(this, atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str()));
+}
+
+void MainWindow::on_procTable_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn)
+{
+    this->selected_row = currentRow;
 }

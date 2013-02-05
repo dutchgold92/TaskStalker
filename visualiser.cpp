@@ -114,10 +114,10 @@ void Visualiser::on_killButton_clicked()
   */
 void Visualiser::kill_confirm_accepted()
 {
-    if(kill(pid, 9) == 0)
+    if(proc::kill_process(this->pid))
     {
+        new ErrorDialog(this, true, "Process successfully terminated.", ErrorDialog::notification);
         update = false;
-        this->done(0);
     }
     else
         new ErrorDialog(this, false, "Failed to kill process; permission denied.");
@@ -130,7 +130,7 @@ void Visualiser::on_stopButton_clicked()
 {
     if(ui->stopButton->text() == "Stop")
     {
-        if(kill(pid, 19) == 0)
+        if(proc::stop_process(this->pid))
         {
             ui->stopButton->setText("Resume");
         }
@@ -139,7 +139,7 @@ void Visualiser::on_stopButton_clicked()
     }
     else
     {
-        if(kill(pid, 18) == 0)
+        if(proc::resume_process(this->pid))
         {
             ui->stopButton->setText("Stop");
         }
@@ -161,10 +161,10 @@ void Visualiser::process_not_found()
   */
 void Visualiser::on_endButton_clicked()
 {
-    if(kill(pid, 15) == 0)
+    if(proc::end_process(this->pid))
     {
+        new ErrorDialog(this, true, "Process successfully terminated.", ErrorDialog::notification);
         update = false;
-        this->done(0);
     }
     else
         new ErrorDialog(this, false, "Failed to terminate process; permission denied.");
@@ -176,6 +176,9 @@ void Visualiser::on_endButton_clicked()
   */
 void Visualiser::on_priorityButton_clicked()
 {
-    if(setpriority(PRIO_PROCESS, this->pid, ui->priorityBox->value()) == -1)
+    if(!proc::set_priority(this->pid, ui->priorityBox->value()))
+    {
+        ui->priorityBox->setValue(proc::get_priority(this->pid));
         new ErrorDialog(this, false, "Failed to change process priority; you may need to be root.");
+    }
 }

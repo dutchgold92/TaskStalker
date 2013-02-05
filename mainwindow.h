@@ -13,6 +13,7 @@
 #include <QtConcurrentRun>
 #include <QProcess>
 #include <QDir>
+#include <QTableWidgetItem>
 
 namespace Ui {
     class MainWindow;
@@ -33,6 +34,7 @@ private:
     int procTable_find_process(pid_t pid);
     void procTable_remove_dead(std::vector<proc::process> proc_vector);
     bool update;
+    int selected_row;
 
 signals:
     void updated(bool);
@@ -48,6 +50,8 @@ private slots:
     void procTable_updated(bool);
     void procTable_sorted(int column);
     void on_actionViewRunning_triggered();
+    void on_actionView_triggered();
+    void on_procTable_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
 };
 
 #endif // MAINWINDOW_H

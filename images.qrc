@@ -12,5 +12,6 @@
         <file>img/unknown.png</file>
         <file>img/zombie.png</file>
         <file>img/icon.png</file>
+	<file>img/view.png</file>
     </qresource>
 </RCC>

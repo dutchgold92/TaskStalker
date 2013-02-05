@@ -1,6 +1,5 @@
 #include "confirmkill.h"
 #include "ui_confirmkill.h"
-#include "visualiser.h"
 
 ConfirmKill::ConfirmKill(QWidget *parent) :
     QDialog(parent),

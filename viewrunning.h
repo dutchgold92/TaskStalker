@@ -1,6 +1,8 @@
 #ifndef VIEWRUNNING_H
 #define VIEWRUNNING_H
 
+#include "sys.h"
+#include "proc.h"
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QDateTime>

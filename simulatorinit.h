@@ -1,6 +1,7 @@
 #ifndef SIMULATORINIT_H
 #define SIMULATORINIT_H
 
+#include "simulator.h"
 #include <QDialog>
 #include <QFile>
 

@@ -1,13 +1,15 @@
 #ifndef VISUALISER_H
 #define VISUALISER_H
 
+#include "proc.h"
+#include "confirmkill.h"
+#include "sys.h"
+#include "errordialog.h"
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <string>
-#include <sys/types.h>
-#include <sys/resource.h>
 
 namespace Ui {
     class Visualiser;

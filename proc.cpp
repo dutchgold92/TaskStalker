@@ -289,7 +289,7 @@ unsigned short proc::get_cpu_usage(pid_t pid)
         }
     }
     else
-        cout << "Warning: Invalid pid specified to proc::get_cpu_usage(pid_t)" << endl;
+        ; // invalid pid specified
 
     // Derive CPU usage statistic
     return (total_cpu_time / proc_cpu_time);

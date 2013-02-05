@@ -1,6 +1,5 @@
 #include "settings.h"
 #include "ui_settings.h"
-#include "sys.h"
 
 using namespace std;
 

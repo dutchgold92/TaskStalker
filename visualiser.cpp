@@ -1,9 +1,5 @@
 #include "visualiser.h"
 #include "ui_visualiser.h"
-#include "proc.h"
-#include "confirmkill.h"
-#include "sys.h"
-#include "errordialog.h"
 
 using namespace std;
 

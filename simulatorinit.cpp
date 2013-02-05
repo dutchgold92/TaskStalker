@@ -1,6 +1,5 @@
 #include "simulatorinit.h"
 #include "ui_simulatorinit.h"
-#include "simulator.h"
 
 using namespace std;
 

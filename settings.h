@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "sys.h"
 #include <QDialog>
 
 namespace Ui {

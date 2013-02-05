@@ -1,7 +1,5 @@
 #include "viewrunning.h"
 #include "ui_viewrunning.h"
-#include "sys.h"
-#include "proc.h"
 
 ViewRunning::ViewRunning(QWidget *parent) :
     QDialog(parent),

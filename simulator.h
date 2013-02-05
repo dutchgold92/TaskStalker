@@ -1,13 +1,15 @@
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
+#include "proc.h"
+#include "sys.h"
+#include "errordialog.h"
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QProcess>
 #include <iostream>
 #include <signal.h>
 #include <string>
-#include <sys/resource.h>
 
 namespace Ui {
     class Simulator;

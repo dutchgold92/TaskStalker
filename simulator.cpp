@@ -1,8 +1,5 @@
 #include "simulator.h"
 #include "ui_simulator.h"
-#include "proc.h"
-#include "sys.h"
-#include "errordialog.h"
 
 using namespace std;
 

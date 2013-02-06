@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     sys.cpp \
     settings.cpp \
     errordialog.cpp \
-    viewrunning.cpp
+    viewrunning.cpp \
+    systeminfo.cpp
 HEADERS += mainwindow.h \
     proc.h \
     visualiser.h \
@@ -25,7 +26,8 @@ HEADERS += mainwindow.h \
     sys.h \
     settings.h \
     errordialog.h \
-    viewrunning.h
+    viewrunning.h \
+    systeminfo.h
 FORMS += mainwindow.ui \
     visualiser.ui \
     confirmkill.ui \
@@ -34,6 +36,7 @@ FORMS += mainwindow.ui \
     simulatorinit.ui \
     settings.ui \
     errordialog.ui \
-    viewrunning.ui
+    viewrunning.ui \
+    systeminfo.ui
 RESOURCES = images.qrc \
     help.qrc

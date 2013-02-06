@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Wed Feb 6 17:09:53 2013
+** Created: Wed Feb 6 22:39:43 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      18,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -44,12 +44,13 @@ static const uint qt_meta_data_MainWindow[] = {
      257,   11,   11,   11, 0x08,
      288,  281,   11,   11, 0x08,
      310,   11,   11,   11, 0x08,
-     343,   11,   11,   11, 0x08,
-     421,  369,   11,   11, 0x08,
-     470,   11,   11,   11, 0x08,
-     496,   11,   11,   11, 0x08,
-     524,   11,   11,   11, 0x08,
-     555,   11,   11,   11, 0x08,
+     388,  336,   11,   11, 0x08,
+     437,   11,   11,   11, 0x08,
+     463,   11,   11,   11, 0x08,
+     491,   11,   11,   11, 0x08,
+     522,   11,   11,   11, 0x08,
+     548,   11,   11,   11, 0x08,
+     588,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -64,15 +65,15 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_actionAbout_triggered()\0"
     "on_actionQuit_triggered()\0"
     "procTable_updated(bool)\0column\0"
-    "procTable_sorted(int)\0"
-    "on_actionViewRunning_triggered()\0"
-    "on_actionView_triggered()\0"
+    "procTable_sorted(int)\0on_actionView_triggered()\0"
     "currentRow,currentColumn,previousRow,previousColumn\0"
     "on_procTable_currentCellChanged(int,int,int,int)\0"
     "on_actionStop_triggered()\0"
     "on_actionResume_triggered()\0"
     "on_actionTerminate_triggered()\0"
     "on_actionKill_triggered()\0"
+    "on_actionSystem_Information_triggered()\0"
+    "on_actionRunning_Processes_triggered()\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -91,13 +92,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->on_actionQuit_triggered(); break;
         case 8: _t->procTable_updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 9: _t->procTable_sorted((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 10: _t->on_actionViewRunning_triggered(); break;
-        case 11: _t->on_actionView_triggered(); break;
-        case 12: _t->on_procTable_currentCellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
-        case 13: _t->on_actionStop_triggered(); break;
-        case 14: _t->on_actionResume_triggered(); break;
-        case 15: _t->on_actionTerminate_triggered(); break;
-        case 16: _t->on_actionKill_triggered(); break;
+        case 10: _t->on_actionView_triggered(); break;
+        case 11: _t->on_procTable_currentCellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 12: _t->on_actionStop_triggered(); break;
+        case 13: _t->on_actionResume_triggered(); break;
+        case 14: _t->on_actionTerminate_triggered(); break;
+        case 15: _t->on_actionKill_triggered(); break;
+        case 16: _t->on_actionSystem_Information_triggered(); break;
+        case 17: _t->on_actionRunning_Processes_triggered(); break;
         default: ;
         }
     }
@@ -135,9 +137,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 18;
     }
     return _id;
 }

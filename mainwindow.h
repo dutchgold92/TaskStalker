@@ -8,6 +8,7 @@
 #include "sys.h"
 #include "settings.h"
 #include "viewrunning.h"
+#include "systeminfo.h"
 
 #include <QMainWindow>
 #include <QtConcurrentRun>
@@ -49,13 +50,14 @@ private slots:
     void on_actionQuit_triggered();
     void procTable_updated(bool);
     void procTable_sorted(int column);
-    void on_actionViewRunning_triggered();
     void on_actionView_triggered();
     void on_procTable_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
     void on_actionStop_triggered();
     void on_actionResume_triggered();
     void on_actionTerminate_triggered();
     void on_actionKill_triggered();
+    void on_actionSystem_Information_triggered();
+    void on_actionRunning_Processes_triggered();
 };
 
 #endif // MAINWINDOW_H

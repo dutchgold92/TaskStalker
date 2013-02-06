@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Feb 6 17:58:04 2013
+** Created: Wed Feb 6 21:41:45 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -42,6 +42,8 @@ public:
     QAction *actionResume;
     QAction *actionTerminate;
     QAction *actionKill;
+    QAction *actionSystem_Information;
+    QAction *actionRunning_Processes;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
@@ -53,6 +55,7 @@ public:
     QMenu *menuHelp;
     QMenu *menuTools;
     QMenu *menuID;
+    QMenu *menuView;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -111,6 +114,10 @@ public:
         icon5.addFile(QString::fromUtf8(":/img/kill.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionKill->setIcon(icon5);
         actionKill->setIconVisibleInMenu(true);
+        actionSystem_Information = new QAction(MainWindow);
+        actionSystem_Information->setObjectName(QString::fromUtf8("actionSystem_Information"));
+        actionRunning_Processes = new QAction(MainWindow);
+        actionRunning_Processes->setObjectName(QString::fromUtf8("actionRunning_Processes"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -193,6 +200,8 @@ public:
         menuTools->setObjectName(QString::fromUtf8("menuTools"));
         menuID = new QMenu(menuBar);
         menuID->setObjectName(QString::fromUtf8("menuID"));
+        menuView = new QMenu(menuBar);
+        menuView->setObjectName(QString::fromUtf8("menuView"));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -200,14 +209,16 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuID->menuAction());
+        menuBar->addAction(menuView->menuAction());
         menuBar->addAction(menuTools->menuAction());
         menuBar->addAction(menuHelp->menuAction());
         menuHelp->addAction(actionDocumentation);
         menuHelp->addAction(actionAbout);
         menuTools->addAction(actionSimulate);
-        menuTools->addAction(actionViewRunning);
         menuTools->addAction(actionSettings);
         menuID->addAction(actionQuit);
+        menuView->addAction(actionSystem_Information);
+        menuView->addAction(actionRunning_Processes);
 
         retranslateUi(MainWindow);
 
@@ -234,6 +245,10 @@ public:
         actionResume->setText(QApplication::translate("MainWindow", "Resume", 0, QApplication::UnicodeUTF8));
         actionTerminate->setText(QApplication::translate("MainWindow", "Terminate", 0, QApplication::UnicodeUTF8));
         actionKill->setText(QApplication::translate("MainWindow", "Kill", 0, QApplication::UnicodeUTF8));
+        actionSystem_Information->setText(QApplication::translate("MainWindow", "System Information", 0, QApplication::UnicodeUTF8));
+        actionSystem_Information->setShortcut(QApplication::translate("MainWindow", "Ctrl+I", 0, QApplication::UnicodeUTF8));
+        actionRunning_Processes->setText(QApplication::translate("MainWindow", "Running Processes", 0, QApplication::UnicodeUTF8));
+        actionRunning_Processes->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
         processCountLabel->setText(QApplication::translate("MainWindow", "XXX system processes", 0, QApplication::UnicodeUTF8));
@@ -249,6 +264,7 @@ public:
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
         menuID->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
+        menuView->setTitle(QApplication::translate("MainWindow", "View", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

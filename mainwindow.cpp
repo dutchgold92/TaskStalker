@@ -264,11 +264,6 @@ void MainWindow::procTable_sorted(int column)
     }
 }
 
-void MainWindow::on_actionViewRunning_triggered()
-{
-    new ViewRunning(this);
-}
-
 void MainWindow::on_actionView_triggered()
 {
     new Visualiser(this, atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str()));
@@ -301,4 +296,14 @@ void MainWindow::on_actionKill_triggered()
 {
     if(!proc::kill_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
         new ErrorDialog(this, false, "Failed to kill process", ErrorDialog::error);
+}
+
+void MainWindow::on_actionSystem_Information_triggered()
+{
+    new SystemInfo(this);
+}
+
+void MainWindow::on_actionRunning_Processes_triggered()
+{
+    new ViewRunning(this);
 }

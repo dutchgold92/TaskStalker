@@ -207,7 +207,33 @@ bool proc::kill_process(pid_t pid)
 }
 
 /**
-  * Returns the number of CPUs
+ * @brief proc::get_kernel_version Determines the kernel version, read from /proc/version
+ * @return QString of the kernel version string
+ */
+QString proc::get_kernel_version()
+{
+    if(proc::kernel_version.isEmpty())
+    {
+        QFile file("/proc/version");
+
+        if(file.exists())
+        {
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&file);
+            QString line = in.readLine();
+
+            if(!line.isEmpty())
+                proc::kernel_version = line;
+        }
+
+        file.close();
+    }
+
+    return proc::kernel_version;
+}
+
+/**
+  * Returns the number of CPUs, as read from /proc/cpuinfo
   */
 unsigned short proc::get_cpu_count()
 {
@@ -234,6 +260,124 @@ unsigned short proc::get_cpu_count()
     }
 
     return proc::cpu_count;
+}
+
+/**
+ * @brief proc::get_cpu_type Determines the CPU model from /proc/cpuinfo
+ * @return CPU type string
+ */
+QString proc::get_cpu_type()
+{
+    if(proc::cpu_type.isEmpty())
+    {
+        QFile file("/proc/cpuinfo");
+
+        if(file.exists())
+        {
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&file);
+            QString line = in.readLine();
+
+            while(!line.isEmpty())
+            {
+                if(line.startsWith("model name"))
+                {
+                    proc::cpu_type = line.remove(0, (line.indexOf(":") + 2));
+                    break;
+                }
+
+                line = in.readLine();
+            }
+        }
+
+        file.close();
+    }
+
+    return proc::cpu_type;
+}
+
+/**
+ * @brief proc::get_memory_size Determines the total memory size from /proc/meminfo
+ * @return Memory size as float, in GB
+ */
+float proc::get_memory_size()
+{
+    if(proc::memory_size == 0)
+    {
+        QFile file("/proc/meminfo");
+
+        if(file.exists())
+        {
+            QRegExp numbers("(\\d+)");  // regex for finding numbers in a string
+            unsigned int str_pos = 0;   // position variable, for searching strings with regex
+
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&file);
+            QString line = in.readLine();
+
+            while(!line.isEmpty())
+            {
+                if(line.startsWith("MemTotal"))
+                {
+                    while((str_pos = numbers.indexIn(line, str_pos)) != -1)
+                    {
+                        proc::memory_size = (numbers.cap(1).toFloat() / (1024 * 1024));
+                        str_pos += numbers.matchedLength();
+                    }
+
+                    break;
+                }
+
+                line = in.readLine();
+            }
+        }
+
+        file.close();
+    }
+
+    return proc::memory_size;
+}
+
+/**
+ * @brief proc::get_swap_size Determines the total swap size from /proc/meminfo
+ * @return Swap size as float, in GB
+ */
+float proc::get_swap_size()
+{
+    if(proc::swap_size == 0)
+    {
+        QFile file("/proc/meminfo");
+
+        if(file.exists())
+        {
+            QRegExp numbers("(\\d+)");  // regex for finding numbers in a string
+            unsigned int str_pos = 0;   // position variable, for searching strings with regex
+
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&file);
+            QString line = in.readLine();
+
+            while(!line.isEmpty())
+            {
+                if(line.startsWith("SwapTotal"))
+                {
+                    while((str_pos = numbers.indexIn(line, str_pos)) != -1)
+                    {
+                        proc::swap_size = (numbers.cap(1).toFloat() / (1024 * 1024));
+                        str_pos += numbers.matchedLength();
+                    }
+
+                    break;
+                }
+
+                line = in.readLine();
+            }
+        }
+
+        file.close();
+    }
+
+    return proc::swap_size;
 }
 
 /**

@@ -13,5 +13,9 @@
         <file>img/zombie.png</file>
         <file>img/icon.png</file>
 	<file>img/view.png</file>
+	<file>img/stop.png</file>
+	<file>img/resume.png</file>
+	<file>img/terminate.png</file>
+	<file>img/kill.png</file>
     </qresource>
 </RCC>

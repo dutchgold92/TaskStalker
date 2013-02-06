@@ -217,8 +217,8 @@
      <string>Tools</string>
     </property>
     <addaction name="actionSimulate"/>
-    <addaction name="actionSettings"/>
     <addaction name="actionViewRunning"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuID">
     <property name="title">
@@ -239,30 +239,48 @@
    <property name="text">
     <string>Quit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionDocumentation">
    <property name="text">
     <string>Documentation</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
   <action name="actionSimulate">
    <property name="text">
     <string>Simulate</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
    </property>
   </action>
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
    </property>
+   <property name="shortcut">
+    <string>F12</string>
+   </property>
   </action>
   <action name="actionViewRunning">
    <property name="text">
     <string>View Running</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionView">
@@ -272,6 +290,54 @@
    </property>
    <property name="text">
     <string>View</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/stop.png</normaloff>:/img/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionResume">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/resume.png</normaloff>:/img/resume.png</iconset>
+   </property>
+   <property name="text">
+    <string>Resume</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionTerminate">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/terminate.png</normaloff>:/img/terminate.png</iconset>
+   </property>
+   <property name="text">
+    <string>Terminate</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionKill">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/kill.png</normaloff>:/img/kill.png</iconset>
+   </property>
+   <property name="text">
+    <string>Kill</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

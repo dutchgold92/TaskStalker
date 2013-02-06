@@ -15,6 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->procTable->setColumnWidth(1, 200);
     ui->procTable->horizontalHeader()->setHighlightSections(false);
     ui->procTable->addAction(ui->actionView);
+    QAction *menu_separator = new QAction(this);
+    menu_separator->setSeparator(true);
+    ui->procTable->addAction(menu_separator);
+    ui->procTable->addAction(ui->actionStop);
+    ui->procTable->addAction(ui->actionResume);
+    ui->procTable->addAction(ui->actionTerminate);
+    ui->procTable->addAction(ui->actionKill);
     connect(ui->procTable->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(procTable_sorted(int)), Qt::QueuedConnection);
     connect(this, SIGNAL(updated(bool)), this, SLOT(procTable_updated(bool)), Qt::QueuedConnection);
     QtConcurrent::run(this, &MainWindow::update_table);
@@ -270,4 +277,28 @@ void MainWindow::on_actionView_triggered()
 void MainWindow::on_procTable_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn)
 {
     this->selected_row = currentRow;
+}
+
+void MainWindow::on_actionStop_triggered()
+{
+    if(!proc::stop_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
+        new ErrorDialog(this, false, "Failed to stop process", ErrorDialog::error);
+}
+
+void MainWindow::on_actionResume_triggered()
+{
+    if(!proc::resume_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
+        new ErrorDialog(this, false, "Failed to resume process", ErrorDialog::error);
+}
+
+void MainWindow::on_actionTerminate_triggered()
+{
+    if(!proc::end_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
+        new ErrorDialog(this, false, "Failed to terminate process", ErrorDialog::error);
+}
+
+void MainWindow::on_actionKill_triggered()
+{
+    if(!proc::kill_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
+        new ErrorDialog(this, false, "Failed to kill process", ErrorDialog::error);
 }

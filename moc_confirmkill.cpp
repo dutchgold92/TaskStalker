@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'confirmkill.h'
 **
-** Created: Tue Feb 5 22:26:08 2013
+** Created: Wed Feb 6 17:06:18 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!

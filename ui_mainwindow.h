@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Feb 5 22:27:46 2013
+** Created: Wed Feb 6 17:58:04 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -38,6 +38,10 @@ public:
     QAction *actionSettings;
     QAction *actionViewRunning;
     QAction *actionView;
+    QAction *actionStop;
+    QAction *actionResume;
+    QAction *actionTerminate;
+    QAction *actionKill;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
@@ -83,6 +87,30 @@ public:
         icon1.addFile(QString::fromUtf8(":/img/view.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionView->setIcon(icon1);
         actionView->setIconVisibleInMenu(true);
+        actionStop = new QAction(MainWindow);
+        actionStop->setObjectName(QString::fromUtf8("actionStop"));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/img/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionStop->setIcon(icon2);
+        actionStop->setIconVisibleInMenu(true);
+        actionResume = new QAction(MainWindow);
+        actionResume->setObjectName(QString::fromUtf8("actionResume"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/img/resume.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionResume->setIcon(icon3);
+        actionResume->setIconVisibleInMenu(true);
+        actionTerminate = new QAction(MainWindow);
+        actionTerminate->setObjectName(QString::fromUtf8("actionTerminate"));
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/img/terminate.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionTerminate->setIcon(icon4);
+        actionTerminate->setIconVisibleInMenu(true);
+        actionKill = new QAction(MainWindow);
+        actionKill->setObjectName(QString::fromUtf8("actionKill"));
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/img/kill.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionKill->setIcon(icon5);
+        actionKill->setIconVisibleInMenu(true);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -177,8 +205,8 @@ public:
         menuHelp->addAction(actionDocumentation);
         menuHelp->addAction(actionAbout);
         menuTools->addAction(actionSimulate);
-        menuTools->addAction(actionSettings);
         menuTools->addAction(actionViewRunning);
+        menuTools->addAction(actionSettings);
         menuID->addAction(actionQuit);
 
         retranslateUi(MainWindow);
@@ -190,12 +218,22 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Task Stalker", 0, QApplication::UnicodeUTF8));
         actionQuit->setText(QApplication::translate("MainWindow", "Quit", 0, QApplication::UnicodeUTF8));
+        actionQuit->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", 0, QApplication::UnicodeUTF8));
         actionDocumentation->setText(QApplication::translate("MainWindow", "Documentation", 0, QApplication::UnicodeUTF8));
+        actionDocumentation->setShortcut(QApplication::translate("MainWindow", "F1", 0, QApplication::UnicodeUTF8));
         actionSimulate->setText(QApplication::translate("MainWindow", "Simulate", 0, QApplication::UnicodeUTF8));
+        actionSimulate->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
+        actionAbout->setShortcut(QApplication::translate("MainWindow", "F2", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
+        actionSettings->setShortcut(QApplication::translate("MainWindow", "F12", 0, QApplication::UnicodeUTF8));
         actionViewRunning->setText(QApplication::translate("MainWindow", "View Running", 0, QApplication::UnicodeUTF8));
+        actionViewRunning->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
         actionView->setText(QApplication::translate("MainWindow", "View", 0, QApplication::UnicodeUTF8));
+        actionStop->setText(QApplication::translate("MainWindow", "Stop", 0, QApplication::UnicodeUTF8));
+        actionResume->setText(QApplication::translate("MainWindow", "Resume", 0, QApplication::UnicodeUTF8));
+        actionTerminate->setText(QApplication::translate("MainWindow", "Terminate", 0, QApplication::UnicodeUTF8));
+        actionKill->setText(QApplication::translate("MainWindow", "Kill", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
         processCountLabel->setText(QApplication::translate("MainWindow", "XXX system processes", 0, QApplication::UnicodeUTF8));

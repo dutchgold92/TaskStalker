@@ -52,6 +52,10 @@ private slots:
     void on_actionViewRunning_triggered();
     void on_actionView_triggered();
     void on_procTable_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
+    void on_actionStop_triggered();
+    void on_actionResume_triggered();
+    void on_actionTerminate_triggered();
+    void on_actionKill_triggered();
 };
 
 #endif // MAINWINDOW_H

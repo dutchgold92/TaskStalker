@@ -6,6 +6,13 @@
 	</style>
 </head>
 <body>
+
+	<div id="navigation">
+		<span style="float: left; text-align: left;"><a href="main.html">Previous Section: Main Window</a></span>
+		&nbsp;
+		<span style="float: right; text-align: right;"><a href="simulator.html">Next Section: Simulation Window</a></span>
+	</div>
+
 	<h1>Visualisation Window</h1>
 	<p>Once launched, this module presents you with a dialog window. Information in this dialog is relative to the process that was selected from the main window.</p>
 
@@ -34,21 +41,13 @@
 	<p>If permitted, this button sends the task a SIGTERM signal, requesting that it finish any immediate work and terminate.</p>
 
 	<h2>6) Kill Button</h2>
-	<p>Clicking this button will execute a KILL([pid], 9) system call, attempting to immediately end the appropriate process by sending it a SIGKILL signal. SIGKILL is more immediate and demanding than SIGTERM. However, before this is performed, you will be presented with a smaller dialog asking you to confirm your request. It looks as follows:</p>
-
-	<br />
-
-	<screenshot of confirmkill dialog>
-
-	<br />
-
-	<p>This warning should not be taken lightly. Ending any process in this way can indeed cause loss of data, among other, potentially more serious problems. It cannot be recommended to go through with this action unless the relevant process is completely unresponsive and the issue cannot be otherwise resolved. Even then, you are advised to consider the implications of continuing.</p>
-	<p>Now that you realise the risks of continuing to kill the task, you have two choices; click the "Cancel" button and take no further action, or click the "Yes" button and proceed with executing the system call. If you select to continue, the system call is immediately executed and if successful, the process will be killed and you will be returned to the main window; the visualisation dialog is then closed, as there is nothing to display if the process has ended. Note that the success of the kill function depends on your permissions as a user; attempting to kill a task such as init, for example, should fail as any user other than root.</p>
+	<p>Clicking this button will execute a KILL([pid], 9) system call, attempting to immediately end the appropriate process by sending it a SIGKILL signal. SIGKILL is more immediate and demanding than SIGTERM. 
+	<p>Note that this action should not be taken lightly. Ending any process in this way can indeed cause loss of data, among other, potentially more serious problems. It cannot be recommended to go through with this action unless the relevant process is completely unresponsive and the issue cannot be otherwise resolved. Even then, you are advised to consider the implications of continuing.</p>
 
 	<h2>7) Close Button</h2>
 	<p>Click this button to close the visualisation system, and return to the main window of the application.</p>
 
-	<div id="navigation">
+	<div id="navigation2">
 		<span style="float: left; text-align: left;"><a href="main.html">Previous Section: Main Window</a></span>
 		&nbsp;
 		<span style="float: right; text-align: right;"><a href="simulator.html">Next Section: Simulation Window</a></span>

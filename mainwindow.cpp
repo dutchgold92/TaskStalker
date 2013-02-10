@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->update = true;
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
-    ui->cpuCountLabel->setText(QString::number(proc::get_cpu_count()) + " available CPU(s)");
     ui->procTable->setColumnWidth(0, 100);
     ui->procTable->setColumnWidth(1, 200);
     ui->procTable->horizontalHeader()->setHighlightSections(false);

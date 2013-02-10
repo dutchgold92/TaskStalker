@@ -13,5 +13,9 @@
         <file>doc/simulator.html</file>
         <file>doc/simulatorinit.png</file>
         <file>doc/style.css</file>
+	<file>doc/sysinfo.html</file>
+	<file>doc/sysinfo.png</file>
+	<file>doc/runningprocs.html</file>
+	<file>doc/runningprocs.png</file>
     </qresource>
 </RCC>

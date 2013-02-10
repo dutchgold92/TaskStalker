@@ -6,20 +6,28 @@
 	</style>
 </head>
 <body>
+
+	<div id="navigation">
+		<span style="float: left; text-align: left;"><a href="index.html">Previous Section: Introduction to Task Stalker</a></span>
+		&nbsp;
+		<span style="float: right; text-align: right;"><a href="visualisation.html">Next Section: Visualisation Window</a></span>
+	</div>
+
 	<h1>Main Window</h1>
 
 	<p>Upon successfully launching the application, you will see a window similar to this:</p>
 
 	<br />
 
-	<img src="mainwindow.png" alt="Main window" width="601" height="316" />
+	<img src="mainwindow.png" alt="Main window" width="600" height="315" />
 
 	<br />
 
 	<p>The numbered areas are as follows:</p>
 
 	<h2>1) Menubar</h2>
-	<p>Here you may access a number of menus; "File", "Tools", and "Help". The "File" menu has a single menu item, "Quit", which you can click to exit the program. The "Tools" menu has the entries "Simulate", to load the simulation module, and "Settings", which spawns a dialog allowing you to configure the program. Finally, the "Help" menu has items "Documentation" and "About"; the former option opens this user guide, while selecting "About" will open a dialog window displaying information about this software.</p>
+	<p>Here you may access a number of menus; "File", "View", "Tools", and "Help". The "File" menu has a single menu item, "Quit", which you can click to exit the program. Next, the "View" menu has options "System Information" and "Running Processes"; the former spawns a dialog displaying basic information about your system, and the latter opens another dialog which shows a time line of recently physically executing tasks. The "Tools" menu has the entries "Simulate", to load the simulation module, and "Settings", which spawns a dialog allowing you to configure the program. Finally, the "Help" menu has items "Documentation" and "About"; the former option opens this user guide, while selecting "About" will open a dialog window displaying information about this software.</p>
+	<p>All of the menubar action can also be performed using hotkeys, such as Ctrl+Q to quit.</p>
 
 	<h2>2) Pause/Resume Button & Status Information</h2>
 	<p>Updating of the process information table, as previously described, can be stopped. This may be desirable to thoroughly view the table's contents. To do so, simply click the button with the pause symbol; the updating is now stopped indefinitely. Notice that the button's icon now changes from a pause symbol to a play symbol; if and when you wish to resume the updating, use the button again. Once resumed, the table and button will return to their initial states.</p>
@@ -39,7 +47,10 @@
 	<p>It is possible to sort the rows displayed by column; simply click on the respective column header to show in ascending order, or click twice for descending. For example, to list the processes in alphabetical order, click once upon the "Name" header. Sorting preferences can also be made permanent through the settings menu.</p>
 	<p>From the table, you may open the visualisation module, which allows you to manage the selected process and displays a visual representation of its state transitions. To open this module, navigate within the table to the process you want to view, and double-click anywhere within the table row.</p>
 
-	<div id="navigation">
+	<h2>4) Process Right-Click Menu</h2>
+	<p>Right-clicking on any row in the process information table will open a context menu. This menu has several options, such as to view or terminate the process. Each action is relative to the process in the selected table row.</p>
+
+	<div id="navigation2">
 		<span style="float: left; text-align: left;"><a href="index.html">Previous Section: Introduction to Task Stalker</a></span>
 		&nbsp;
 		<span style="float: right; text-align: right;"><a href="visualisation.html">Next Section: Visualisation Window</a></span>

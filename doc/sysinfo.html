@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+	<title>System Information Dialog</title>
+	<style type="text/css">
+		@import url("style.css");
+	</style>
+</head>
+<body>
+
+	<div id="navigation">
+		<span style="float: left; text-align: left;"><a href="info.html">Previous Section: Software Information Dialog</a></span>
+		&nbsp;
+		<span style="float: right; text-align: right;"><a href="runningprocs.html">Next Section: Running Processes Dialog</a></span>
+	</div>
+
+	<h1>System Information Dialog</h1>
+
+	<p>This dialog displays some basic information about the client system, and is opened from the main window's "View" menu, or by hotkey Ctrl+I.</p>
+
+	<img src="sysinfo.png" width="500" height="300" alt="System Information Dialog" />
+
+	<p>Its contents are as such:</p>
+
+	<h2>1) Kernel Version Information</h2>
+	<p>Kernel version and release information, as specified in /proc/version.</p>
+
+	<h2>2) Processor Information</h2>
+	<p>Processor type and number of available cores, read from /proc/cpuinfo.</p>
+
+	<h2>3) Memory Size Information</h2>
+	<p>Total size of available memory (RAM) available on the system, in gigabytes, read from /proc/meminfo.</p>
+
+	<h2>4) Swap Memory Size Information</h2>
+	<p>Total size of available swap memory available to the system, in gigabytes, also read from /proc/meminfo.</p>
+
+	<h2>5) Close Button</h2>
+	<p>Closes this dialog, returning the user to the main window.</p>
+
+	<div id="navigation2">
+		<span style="float: left; text-align: left;"><a href="info.html">Previous Section: Software Information Dialog</a></span>
+		&nbsp;
+		<span style="float: right; text-align: right;"><a href="runningprocs.html">Next Section: Running Processes Dialog</a></span>
+	</div>
+</body>
+</html>

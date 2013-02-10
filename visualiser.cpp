@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Visualiser::Visualiser(QWidget *parent, pid_t pid) :
+Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     QDialog(parent),
     ui(new Ui::Visualiser)
 {
@@ -12,6 +12,7 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid) :
     this->setFixedSize(this->size());
     this->update = true;
     this->pid = pid;
+    this->simulation = simulation;
     ui->infoTable->setColumnWidth(1, 200);
     ui->priorityBox->setValue(proc::get_priority(this->pid));
 
@@ -29,6 +30,9 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid) :
 
 Visualiser::~Visualiser()
 {
+    if(simulation)
+        proc::kill_process(this->pid);
+
     update = false;
     update_thread.waitForFinished();
     delete ui;

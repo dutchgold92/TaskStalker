@@ -19,7 +19,7 @@ class Visualiser : public QDialog {
     Q_OBJECT
 
 public:
-    Visualiser(QWidget *parent, pid_t pid);
+    Visualiser(QWidget *parent, pid_t pid, bool simulation = false);
     ~Visualiser();
 
 protected:
@@ -33,6 +33,7 @@ private:
     bool update;
     QFuture<void> update_thread;
     QImage image;
+    bool simulation;
 
 signals:
     void missing_process();

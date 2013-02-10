@@ -507,7 +507,12 @@ QString proc::get_tasks_running()
                 info_retrieved += QString::number(x);
                 info_retrieved += ": ";
                 line.remove(0, (line.indexOf(":") + 2));
-                info_retrieved += line;
+
+                if(line == "0")
+                    info_retrieved += "None";
+                else
+                    info_retrieved += line;
+
                 x++;
             }
 

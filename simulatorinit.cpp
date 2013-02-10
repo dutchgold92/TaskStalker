@@ -10,7 +10,6 @@ SimulatorInit::SimulatorInit(QWidget *parent) :
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->setFixedSize(this->size());
-    ui->errorLabel->setVisible(false);
     this->show();
 }
 
@@ -32,15 +31,6 @@ void SimulatorInit::changeEvent(QEvent *e)
 }
 
 /**
-  * Action-Listener: Use Default button
-  */
-void SimulatorInit::on_useDefaultButton_clicked()
-{
-    new Simulator(this);
-    this->hide();
-}
-
-/**
   * Action-Listener: Continue button
   */
 void SimulatorInit::on_continueButton_clicked()
@@ -49,19 +39,23 @@ void SimulatorInit::on_continueButton_clicked()
     {
         if(QFile(ui->fileInput->text()).exists())
         {
-            new Simulator(this, ui->fileInput->text());
-            this->hide();
+            process = new QProcess;
+            process->start(ui->fileInput->text());
+
+            if(!process->waitForStarted())
+                return;
+
+            new Visualiser(this->parentWidget(), process->pid(), true);
+            this->close();
         }
         else
         {
-            ui->errorLabel->setText("Invalid program path or permissions!");
-            ui->errorLabel->setVisible(true);
+            new ErrorDialog(this, false, "Invalid program path or permissions!", ErrorDialog::error);
         }
     }
     else
     {
-        ui->errorLabel->setText("Enter a program path first!");
-        ui->errorLabel->setVisible(true);
+        new ErrorDialog(this, false, "Invalid program path or permissions!", ErrorDialog::error);
     }
 }
 

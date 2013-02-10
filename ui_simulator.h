@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'simulator.ui'
 **
-** Created: Wed Feb 6 17:05:54 2013
-**      by: Qt User Interface Compiler version 4.8.2
+** Created: Sun Feb 10 20:10:08 2013
+**      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/

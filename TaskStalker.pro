@@ -9,7 +9,6 @@ SOURCES += main.cpp \
     visualiser.cpp \
     confirmkill.cpp \
     info.cpp \
-    simulator.cpp \
     simulatorinit.cpp \
     sys.cpp \
     settings.cpp \
@@ -21,7 +20,6 @@ HEADERS += mainwindow.h \
     visualiser.h \
     confirmkill.h \
     info.h \
-    simulator.h \
     simulatorinit.h \
     sys.h \
     settings.h \
@@ -32,7 +30,6 @@ FORMS += mainwindow.ui \
     visualiser.ui \
     confirmkill.ui \
     info.ui \
-    simulator.ui \
     simulatorinit.ui \
     settings.ui \
     errordialog.ui \

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+	<title>Running Processes Dialog</title>
+	<style type="text/css">
+		@import url("style.css");
+	</style>
+</head>
+<body>
+
+	<div id="navigation">
+		<span style="float: left; text-align: left;"><a href="sysinfo.html">Previous Section: System Information Dialog</a></span>
+		&nbsp;
+	</div>
+
+	<h1>Running Processes Dialog</h1>
+
+	<p>Opened from the "View" menu (hotkey Ctrl+R), this dialog displays a time line of processes being scheduled for execution across the system's processors. These details are read from the scheduler's debug file, /proc/sched_debug.</p>
+
+	<img src="runningprocs.png" width="400" height="300" alt="Running Processes Dialog" />
+
+	<h2>1) Display Area</h2>
+	<p>Displayed here is the process (by ID) executing on each CPU core, at as close as possible to the time shown. By default, this information is updated each second, but this can be configured through the settings menu.</p>
+
+	<h2>Pause/Resume Button</h2>
+	<p>Pause or resume the updating of the display area.</p>
+
+	<h2>Close Button</h2>
+	<p>Close this dialog and return to the main window.</p>
+
+	<div id="navigation2">
+		<span style="float: left; text-align: left;"><a href="sysinfo.html">Previous Section: System Information Dialog</a></span>
+		&nbsp;
+	</div>
+</body>
+</html>

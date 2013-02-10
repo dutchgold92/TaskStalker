@@ -11,6 +11,8 @@
 			<section title="Simulation Window" ref="simulator.html"></section>
 			<section title="Settings Menu" ref="settings.html"></section>
 			<section title="Software Information" ref="info.html"></section>
+			<section title="System Information" ref="sysinfo.html"></section>
+			<section title="Running Processes" ref="runningprocs.html"></section>
 		</toc>
 
 		<keywords>
@@ -20,6 +22,8 @@
 			<keyword name="simulation" ref="simulator.html" />
 			<keyword name="about" ref="info.html" />
 			<keyword name="settings" ref="settings.html" />
+			<keyword name="system" ref="sysinfo.html" />
+			<keyword name="running" ref="runningprocs.html" />
 		</keywords>
 
 		<files>
@@ -29,10 +33,14 @@
 			<file>simulator.html</file>
 			<file>settings.html</file>
 			<file>info.html</file>
+			<file>sysinfo.html</file>
+			<file>runningprocs.html</file>
 			<file>mainwindow.png</file>
 			<file>viswindow.png</file>
 			<file>settings.png</file>
 			<file>simulatorinit.png</file>
+			<file>sysinfo.png</file>
+			<file>runningprocs.png</file>
 			<file>style.css</file>
 		</files>
 	</filterSection>

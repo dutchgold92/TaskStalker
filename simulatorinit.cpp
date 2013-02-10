@@ -10,6 +10,8 @@ SimulatorInit::SimulatorInit(QWidget *parent) :
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->setFixedSize(this->size());
+    browser = new QFileDialog(this, "Select an executable file", QDir::currentPath());
+    connect(browser, SIGNAL(fileSelected(QString)), this, SLOT(file_selected()), Qt::QueuedConnection);
     this->show();
 }
 
@@ -39,14 +41,19 @@ void SimulatorInit::on_continueButton_clicked()
     {
         if(QFile(ui->fileInput->text()).exists())
         {
-            process = new QProcess;
-            process->start(ui->fileInput->text());
+            if(access(ui->fileInput->text().toStdString().c_str(), X_OK) == 0)  // test if file is executable
+            {
+                process = new QProcess;
+                process->start(ui->fileInput->text());
 
-            if(!process->waitForStarted())
-                return;
+                if(!process->waitForStarted())
+                    return;
 
-            new Visualiser(this->parentWidget(), process->pid(), true);
-            this->close();
+                new Visualiser(this->parentWidget(), process->pid(), true);
+                this->close();
+            }
+            else
+                new ErrorDialog(this, false, "Selected file is not executable.", ErrorDialog::error);
         }
         else
         {
@@ -55,7 +62,7 @@ void SimulatorInit::on_continueButton_clicked()
     }
     else
     {
-        new ErrorDialog(this, false, "Invalid program path or permissions!", ErrorDialog::error);
+        new ErrorDialog(this, false, "Please select a file first!", ErrorDialog::error);
     }
 }
 
@@ -65,4 +72,20 @@ void SimulatorInit::on_continueButton_clicked()
 void SimulatorInit::on_cancelButton_clicked()
 {
     this->close();
+}
+
+/**
+ * @brief SimulatorInit::on_browseButton_clicked Opens file browser
+ */
+void SimulatorInit::on_browseButton_clicked()
+{
+    browser->show();
+}
+
+/**
+ * @brief SimulatorInit::file_selected Slot called when the user selects a file
+ */
+void SimulatorInit::file_selected()
+{
+    ui->fileInput->setText(browser->selectedFiles().first());
 }

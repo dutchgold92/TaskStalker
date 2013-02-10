@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'simulatorinit.h'
 **
-** Created: Wed Feb 6 22:39:48 2013
+** Created: Sun Feb 10 21:18:59 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_SimulatorInit[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,6 +34,7 @@ static const uint qt_meta_data_SimulatorInit[] = {
       15,   14,   14,   14, 0x08,
       41,   14,   14,   14, 0x08,
       69,   14,   14,   14, 0x08,
+      95,   14,   14,   14, 0x08,
 
        0        // eod
 };
@@ -41,7 +42,7 @@ static const uint qt_meta_data_SimulatorInit[] = {
 static const char qt_meta_stringdata_SimulatorInit[] = {
     "SimulatorInit\0\0on_cancelButton_clicked()\0"
     "on_continueButton_clicked()\0"
-    "on_useDefaultButton_clicked()\0"
+    "on_browseButton_clicked()\0file_selected()\0"
 };
 
 void SimulatorInit::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -52,7 +53,8 @@ void SimulatorInit::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         switch (_id) {
         case 0: _t->on_cancelButton_clicked(); break;
         case 1: _t->on_continueButton_clicked(); break;
-        case 2: _t->on_useDefaultButton_clicked(); break;
+        case 2: _t->on_browseButton_clicked(); break;
+        case 3: _t->file_selected(); break;
         default: ;
         }
     }
@@ -91,9 +93,9 @@ int SimulatorInit::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }

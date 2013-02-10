@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'visualiser.h'
 **
-** Created: Wed Feb 6 22:39:45 2013
+** Created: Sun Feb 10 20:35:04 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!

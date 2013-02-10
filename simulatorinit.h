@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QFile>
 #include <QProcess>
+#include <QFileDialog>
 
 namespace Ui {
     class SimulatorInit;
@@ -23,10 +24,13 @@ protected:
 private:
     Ui::SimulatorInit *ui;
     QProcess *process;
+    QFileDialog *browser;
 
 private slots:
     void on_cancelButton_clicked();
     void on_continueButton_clicked();
+    void on_browseButton_clicked();
+    void file_selected();
 };
 
 #endif // SIMULATORINIT_H

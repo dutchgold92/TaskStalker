@@ -106,7 +106,10 @@ void Visualiser::on_infoTable_cellChanged(int row, int column)
   */
 void Visualiser::on_killButton_clicked()
 {
-    new ConfirmKill(this);
+    if(!simulation)
+        new ConfirmKill(this);
+    else
+        this->kill_confirm_accepted();
 }
 
 /**

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Feb 6 21:41:45 2013
+** Created: Sun Feb 10 22:01:53 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -49,7 +49,6 @@ public:
     QGroupBox *groupBox;
     QPushButton *toggleUpdateButton;
     QLabel *processCountLabel;
-    QLabel *cpuCountLabel;
     QTableWidget *procTable;
     QMenuBar *menuBar;
     QMenu *menuHelp;
@@ -145,11 +144,6 @@ public:
         processCountLabel = new QLabel(groupBox);
         processCountLabel->setObjectName(QString::fromUtf8("processCountLabel"));
         processCountLabel->setGeometry(QRect(70, 0, 321, 21));
-        cpuCountLabel = new QLabel(groupBox);
-        cpuCountLabel->setObjectName(QString::fromUtf8("cpuCountLabel"));
-        cpuCountLabel->setGeometry(QRect(400, 0, 181, 21));
-        cpuCountLabel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        cpuCountLabel->setMargin(2);
 
         verticalLayout->addWidget(groupBox);
 
@@ -193,7 +187,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(true);
-        menuBar->setGeometry(QRect(0, 0, 600, 29));
+        menuBar->setGeometry(QRect(0, 0, 600, 19));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         menuTools = new QMenu(menuBar);
@@ -251,8 +245,7 @@ public:
         actionRunning_Processes->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
-        processCountLabel->setText(QApplication::translate("MainWindow", "XXX system processes", 0, QApplication::UnicodeUTF8));
-        cpuCountLabel->setText(QApplication::translate("MainWindow", "X available CPU(s)", 0, QApplication::UnicodeUTF8));
+        processCountLabel->setText(QApplication::translate("MainWindow", "? system processes", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "Process ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = procTable->horizontalHeaderItem(1);

@@ -46,11 +46,13 @@ void SimulatorInit::on_continueButton_clicked()
                 process = new QProcess;
                 process->start(ui->fileInput->text());
 
-                if(!process->waitForStarted())
-                    return;
-
-                new Visualiser(this->parentWidget(), process->pid(), true);
-                this->close();
+                if(process->waitForStarted())
+                {
+                    new Visualiser(this->parentWidget(), process->pid(), true);
+                    this->close();
+                }
+                else
+                    new ErrorDialog(this, false, "Failed to execute file.", ErrorDialog::error);
             }
             else
                 new ErrorDialog(this, false, "Selected file is not executable.", ErrorDialog::error);

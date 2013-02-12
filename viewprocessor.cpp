@@ -10,9 +10,7 @@ ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
     this->setFixedSize(this->size());
     this->cpu = cpu;
     this->setWindowTitle("Activity for CPU#" + QString::number(this->cpu));
-    ui->procTable->insertRow(ui->procTable->rowCount());
-    ui->procTable->setItem(0, 0, new QTableWidgetItem());
-    ui->procTable->setItem(0, 1, new QTableWidgetItem());
+    init_table();
     init_graph();
     this->update = true;
     this->update_thread = QtConcurrent::run(this, &ViewProcessor::update_info);
@@ -25,6 +23,28 @@ ViewProcessor::~ViewProcessor()
     update = false;
     update_thread.waitForFinished();
     delete ui;
+}
+
+/**
+ * @brief ViewProcessor::init_table Initialises the content of ui->procTable
+ */
+void ViewProcessor::init_table()
+{
+    ui->procTable->insertRow(ui->procTable->rowCount());
+    ui->procTable->setItem(0, 0, new QTableWidgetItem());
+    ui->procTable->setItem(0, 1, new QTableWidgetItem());
+    current_pid = proc::get_cpu_task(cpu);
+
+    if(current_pid > 0)
+    {
+        ui->procTable->item(0, 0)->setData(Qt::DisplayRole, current_pid);
+        ui->procTable->item(0, 1)->setData(Qt::DisplayRole, QString::fromStdString(proc::get_name(current_pid)));
+    }
+    else
+    {
+        ui->procTable->item(0, 0)->setData(Qt::DisplayRole, "None");
+        ui->procTable->item(0, 1)->setData(Qt::DisplayRole, "-");
+    }
 }
 
 /**
@@ -45,7 +65,7 @@ void ViewProcessor::update_info()
     {
         this->current_pid = proc::get_cpu_task(this->cpu);
         emit(data_updated());
-        sleep(sys::get_running_update_interval());
+        sleep(sys::get_cpu_update_interval());
     }
 }
 

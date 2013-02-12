@@ -43,6 +43,7 @@ void sys::reset_config()
     sys::set_update_interval(UPDATE_INTERVAL);
     sys::set_sub_update_interval(SUB_UPDATE_INTERVAL);
     sys::set_running_update_interval(RUNNING_UPDATE_INTERVAL);
+    sys::set_cpu_update_interval(CPU_UPDATE_INTERVAL);
     sys::set_sort_by_column(SORT_BY_COLUMN);
     sys::set_sort_by_order(SORT_BY_ORDER);
     sys::save_config();
@@ -70,6 +71,8 @@ void sys::load_config()
                 sys::set_sub_update_interval((line.remove(0, (line.indexOf("=") + 2))).toInt());
             else if(line.startsWith("running_update_interval"))
                 sys::set_running_update_interval((line.remove(0, (line.indexOf("=") + 2))).toInt());
+            else if(line.startsWith("cpu_update_interval"))
+                sys::set_cpu_update_interval((line.remove(0, (line.indexOf("=") + 2))).toInt());
             else if(line.startsWith("sort_by_column"))
                 sys::set_sort_by_column((line.remove(0, (line.indexOf("=") + 2))).toInt());
             else if(line.startsWith("sort_by_order"))
@@ -96,6 +99,7 @@ void sys::save_config()
     config_stream << "update_interval = " << sys::get_update_interval() << "\n";
     config_stream << "sub_update_interval = " << sys::get_sub_update_interval() << "\n";
     config_stream << "running_update_interval = " << sys::get_running_update_interval() << "\n";
+    config_stream << "cpu_update_interval = " << sys::get_cpu_update_interval() << "\n";
     config_stream << "sort_by_column = " << sys::get_sort_by_column() << "\n";
     config_stream << "sort_by_order = " << sys::get_sort_by_order() << "\n";
     config_file.close();
@@ -147,6 +151,22 @@ void sys::set_running_update_interval(unsigned short value)
 unsigned short sys::get_running_update_interval()
 {
     return sys::running_update_interval;
+}
+
+/**
+  * Should always be used to set cpu_update_interval to avoid race conditions
+  */
+void sys::set_cpu_update_interval(unsigned short value)
+{
+    sys::cpu_update_interval = value;
+}
+
+/**
+  * Should always be used to get cpu_update_interval to avoid race conditions
+  */
+unsigned short sys::get_cpu_update_interval()
+{
+    return sys::cpu_update_interval;
 }
 
 /**

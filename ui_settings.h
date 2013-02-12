@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'settings.ui'
 **
-** Created: Mon Feb 11 17:02:05 2013
+** Created: Tue Feb 12 16:59:31 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -16,81 +16,123 @@
 #include <QtGui/QButtonGroup>
 #include <QtGui/QComboBox>
 #include <QtGui/QDialog>
+#include <QtGui/QGridLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpinBox>
+#include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Settings
 {
 public:
+    QPushButton *saveButton;
+    QPushButton *cancelButton;
+    QPushButton *resetAllButton;
+    QWidget *widget;
+    QGridLayout *gridLayout;
     QLabel *updateIntervalLabel;
     QSpinBox *updateIntervalSpinBox;
     QLabel *subUpdateIntervalLabel;
     QSpinBox *subUpdateIntervalSpinBox;
-    QPushButton *saveButton;
-    QPushButton *cancelButton;
-    QPushButton *resetAllButton;
+    QLabel *runningUpdateIntervalLabel;
+    QSpinBox *runningUpdateIntervalSpinBox;
+    QLabel *cpuUpdateIntervalLabel;
+    QSpinBox *cpuUpdateIntervalSpinBox;
     QLabel *sortByLabel;
     QComboBox *sortByComboBox;
     QComboBox *sortByOrderComboBox;
-    QSpinBox *runningUpdateIntervalSpinBox;
-    QLabel *runningUpdateIntervalLabel;
 
     void setupUi(QDialog *Settings)
     {
         if (Settings->objectName().isEmpty())
             Settings->setObjectName(QString::fromUtf8("Settings"));
-        Settings->resize(400, 196);
+        Settings->resize(348, 197);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
         Settings->setWindowIcon(icon);
-        updateIntervalLabel = new QLabel(Settings);
-        updateIntervalLabel->setObjectName(QString::fromUtf8("updateIntervalLabel"));
-        updateIntervalLabel->setGeometry(QRect(10, 10, 211, 21));
-        updateIntervalLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-        updateIntervalSpinBox = new QSpinBox(Settings);
-        updateIntervalSpinBox->setObjectName(QString::fromUtf8("updateIntervalSpinBox"));
-        updateIntervalSpinBox->setGeometry(QRect(330, 10, 55, 25));
-        updateIntervalSpinBox->setMinimum(1);
-        updateIntervalSpinBox->setMaximum(60);
-        subUpdateIntervalLabel = new QLabel(Settings);
-        subUpdateIntervalLabel->setObjectName(QString::fromUtf8("subUpdateIntervalLabel"));
-        subUpdateIntervalLabel->setGeometry(QRect(10, 46, 221, 20));
-        subUpdateIntervalLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-        subUpdateIntervalSpinBox = new QSpinBox(Settings);
-        subUpdateIntervalSpinBox->setObjectName(QString::fromUtf8("subUpdateIntervalSpinBox"));
-        subUpdateIntervalSpinBox->setGeometry(QRect(330, 40, 55, 25));
-        subUpdateIntervalSpinBox->setMinimum(1);
-        subUpdateIntervalSpinBox->setMaximum(60);
         saveButton = new QPushButton(Settings);
         saveButton->setObjectName(QString::fromUtf8("saveButton"));
-        saveButton->setGeometry(QRect(240, 160, 71, 27));
+        saveButton->setGeometry(QRect(230, 160, 71, 27));
         cancelButton = new QPushButton(Settings);
         cancelButton->setObjectName(QString::fromUtf8("cancelButton"));
-        cancelButton->setGeometry(QRect(70, 160, 71, 27));
+        cancelButton->setGeometry(QRect(60, 160, 71, 27));
         resetAllButton = new QPushButton(Settings);
         resetAllButton->setObjectName(QString::fromUtf8("resetAllButton"));
-        resetAllButton->setGeometry(QRect(150, 160, 81, 27));
-        sortByLabel = new QLabel(Settings);
-        sortByLabel->setObjectName(QString::fromUtf8("sortByLabel"));
-        sortByLabel->setGeometry(QRect(10, 105, 121, 21));
-        sortByComboBox = new QComboBox(Settings);
-        sortByComboBox->setObjectName(QString::fromUtf8("sortByComboBox"));
-        sortByComboBox->setGeometry(QRect(180, 100, 101, 25));
-        sortByOrderComboBox = new QComboBox(Settings);
-        sortByOrderComboBox->setObjectName(QString::fromUtf8("sortByOrderComboBox"));
-        sortByOrderComboBox->setGeometry(QRect(280, 100, 101, 25));
-        runningUpdateIntervalSpinBox = new QSpinBox(Settings);
+        resetAllButton->setGeometry(QRect(140, 160, 81, 27));
+        widget = new QWidget(Settings);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(10, 10, 327, 128));
+        gridLayout = new QGridLayout(widget);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setContentsMargins(0, 0, 0, 0);
+        updateIntervalLabel = new QLabel(widget);
+        updateIntervalLabel->setObjectName(QString::fromUtf8("updateIntervalLabel"));
+        updateIntervalLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        gridLayout->addWidget(updateIntervalLabel, 0, 0, 1, 3);
+
+        updateIntervalSpinBox = new QSpinBox(widget);
+        updateIntervalSpinBox->setObjectName(QString::fromUtf8("updateIntervalSpinBox"));
+        updateIntervalSpinBox->setMinimum(1);
+        updateIntervalSpinBox->setMaximum(60);
+
+        gridLayout->addWidget(updateIntervalSpinBox, 0, 3, 1, 1);
+
+        subUpdateIntervalLabel = new QLabel(widget);
+        subUpdateIntervalLabel->setObjectName(QString::fromUtf8("subUpdateIntervalLabel"));
+        subUpdateIntervalLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        gridLayout->addWidget(subUpdateIntervalLabel, 1, 0, 1, 3);
+
+        subUpdateIntervalSpinBox = new QSpinBox(widget);
+        subUpdateIntervalSpinBox->setObjectName(QString::fromUtf8("subUpdateIntervalSpinBox"));
+        subUpdateIntervalSpinBox->setMinimum(1);
+        subUpdateIntervalSpinBox->setMaximum(60);
+
+        gridLayout->addWidget(subUpdateIntervalSpinBox, 1, 3, 1, 1);
+
+        runningUpdateIntervalLabel = new QLabel(widget);
+        runningUpdateIntervalLabel->setObjectName(QString::fromUtf8("runningUpdateIntervalLabel"));
+
+        gridLayout->addWidget(runningUpdateIntervalLabel, 2, 0, 1, 3);
+
+        runningUpdateIntervalSpinBox = new QSpinBox(widget);
         runningUpdateIntervalSpinBox->setObjectName(QString::fromUtf8("runningUpdateIntervalSpinBox"));
-        runningUpdateIntervalSpinBox->setGeometry(QRect(330, 70, 55, 25));
         runningUpdateIntervalSpinBox->setMinimum(1);
         runningUpdateIntervalSpinBox->setMaximum(10);
-        runningUpdateIntervalLabel = new QLabel(Settings);
-        runningUpdateIntervalLabel->setObjectName(QString::fromUtf8("runningUpdateIntervalLabel"));
-        runningUpdateIntervalLabel->setGeometry(QRect(10, 70, 311, 31));
+
+        gridLayout->addWidget(runningUpdateIntervalSpinBox, 2, 3, 1, 1);
+
+        cpuUpdateIntervalLabel = new QLabel(widget);
+        cpuUpdateIntervalLabel->setObjectName(QString::fromUtf8("cpuUpdateIntervalLabel"));
+
+        gridLayout->addWidget(cpuUpdateIntervalLabel, 3, 0, 1, 3);
+
+        cpuUpdateIntervalSpinBox = new QSpinBox(widget);
+        cpuUpdateIntervalSpinBox->setObjectName(QString::fromUtf8("cpuUpdateIntervalSpinBox"));
+        cpuUpdateIntervalSpinBox->setMinimum(1);
+        cpuUpdateIntervalSpinBox->setMaximum(10);
+
+        gridLayout->addWidget(cpuUpdateIntervalSpinBox, 3, 3, 1, 1);
+
+        sortByLabel = new QLabel(widget);
+        sortByLabel->setObjectName(QString::fromUtf8("sortByLabel"));
+
+        gridLayout->addWidget(sortByLabel, 4, 0, 1, 1);
+
+        sortByComboBox = new QComboBox(widget);
+        sortByComboBox->setObjectName(QString::fromUtf8("sortByComboBox"));
+
+        gridLayout->addWidget(sortByComboBox, 4, 1, 1, 1);
+
+        sortByOrderComboBox = new QComboBox(widget);
+        sortByOrderComboBox->setObjectName(QString::fromUtf8("sortByOrderComboBox"));
+
+        gridLayout->addWidget(sortByOrderComboBox, 4, 2, 1, 2);
+
 
         retranslateUi(Settings);
 
@@ -100,12 +142,18 @@ public:
     void retranslateUi(QDialog *Settings)
     {
         Settings->setWindowTitle(QApplication::translate("Settings", "Program Settings", 0, QApplication::UnicodeUTF8));
-        updateIntervalLabel->setText(QApplication::translate("Settings", "Global process update interval:", 0, QApplication::UnicodeUTF8));
-        subUpdateIntervalLabel->setText(QApplication::translate("Settings", "Individual process update interval:", 0, QApplication::UnicodeUTF8));
         saveButton->setText(QApplication::translate("Settings", "Save", 0, QApplication::UnicodeUTF8));
         cancelButton->setText(QApplication::translate("Settings", "Cancel", 0, QApplication::UnicodeUTF8));
         resetAllButton->setText(QApplication::translate("Settings", "Reset All", 0, QApplication::UnicodeUTF8));
-        sortByLabel->setText(QApplication::translate("Settings", "Sort processes by:", 0, QApplication::UnicodeUTF8));
+        updateIntervalLabel->setText(QApplication::translate("Settings", "<b>Global process update interval:</b>", 0, QApplication::UnicodeUTF8));
+        updateIntervalSpinBox->setSuffix(QApplication::translate("Settings", " seconds", 0, QApplication::UnicodeUTF8));
+        subUpdateIntervalLabel->setText(QApplication::translate("Settings", "<b>Individual process update interval:</b>", 0, QApplication::UnicodeUTF8));
+        subUpdateIntervalSpinBox->setSuffix(QApplication::translate("Settings", " seconds", 0, QApplication::UnicodeUTF8));
+        runningUpdateIntervalLabel->setText(QApplication::translate("Settings", "<b>Running processes update interval:</b>", 0, QApplication::UnicodeUTF8));
+        runningUpdateIntervalSpinBox->setSuffix(QApplication::translate("Settings", " seconds", 0, QApplication::UnicodeUTF8));
+        cpuUpdateIntervalLabel->setText(QApplication::translate("Settings", "<b>Processor activity update interval:</b>", 0, QApplication::UnicodeUTF8));
+        cpuUpdateIntervalSpinBox->setSuffix(QApplication::translate("Settings", " seconds", 0, QApplication::UnicodeUTF8));
+        sortByLabel->setText(QApplication::translate("Settings", "<b>Sort processes by:</b>", 0, QApplication::UnicodeUTF8));
         sortByComboBox->clear();
         sortByComboBox->insertItems(0, QStringList()
          << QApplication::translate("Settings", "Process ID", 0, QApplication::UnicodeUTF8)
@@ -118,7 +166,6 @@ public:
          << QApplication::translate("Settings", "Ascending", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("Settings", "Descending", 0, QApplication::UnicodeUTF8)
         );
-        runningUpdateIntervalLabel->setText(QApplication::translate("Settings", "Recently running processes update interval:", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

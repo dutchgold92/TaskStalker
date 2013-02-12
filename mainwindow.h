@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "viewrunning.h"
 #include "systeminfo.h"
-#include "viewprocessor.h"
+#include "viewprocessorinit.h"
 
 #include <QMainWindow>
 #include <QtConcurrentRun>

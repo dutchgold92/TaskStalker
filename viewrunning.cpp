@@ -1,6 +1,8 @@
 #include "viewrunning.h"
 #include "ui_viewrunning.h"
 
+using namespace std;
+
 ViewRunning::ViewRunning(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ViewRunning)
@@ -9,17 +11,7 @@ ViewRunning::ViewRunning(QWidget *parent) :
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->setFixedSize(this->size());
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
-
-    for(int x = 0; x < proc::get_cpu_count(); x++)
-    {
-        ui->outputTable->insertRow(x);
-        QTableWidgetItem *cell = new QTableWidgetItem();
-        cell->setData(Qt::DisplayRole, x);
-        ui->outputTable->setItem(x, 0, cell);
-        ui->outputTable->setItem(x, 1, new QTableWidgetItem());
-        ui->outputTable->setItem(x, 2, new QTableWidgetItem());
-    }
-
+    init_table();
     this->update = true;
     this->closed = false;
     this->update_thread = QtConcurrent::run(this, &ViewRunning::update_info);
@@ -33,6 +25,22 @@ ViewRunning::~ViewRunning()
     closed = true;
     update_thread.waitForFinished();
     delete ui;
+}
+
+/**
+ * @brief ViewRunning::init_table Initialises ui->outputTable
+ */
+void ViewRunning::init_table()
+{
+    for(int x = 0; x < proc::get_cpu_count(); x++)
+    {
+        ui->outputTable->insertRow(x);
+        QTableWidgetItem *cell = new QTableWidgetItem();
+        cell->setData(Qt::DisplayRole, x);
+        ui->outputTable->setItem(x, 0, cell);
+        ui->outputTable->setItem(x, 1, new QTableWidgetItem());
+        ui->outputTable->setItem(x, 2, new QTableWidgetItem());
+    }
 }
 
 /**
@@ -112,5 +120,6 @@ void ViewRunning::on_closeButton_clicked()
  */
 void ViewRunning::on_outputTable_cellDoubleClicked(int row, int column)
 {
-    new ViewProcessor(this, ui->outputTable->item(row, 0)->text().toInt());
+    // doesn't work correctly
+    new ViewProcessor(this->parentWidget(), ui->outputTable->item(row, 0)->text().toUInt());
 }

@@ -27,7 +27,6 @@ private slots:
     void on_toggleUpdateButton_clicked();
     void update_outputTable();
     void on_closeButton_clicked();
-
     void on_outputTable_cellDoubleClicked(int row, int column);
 
 private:
@@ -36,6 +35,7 @@ private:
     QFuture<void> update_thread;
     bool update;
     bool closed;
+    void init_table();
     void update_info();
 };
 

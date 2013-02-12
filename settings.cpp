@@ -13,6 +13,7 @@ Settings::Settings(QWidget *parent) :
     ui->updateIntervalSpinBox->setValue(sys::get_update_interval());
     ui->subUpdateIntervalSpinBox->setValue(sys::get_sub_update_interval());
     ui->runningUpdateIntervalSpinBox->setValue(sys::get_running_update_interval());
+    ui->cpuUpdateIntervalSpinBox->setValue(sys::get_cpu_update_interval());
     ui->sortByComboBox->setCurrentIndex(sys::get_sort_by_column());
     ui->sortByOrderComboBox->setCurrentIndex(sys::get_sort_by_order());
     this->show();
@@ -43,6 +44,7 @@ void Settings::on_saveButton_clicked()
     sys::set_update_interval(ui->updateIntervalSpinBox->value());
     sys::set_sub_update_interval(ui->subUpdateIntervalSpinBox->value());
     sys::set_running_update_interval(ui->runningUpdateIntervalSpinBox->value());
+    sys::set_cpu_update_interval(ui->cpuUpdateIntervalSpinBox->value());
     sys::set_sort_by_column(ui->sortByComboBox->currentIndex());
     sys::set_sort_by_order(ui->sortByOrderComboBox->currentIndex());
     sys::save_config();

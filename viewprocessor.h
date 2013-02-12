@@ -36,6 +36,7 @@ private:
     QFuture<void> update_thread;
     bool update;
     QGraphicsScene *scene;
+    void init_table();
     void init_graph();
     void transform_graph();
 };

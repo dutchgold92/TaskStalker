@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>196</height>
+    <width>348</width>
+    <height>197</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,74 +17,10 @@
    <iconset resource="images.qrc">
     <normaloff>:/img/icon.png</normaloff>:/img/icon.png</iconset>
   </property>
-  <widget class="QLabel" name="updateIntervalLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Global process update interval:</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="updateIntervalSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>10</y>
-     <width>55</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>60</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="subUpdateIntervalLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>46</y>
-     <width>221</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Individual process update interval:</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="subUpdateIntervalSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>40</y>
-     <width>55</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>60</number>
-   </property>
-  </widget>
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>230</x>
      <y>160</y>
      <width>71</width>
      <height>27</height>
@@ -97,7 +33,7 @@
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>60</x>
      <y>160</y>
      <width>71</width>
      <height>27</height>
@@ -110,7 +46,7 @@
   <widget class="QPushButton" name="resetAllButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>140</x>
      <y>160</y>
      <width>81</width>
      <height>27</height>
@@ -120,97 +56,148 @@
     <string>Reset All</string>
    </property>
   </widget>
-  <widget class="QLabel" name="sortByLabel">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>105</y>
-     <width>121</width>
-     <height>21</height>
+     <y>10</y>
+     <width>327</width>
+     <height>128</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Sort processes by:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="sortByComboBox">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>100</y>
-     <width>101</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Process ID</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Name</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>State</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Priority</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QComboBox" name="sortByOrderComboBox">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>100</y>
-     <width>101</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Ascending</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Descending</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QSpinBox" name="runningUpdateIntervalSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>70</y>
-     <width>55</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>10</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="runningUpdateIntervalLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>311</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Recently running processes update interval:</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="3">
+     <widget class="QLabel" name="updateIntervalLabel">
+      <property name="text">
+       <string>&lt;b&gt;Global process update interval:&lt;/b&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QSpinBox" name="updateIntervalSpinBox">
+      <property name="suffix">
+       <string> seconds</string>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>60</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="3">
+     <widget class="QLabel" name="subUpdateIntervalLabel">
+      <property name="text">
+       <string>&lt;b&gt;Individual process update interval:&lt;/b&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QSpinBox" name="subUpdateIntervalSpinBox">
+      <property name="suffix">
+       <string> seconds</string>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>60</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="3">
+     <widget class="QLabel" name="runningUpdateIntervalLabel">
+      <property name="text">
+       <string>&lt;b&gt;Running processes update interval:&lt;/b&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QSpinBox" name="runningUpdateIntervalSpinBox">
+      <property name="suffix">
+       <string> seconds</string>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="3">
+     <widget class="QLabel" name="cpuUpdateIntervalLabel">
+      <property name="text">
+       <string>&lt;b&gt;Processor activity update interval:&lt;/b&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QSpinBox" name="cpuUpdateIntervalSpinBox">
+      <property name="suffix">
+       <string> seconds</string>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="sortByLabel">
+      <property name="text">
+       <string>&lt;b&gt;Sort processes by:&lt;/b&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QComboBox" name="sortByComboBox">
+      <item>
+       <property name="text">
+        <string>Process ID</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>State</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Priority</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="4" column="2" colspan="2">
+     <widget class="QComboBox" name="sortByOrderComboBox">
+      <item>
+       <property name="text">
+        <string>Ascending</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Descending</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

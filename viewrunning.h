@@ -3,7 +3,6 @@
 
 #include "sys.h"
 #include "proc.h"
-#include "viewprocessor.h"
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QDateTime>
@@ -27,7 +26,6 @@ private slots:
     void on_toggleUpdateButton_clicked();
     void update_outputTable();
     void on_closeButton_clicked();
-    void on_outputTable_cellDoubleClicked(int row, int column);
 
 private:
     Ui::ViewRunning *ui;

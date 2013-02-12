@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'viewrunning.h'
 **
-** Created: Tue Feb 12 17:48:16 2013
+** Created: Tue Feb 12 22:13:24 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ViewRunning[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,7 +37,6 @@ static const uint qt_meta_data_ViewRunning[] = {
       35,   12,   12,   12, 0x08,
       67,   12,   12,   12, 0x08,
       88,   12,   12,   12, 0x08,
-     124,  113,   12,   12, 0x08,
 
        0        // eod
 };
@@ -46,7 +45,6 @@ static const char qt_meta_stringdata_ViewRunning[] = {
     "ViewRunning\0\0update_data_updated()\0"
     "on_toggleUpdateButton_clicked()\0"
     "update_outputTable()\0on_closeButton_clicked()\0"
-    "row,column\0on_outputTable_cellDoubleClicked(int,int)\0"
 };
 
 void ViewRunning::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -59,10 +57,10 @@ void ViewRunning::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 1: _t->on_toggleUpdateButton_clicked(); break;
         case 2: _t->update_outputTable(); break;
         case 3: _t->on_closeButton_clicked(); break;
-        case 4: _t->on_outputTable_cellDoubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData ViewRunning::staticMetaObjectExtraData = {
@@ -97,9 +95,9 @@ int ViewRunning::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 4;
     }
     return _id;
 }

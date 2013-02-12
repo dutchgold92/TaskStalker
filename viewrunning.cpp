@@ -112,14 +112,3 @@ void ViewRunning::on_closeButton_clicked()
 {
     this->done(0);
 }
-
-/**
- * @brief ViewRunning::on_outputTable_cellDoubleClicked Opens the CPU Viewer if a row is double clicked.
- * @param row
- * @param column
- */
-void ViewRunning::on_outputTable_cellDoubleClicked(int row, int column)
-{
-    // doesn't work correctly
-    new ViewProcessor(this->parentWidget(), ui->outputTable->item(row, 0)->text().toUInt());
-}

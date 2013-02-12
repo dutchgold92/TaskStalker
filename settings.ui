@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>197</height>
+    <width>390</width>
+    <height>214</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>160</y>
+     <y>180</y>
      <width>71</width>
      <height>27</height>
     </rect>
@@ -34,7 +34,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>160</y>
+     <y>180</y>
      <width>71</width>
      <height>27</height>
     </rect>
@@ -47,7 +47,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>160</y>
+     <y>180</y>
      <width>81</width>
      <height>27</height>
     </rect>
@@ -56,20 +56,26 @@
     <string>Reset All</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>327</width>
-     <height>128</height>
+     <width>371</width>
+     <height>161</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0" colspan="3">
      <widget class="QLabel" name="updateIntervalLabel">
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="text">
-       <string>&lt;b&gt;Global process update interval:&lt;/b&gt;</string>
+       <string>Global process update interval:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -92,7 +98,7 @@
     <item row="1" column="0" colspan="3">
      <widget class="QLabel" name="subUpdateIntervalLabel">
       <property name="text">
-       <string>&lt;b&gt;Individual process update interval:&lt;/b&gt;</string>
+       <string>Individual process update interval:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -115,7 +121,7 @@
     <item row="2" column="0" colspan="3">
      <widget class="QLabel" name="runningUpdateIntervalLabel">
       <property name="text">
-       <string>&lt;b&gt;Running processes update interval:&lt;/b&gt;</string>
+       <string>Running processes update interval:</string>
       </property>
      </widget>
     </item>
@@ -135,7 +141,7 @@
     <item row="3" column="0" colspan="3">
      <widget class="QLabel" name="cpuUpdateIntervalLabel">
       <property name="text">
-       <string>&lt;b&gt;Processor activity update interval:&lt;/b&gt;</string>
+       <string>Processor activity update interval:</string>
       </property>
      </widget>
     </item>
@@ -155,7 +161,7 @@
     <item row="4" column="0">
      <widget class="QLabel" name="sortByLabel">
       <property name="text">
-       <string>&lt;b&gt;Sort processes by:&lt;/b&gt;</string>
+       <string>Sort processes by:</string>
       </property>
      </widget>
     </item>

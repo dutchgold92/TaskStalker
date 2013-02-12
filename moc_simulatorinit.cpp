@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'simulatorinit.h'
 **
-** Created: Sun Feb 10 21:18:59 2013
+** Created: Mon Feb 11 22:48:44 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!

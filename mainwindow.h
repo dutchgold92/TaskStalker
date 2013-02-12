@@ -9,6 +9,7 @@
 #include "settings.h"
 #include "viewrunning.h"
 #include "systeminfo.h"
+#include "viewprocessor.h"
 
 #include <QMainWindow>
 #include <QtConcurrentRun>
@@ -58,6 +59,7 @@ private slots:
     void on_actionKill_triggered();
     void on_actionSystem_Information_triggered();
     void on_actionRunning_Processes_triggered();
+    void on_actionProcessor_Activity_triggered();
 };
 
 #endif // MAINWINDOW_H

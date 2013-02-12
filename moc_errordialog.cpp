@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'errordialog.h'
 **
-** Created: Sun Feb 10 20:35:11 2013
+** Created: Mon Feb 11 17:02:35 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!

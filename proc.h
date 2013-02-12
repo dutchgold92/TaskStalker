@@ -17,8 +17,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QRegExp>
-#include <QDateTime>
-#include <math.h>
 
 #define PATH "/proc/"
 
@@ -55,7 +53,8 @@ namespace proc
     unsigned short get_cpu_usage(pid_t pid);
     QString format_state(std::string state);
     std::string format_state_std(std::string state);
-    QString get_tasks_running();
+    std::vector<pid_t> get_tasks_running();
+    pid_t get_cpu_task(unsigned int cpu);
 }
 
 #endif // PROC_H

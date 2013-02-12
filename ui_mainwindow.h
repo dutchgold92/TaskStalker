@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Feb 10 22:01:53 2013
+** Created: Mon Feb 11 22:41:46 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -44,6 +44,7 @@ public:
     QAction *actionKill;
     QAction *actionSystem_Information;
     QAction *actionRunning_Processes;
+    QAction *actionProcessor_Activity;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
@@ -117,6 +118,8 @@ public:
         actionSystem_Information->setObjectName(QString::fromUtf8("actionSystem_Information"));
         actionRunning_Processes = new QAction(MainWindow);
         actionRunning_Processes->setObjectName(QString::fromUtf8("actionRunning_Processes"));
+        actionProcessor_Activity = new QAction(MainWindow);
+        actionProcessor_Activity->setObjectName(QString::fromUtf8("actionProcessor_Activity"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -213,6 +216,7 @@ public:
         menuID->addAction(actionQuit);
         menuView->addAction(actionSystem_Information);
         menuView->addAction(actionRunning_Processes);
+        menuView->addAction(actionProcessor_Activity);
 
         retranslateUi(MainWindow);
 
@@ -243,6 +247,8 @@ public:
         actionSystem_Information->setShortcut(QApplication::translate("MainWindow", "Ctrl+I", 0, QApplication::UnicodeUTF8));
         actionRunning_Processes->setText(QApplication::translate("MainWindow", "Running Processes", 0, QApplication::UnicodeUTF8));
         actionRunning_Processes->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
+        actionProcessor_Activity->setText(QApplication::translate("MainWindow", "Processor Activity", 0, QApplication::UnicodeUTF8));
+        actionProcessor_Activity->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
         processCountLabel->setText(QApplication::translate("MainWindow", "? system processes", 0, QApplication::UnicodeUTF8));

@@ -212,6 +212,7 @@
     </property>
     <addaction name="actionSystem_Information"/>
     <addaction name="actionRunning_Processes"/>
+    <addaction name="actionProcessor_Activity"/>
    </widget>
    <addaction name="menuID"/>
    <addaction name="menuView"/>
@@ -345,6 +346,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionProcessor_Activity">
+   <property name="text">
+    <string>Processor Activity</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

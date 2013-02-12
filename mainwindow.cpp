@@ -306,3 +306,8 @@ void MainWindow::on_actionRunning_Processes_triggered()
 {
     new ViewRunning(this);
 }
+
+void MainWindow::on_actionProcessor_Activity_triggered()
+{
+    new ViewProcessor(this, 0);
+}

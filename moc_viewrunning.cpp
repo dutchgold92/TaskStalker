@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'viewrunning.h'
 **
-** Created: Sun Feb 10 20:35:12 2013
+** Created: Mon Feb 11 23:30:36 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ViewRunning[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,17 +34,19 @@ static const uint qt_meta_data_ViewRunning[] = {
       13,   12,   12,   12, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      37,   12,   12,   12, 0x08,
-      69,   12,   12,   12, 0x08,
-      89,   12,   12,   12, 0x08,
+      35,   12,   12,   12, 0x08,
+      67,   12,   12,   12, 0x08,
+      88,   12,   12,   12, 0x08,
+     124,  113,   12,   12, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ViewRunning[] = {
-    "ViewRunning\0\0update_string_updated()\0"
+    "ViewRunning\0\0update_data_updated()\0"
     "on_toggleUpdateButton_clicked()\0"
-    "update_outputArea()\0on_closeButton_clicked()\0"
+    "update_outputTable()\0on_closeButton_clicked()\0"
+    "row,column\0on_outputTable_cellDoubleClicked(int,int)\0"
 };
 
 void ViewRunning::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -53,14 +55,14 @@ void ViewRunning::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Q_ASSERT(staticMetaObject.cast(_o));
         ViewRunning *_t = static_cast<ViewRunning *>(_o);
         switch (_id) {
-        case 0: _t->update_string_updated(); break;
+        case 0: _t->update_data_updated(); break;
         case 1: _t->on_toggleUpdateButton_clicked(); break;
-        case 2: _t->update_outputArea(); break;
+        case 2: _t->update_outputTable(); break;
         case 3: _t->on_closeButton_clicked(); break;
+        case 4: _t->on_outputTable_cellDoubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData ViewRunning::staticMetaObjectExtraData = {
@@ -95,15 +97,15 @@ int ViewRunning::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }
 
 // SIGNAL 0
-void ViewRunning::update_string_updated()
+void ViewRunning::update_data_updated()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, 0);
 }

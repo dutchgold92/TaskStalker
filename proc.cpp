@@ -488,9 +488,9 @@ string proc::format_state_std(std::string state)
  * Returns information about tasks that have recently entered the literally running state,
  * as defined in /proc/sched_debug.
  */
-QString proc::get_tasks_running()
+vector<pid_t> proc::get_tasks_running()
 {
-    QString info_retrieved = QTime::currentTime().toString();
+    vector<pid_t> running_tasks;
     QFile file("/proc/sched_debug");
 
     if(file.exists())
@@ -503,16 +503,8 @@ QString proc::get_tasks_running()
         {
             if(line.contains(".curr->pid"))
             {
-                info_retrieved += "\nCPU ";
-                info_retrieved += QString::number(x);
-                info_retrieved += ": ";
                 line.remove(0, (line.indexOf(":") + 2));
-
-                if(line == "0")
-                    info_retrieved += "None";
-                else
-                    info_retrieved += line;
-
+                running_tasks.push_back(line.toInt());
                 x++;
             }
 
@@ -520,8 +512,41 @@ QString proc::get_tasks_running()
         }
     }
     else
-        return "File could not be read: " + file.fileName() + "\n";
+        running_tasks.push_back(-1);
 
     file.close();
-    return info_retrieved + "\n";
+    return running_tasks;
+}
+
+/**
+ * @brief proc::get_cpu_task Returns the task currently executing on the selected CPU, or 0 if there is none.
+ * @param cpu CPU to check
+ * @return current PID
+ */
+pid_t proc::get_cpu_task(unsigned int cpu)
+{
+    QFile file("/proc/sched_debug");
+
+    if(file.exists())
+    {
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        for(short x = 0; x <= cpu; )
+        {
+            if(line.contains(".curr->pid"))
+            {
+                if(x == cpu)
+                    return(line.remove(0, (line.indexOf(":") + 2)).toInt());
+
+                x++;
+            }
+
+            line = in.readLine();
+        }
+    }
+
+    file.close();
+    return 0;
 }

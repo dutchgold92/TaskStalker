@@ -1,6 +1,8 @@
 #include "viewprocessor.h"
 #include "ui_viewprocessor.h"
 
+using namespace std;
+
 ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
     QDialog(parent),
     ui(new Ui::ViewProcessor)
@@ -10,6 +12,7 @@ ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
     this->setFixedSize(this->size());
     this->cpu = cpu;
     this->setWindowTitle("Activity for CPU#" + QString::number(cpu));
+    ui->graphTimeScaleLabel->setText(ui->graphTimeScaleLabel->text() + QString::number(sys::get_cpu_update_interval() * GRAPH_TIME_PERIOD_SECONDS) + " seconds:");
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
     init_table();
     init_graph();
@@ -17,6 +20,8 @@ ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
     this->closed = false;
     this->update_thread = QtConcurrent::run(this, &ViewProcessor::update_info);
     connect(this, SIGNAL(data_updated()), this, SLOT(update_data()), Qt::QueuedConnection);
+    connect(this->scene, SIGNAL(selectionChanged()), this, SLOT(graph_item_clicked()), Qt::QueuedConnection);
+    update_timestamps();
     this->show();
 }
 
@@ -58,29 +63,17 @@ void ViewProcessor::init_graph()
     scene = new QGraphicsScene(this);
     ui->graph->setScene(scene);
 
-    // Setup markers
-    /* THIS SEEMS TO BE CAUSING CRASHES! */
-    marker_one = new QGraphicsLineItem(0, scene);
-    marker_one->setLine(-100, -100, -100, 0);
-    marker_one->setOpacity(0.5);
-    marker_two = new QGraphicsLineItem(0, scene);
-    marker_two->setLine(5, -100, 5, 0);
-    marker_two->setOpacity(0.5);
-    marker_three = new QGraphicsLineItem(0, scene);
-    marker_three->setLine(110, -100, 110, 0);
-    marker_three->setOpacity(0.5);
+    QGraphicsSimpleTextItem *active_label = new QGraphicsSimpleTextItem("Active", 0, scene);
+    active_label->setPos(-180, -30);
+    active_label->setBrush(QBrush(Qt::red));
 
-    // Setup marker timestamps
-    marker_one_text = new QGraphicsSimpleTextItem(0, scene);
-    marker_one_text->setPos(-180, -80);
-    marker_two_text = new QGraphicsSimpleTextItem(0, scene);
-    marker_two_text->setPos(-95, -80);
-    marker_three_text = new QGraphicsSimpleTextItem(0, scene);
-    marker_three_text->setPos(10, -80);
-    marker_four_text = new QGraphicsSimpleTextItem(0, scene);
-    marker_four_text->setPos(115, -80);
+    QGraphicsSimpleTextItem *inactive_label = new QGraphicsSimpleTextItem("Inactive", 0, scene);
+    inactive_label->setPos(-120, -30);
+    inactive_label->setBrush(QBrush(Qt::blue));
 
-    update_timestamps();
+    process_info = new QGraphicsSimpleTextItem(0, scene);
+    process_info->setPos(-40, -30);
+
     static_graph_items = scene->items().size();
 }
 
@@ -112,21 +105,22 @@ void ViewProcessor::update_data()
     update_timestamps();
     translate_graph();
 
+    QGraphicsProcessItem *item;
+
     if(this->current_pid > 0)
     {
         ui->procTable->item(0, 0)->setData(Qt::DisplayRole, this->current_pid);
-        ui->procTable->item(0, 1)->setData(Qt::DisplayRole, QString::fromStdString(proc::get_name(current_pid)));
-        QGraphicsEllipseItem *item = new QGraphicsEllipseItem(0, scene);
-        item->setBrush(QBrush(Qt::red));
-        item->setRect(180.0, -55.0, 10.0, 10.0);
+        QString proc_name = QString::fromStdString(proc::get_name(current_pid));
+        ui->procTable->item(0, 1)->setData(Qt::DisplayRole, proc_name);
+        item = new QGraphicsProcessItem(0, scene, true, last_update_time, proc_name, current_pid);
+        item->setRect(180.0, -75.0, 10.0, 10.0);
     }
     else
     {
         ui->procTable->item(0, 0)->setData(Qt::DisplayRole, "None");
         ui->procTable->item(0, 1)->setData(Qt::DisplayRole, "-");
-        QGraphicsEllipseItem *item = new QGraphicsEllipseItem(0, scene);
-        item->setBrush(QBrush(Qt::blue));
-        item->setRect(180.0, -35.0, 10.0, 10.0);
+        item = new QGraphicsProcessItem(0, scene, false);
+        item->setRect(180.0, -55.0, 10.0, 10.0);
     }
 }
 
@@ -143,8 +137,16 @@ void ViewProcessor::on_closeButton_clicked()
  */
 void ViewProcessor::translate_graph()
 {
-    for(int x = 0; x < (scene->items().size() - static_graph_items); x++)   // don't transform static items, eg. markers
-        scene->items().at(x)->moveBy(-15, 0);
+    QList<QGraphicsItem*> item_list = scene->items();
+
+    for(int x = 0; x < (item_list.size() - this->static_graph_items); x++)
+    {
+        QGraphicsItem *item = item_list[x];
+        item->moveBy(-15, 0);
+
+        if(item->x() < GRAPH_MIMIMUM_X_POSITION)
+            delete item;
+    }
 }
 
 /**
@@ -153,12 +155,11 @@ void ViewProcessor::translate_graph()
 void ViewProcessor::update_timestamps()
 {
     ui->timeLabel->setText(QTime::currentTime().toString());
-    marker_one_text->setText("<- " + QTime::currentTime().addSecs(marker_one_offset).toString());
-    marker_two_text->setText("<- " + QTime::currentTime().addSecs(marker_two_offset).toString());
-    marker_three_text->setText("<- " + QTime::currentTime().addSecs(marker_three_offset).toString());
-    marker_four_text->setText("<- " + QTime::currentTime().addSecs(marker_four_offset).toString());
 }
 
+/**
+ * @brief ViewProcessor::on_toggleUpdateButton_clicked Functionality of the pause/play button.
+ */
 void ViewProcessor::on_toggleUpdateButton_clicked()
 {
     if(update)
@@ -174,4 +175,18 @@ void ViewProcessor::on_toggleUpdateButton_clicked()
         update = true;
         ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
     }
+}
+
+/**
+ * @brief ViewProcessor::graph_item_clicked Slot triggered every time a selectable item on the graph is selected/deselected. Prints process info unto graph.
+ */
+void ViewProcessor::graph_item_clicked()
+{
+    if(!scene->selectedItems().isEmpty())
+    {
+        QGraphicsProcessItem *item = (QGraphicsProcessItem *)scene->selectedItems().first();
+        process_info->setText(item->get_time_stamp().toString() + " - " + item->get_name() + " (" + item->get_pid() + ")");
+    }
+    else
+        process_info->setText("");
 }

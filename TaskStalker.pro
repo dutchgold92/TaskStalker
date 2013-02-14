@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     viewrunning.cpp \
     systeminfo.cpp \
     viewprocessor.cpp \
-    viewprocessorinit.cpp
+    viewprocessorinit.cpp \
+    qgraphicsprocessitem.cpp
 HEADERS += mainwindow.h \
     proc.h \
     visualiser.h \
@@ -29,7 +30,8 @@ HEADERS += mainwindow.h \
     viewrunning.h \
     systeminfo.h \
     viewprocessor.h \
-    viewprocessorinit.h
+    viewprocessorinit.h \
+    qgraphicsprocessitem.h
 FORMS += mainwindow.ui \
     visualiser.ui \
     confirmkill.ui \

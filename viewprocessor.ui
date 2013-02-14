@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>197</height>
+    <height>236</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
+     <y>110</y>
      <width>381</width>
      <height>81</height>
     </rect>
@@ -41,7 +41,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>160</y>
+     <y>200</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -97,10 +97,10 @@
   <widget class="QLabel" name="timeLabel">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>163</y>
-     <width>101</width>
-     <height>20</height>
+     <x>10</x>
+     <y>200</y>
+     <width>121</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -111,63 +111,38 @@
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="activeLabel">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>163</y>
-     <width>52</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: #ff0000;</string>
-   </property>
-   <property name="text">
-    <string>Active</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="inactiveLabel">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>163</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: #0000ff;</string>
-   </property>
-   <property name="text">
-    <string>Inactive</string>
    </property>
   </widget>
   <widget class="QPushButton" name="toggleUpdateButton">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>160</y>
+     <y>70</y>
      <width>51</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="graphTimeScaleLabel">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>70</y>
+     <width>321</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Processor activity for the past ~</string>
    </property>
   </widget>
  </widget>

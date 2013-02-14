@@ -3,11 +3,14 @@
 
 #include "sys.h"
 #include "proc.h"
+#include "qgraphicsprocessitem.h"
 #include <QDialog>
 #include <QFuture>
 #include <QtConcurrentRun>
 #include <QDateTime>
-#include <QGraphicsEllipseItem>
+
+#define GRAPH_TIME_PERIOD_SECONDS 30    // period of time in seconds that can be represented by the graph
+#define GRAPH_MIMIMUM_X_POSITION -375   // if an item moves below this x value, it is of bounds of the display area
 
 namespace Ui {
 class ViewProcessor;
@@ -27,8 +30,8 @@ signals:
 private slots:
     void update_data();
     void on_closeButton_clicked();
-
     void on_toggleUpdateButton_clicked();
+    void graph_item_clicked();
 
 private:
     Ui::ViewProcessor *ui;
@@ -39,17 +42,7 @@ private:
     bool update;
     bool closed;
     QGraphicsScene *scene;
-    QGraphicsLineItem *marker_one;
-    QGraphicsLineItem *marker_two;
-    QGraphicsLineItem *marker_three;
-    QGraphicsSimpleTextItem *marker_one_text;
-    QGraphicsSimpleTextItem *marker_two_text;
-    QGraphicsSimpleTextItem *marker_three_text;
-    QGraphicsSimpleTextItem *marker_four_text;
-    static const signed short marker_one_offset = -25;
-    static const signed short marker_two_offset = -19;
-    static const signed short marker_three_offset = -12;
-    static const signed short marker_four_offset = -5;
+    QGraphicsSimpleTextItem *process_info;
     unsigned short static_graph_items;
     void init_table();
     void init_graph();

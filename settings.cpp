@@ -3,6 +3,8 @@
 
 using namespace std;
 
+Settings* Settings::instance = 0;
+
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Settings)
@@ -19,8 +21,22 @@ Settings::Settings(QWidget *parent) :
     this->show();
 }
 
+/**
+ * @brief Settings::get_instance Returns the instance of this dialog.
+ * @param parent
+ * @return
+ */
+Settings* Settings::get_instance(QWidget *parent)
+{
+    if(instance == 0)
+        instance = new Settings(parent);
+
+    return instance;
+}
+
 Settings::~Settings()
 {
+    instance = 0;
     delete ui;
 }
 

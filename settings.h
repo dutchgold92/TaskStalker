@@ -11,14 +11,16 @@ namespace Ui {
 class Settings : public QDialog {
     Q_OBJECT
 public:
-    Settings(QWidget *parent = 0);
+    static Settings* get_instance(QWidget *parent = 0);
     ~Settings();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
+    Settings(QWidget *parent = 0);
     Ui::Settings *ui;
+    static Settings* instance;
 
 private slots:
     void on_resetAllButton_clicked();

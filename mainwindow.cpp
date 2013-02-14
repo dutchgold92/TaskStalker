@@ -239,7 +239,7 @@ void MainWindow::procTable_updated(bool ready)
   */
 void MainWindow::on_actionSettings_triggered()
 {
-    new Settings(this);
+    Settings::get_instance(this);
 }
 
 /**

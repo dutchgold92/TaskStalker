@@ -10,13 +10,15 @@ namespace Ui {
 class Info : public QDialog {
     Q_OBJECT
 public:
-    Info(QWidget *parent = 0);
+    static Info* get_instance(QWidget *parent = 0);
     ~Info();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
+    Info(QWidget *parent = 0);
+    static Info* instance;
     Ui::Info *ui;
     QImage logo;
 };

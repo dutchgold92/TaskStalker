@@ -1,6 +1,8 @@
 #include "viewprocessorinit.h"
 #include "ui_viewprocessorinit.h"
 
+ViewProcessorInit* ViewProcessorInit::instance = 0;
+
 ViewProcessorInit::ViewProcessorInit(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ViewProcessorInit)
@@ -12,8 +14,22 @@ ViewProcessorInit::ViewProcessorInit(QWidget *parent) :
     this->show();
 }
 
+/**
+ * @brief ViewProcessorInit::get_instance Returns the instance of this dialog.
+ * @param parent
+ * @return
+ */
+ViewProcessorInit* ViewProcessorInit::get_instance(QWidget *parent)
+{
+    if(instance == 0)
+        instance = new ViewProcessorInit(parent);
+
+    return instance;
+}
+
 ViewProcessorInit::~ViewProcessorInit()
 {
+    instance = 0;
     delete ui;
 }
 

@@ -7,7 +7,6 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     proc.cpp \
     visualiser.cpp \
-    confirmkill.cpp \
     info.cpp \
     simulatorinit.cpp \
     sys.cpp \
@@ -17,11 +16,11 @@ SOURCES += main.cpp \
     systeminfo.cpp \
     viewprocessor.cpp \
     viewprocessorinit.cpp \
-    qgraphicsprocessitem.cpp
+    qgraphicsprocessitem.cpp \
+    confirmdialog.cpp
 HEADERS += mainwindow.h \
     proc.h \
     visualiser.h \
-    confirmkill.h \
     info.h \
     simulatorinit.h \
     sys.h \
@@ -31,10 +30,10 @@ HEADERS += mainwindow.h \
     systeminfo.h \
     viewprocessor.h \
     viewprocessorinit.h \
-    qgraphicsprocessitem.h
+    qgraphicsprocessitem.h \
+    confirmdialog.h
 FORMS += mainwindow.ui \
     visualiser.ui \
-    confirmkill.ui \
     info.ui \
     simulatorinit.ui \
     settings.ui \
@@ -42,6 +41,7 @@ FORMS += mainwindow.ui \
     viewrunning.ui \
     systeminfo.ui \
     viewprocessor.ui \
-    viewprocessorinit.ui
+    viewprocessorinit.ui \
+    confirmdialog.ui
 RESOURCES = images.qrc \
     help.qrc

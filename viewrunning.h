@@ -16,7 +16,7 @@ class ViewRunning : public QDialog
     Q_OBJECT
     
 public:
-    explicit ViewRunning(QWidget *parent = 0);
+    static ViewRunning* get_instance(QWidget *parent = 0);
     ~ViewRunning();
     
 signals:
@@ -28,6 +28,8 @@ private slots:
     void on_closeButton_clicked();
 
 private:
+    explicit ViewRunning(QWidget *parent = 0);
+    static ViewRunning* instance;
     Ui::ViewRunning *ui;
     std::vector<pid_t> update_data;
     QFuture<void> update_thread;

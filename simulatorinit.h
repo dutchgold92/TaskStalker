@@ -15,13 +15,15 @@ namespace Ui {
 class SimulatorInit : public QDialog {
     Q_OBJECT
 public:
-    SimulatorInit(QWidget *parent = 0);
+    static SimulatorInit* get_instance(QWidget *parent = 0);
     ~SimulatorInit();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
+    SimulatorInit(QWidget *parent = 0);
+    static SimulatorInit* instance;
     Ui::SimulatorInit *ui;
     QProcess *process;
     QFileDialog *browser;

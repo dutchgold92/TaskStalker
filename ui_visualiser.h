@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Wed Feb 13 23:12:48 2013
+** Created: Thu Feb 14 19:40:13 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -116,7 +116,7 @@ public:
 
     void retranslateUi(QDialog *Visualiser)
     {
-        Visualiser->setWindowTitle(QApplication::translate("Visualiser", "Process Visualiser", 0, QApplication::UnicodeUTF8));
+        Visualiser->setWindowTitle(QApplication::translate("Visualiser", "Process View", 0, QApplication::UnicodeUTF8));
         visualContainer->setText(QString());
         QTableWidgetItem *___qtablewidgetitem = infoTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("Visualiser", "Process ID", 0, QApplication::UnicodeUTF8));

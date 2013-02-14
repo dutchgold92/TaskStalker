@@ -1,6 +1,8 @@
 #include "info.h"
 #include "ui_info.h"
 
+Info* Info::instance = 0;
+
 Info::Info(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Info)
@@ -13,8 +15,22 @@ Info::Info(QWidget *parent) :
     this->show();
 }
 
+/**
+ * @brief Info::get_instance Returns the instance of this dialog.
+ * @param parent
+ * @return
+ */
+Info* Info::get_instance(QWidget *parent)
+{
+    if(instance == 0)
+        instance = new Info(parent);
+
+    return instance;
+}
+
 Info::~Info()
 {
+    instance = 0;
     delete ui;
 }
 

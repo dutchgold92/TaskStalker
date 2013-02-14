@@ -3,6 +3,8 @@
 
 using namespace std;
 
+SimulatorInit* SimulatorInit::instance = 0;
+
 SimulatorInit::SimulatorInit(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SimulatorInit)
@@ -15,8 +17,22 @@ SimulatorInit::SimulatorInit(QWidget *parent) :
     this->show();
 }
 
+/**
+ * @brief SimulatorInit::get_instance Returns the instance of this dialog.
+ * @param parent
+ * @return
+ */
+SimulatorInit* SimulatorInit::get_instance(QWidget *parent)
+{
+    if(instance == 0)
+        instance = new SimulatorInit(parent);
+
+    return instance;
+}
+
 SimulatorInit::~SimulatorInit()
 {
+    instance = 0;
     delete ui;
 }
 

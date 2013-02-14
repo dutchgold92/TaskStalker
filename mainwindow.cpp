@@ -157,7 +157,7 @@ void MainWindow::procTable_remove_dead(vector<proc::process> proc_vector)
   */
 void MainWindow::on_actionAbout_triggered()
 {
-    new Info(this);
+    Info::get_instance(this);
 }
 
 /**
@@ -181,7 +181,7 @@ void MainWindow::on_actionDocumentation_triggered()
   */
 void MainWindow::on_actionSimulate_triggered()
 {
-    new SimulatorInit(this);
+    SimulatorInit::get_instance(this);
 }
 
 /**
@@ -263,51 +263,90 @@ void MainWindow::procTable_sorted(int column)
     }
 }
 
+/**
+ * @brief MainWindow::on_actionView_triggered Action-Listener for View option of procTable's context menu.
+ */
 void MainWindow::on_actionView_triggered()
 {
     new Visualiser(this, atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str()));
 }
 
+/**
+ * @brief MainWindow::on_procTable_currentCellChanged Sets selected_row to the newly selected row index.
+ * @param currentRow
+ * @param currentColumn
+ * @param previousRow
+ * @param previousColumn
+ */
 void MainWindow::on_procTable_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn)
 {
     this->selected_row = currentRow;
 }
 
+/**
+ * @brief MainWindow::on_actionStop_triggered Action-Listener for Stop option of procTable's context menu.
+ */
 void MainWindow::on_actionStop_triggered()
 {
     if(!proc::stop_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
         new ErrorDialog(this, false, "Failed to stop process", ErrorDialog::error);
 }
 
+/**
+ * @brief MainWindow::on_actionResume_triggered Action-Listener for Resume option of procTable's context menu.
+ */
 void MainWindow::on_actionResume_triggered()
 {
     if(!proc::resume_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
         new ErrorDialog(this, false, "Failed to resume process", ErrorDialog::error);
 }
 
+/**
+ * @brief MainWindow::on_actionTerminate_triggered Action-Listener for Terminate option of procTable's context menu.
+ */
 void MainWindow::on_actionTerminate_triggered()
 {
     if(!proc::end_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
         new ErrorDialog(this, false, "Failed to terminate process", ErrorDialog::error);
 }
 
+/**
+ * @brief MainWindow::on_actionKill_triggered Action-Listener for Kill option of procTable's context menu.
+ */
 void MainWindow::on_actionKill_triggered()
+{
+    new ConfirmDialog(this, SLOT(kill_confirmed()), QString("Ending a process in this way may cause data corruption and system instability.\n\nDo you wish to continue?"));
+}
+
+/**
+ * @brief MainWindow::on_actionSystem_Information_triggered Action-Listener for "View System Information" menu option. Opens SystemInfo dialog.
+ */
+void MainWindow::on_actionSystem_Information_triggered()
+{
+    SystemInfo::get_instance(this);
+}
+
+/**
+ * @brief MainWindow::on_actionSystem_Information_triggered Action-Listener for "View Running" menu option. Opens ViewRunning dialog.
+ */
+void MainWindow::on_actionRunning_Processes_triggered()
+{
+    ViewRunning::get_instance(this);
+}
+
+/**
+ * @brief MainWindow::on_actionSystem_Information_triggered Action-Listener for "View Processor" menu option. Opens ViewProcessorInit dialog.
+ */
+void MainWindow::on_actionProcessor_Activity_triggered()
+{
+    ViewProcessorInit::get_instance(this);
+}
+
+/**
+ * @brief MainWindow::kill_confirmed Called if ConfirmDialog is accepted. Kills selected task.
+ */
+void MainWindow::kill_confirmed()
 {
     if(!proc::kill_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
         new ErrorDialog(this, false, "Failed to kill process", ErrorDialog::error);
-}
-
-void MainWindow::on_actionSystem_Information_triggered()
-{
-    new SystemInfo(this);
-}
-
-void MainWindow::on_actionRunning_Processes_triggered()
-{
-    new ViewRunning(this);
-}
-
-void MainWindow::on_actionProcessor_Activity_triggered()
-{
-    new ViewProcessorInit(this);
 }

@@ -13,15 +13,16 @@ class ViewProcessorInit : public QDialog
     Q_OBJECT
     
 public:
-    explicit ViewProcessorInit(QWidget *parent = 0);
+    static ViewProcessorInit* get_instance(QWidget *parent = 0);
     ~ViewProcessorInit();
     
 private slots:
     void on_buttonBox_accepted();
-
     void on_buttonBox_rejected();
 
 private:
+    ViewProcessorInit(QWidget *parent = 0);
+    static ViewProcessorInit* instance;
     Ui::ViewProcessorInit *ui;
 };
 

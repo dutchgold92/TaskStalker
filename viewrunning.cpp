@@ -3,6 +3,8 @@
 
 using namespace std;
 
+ViewRunning* ViewRunning::instance = 0;
+
 ViewRunning::ViewRunning(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ViewRunning)
@@ -19,11 +21,25 @@ ViewRunning::ViewRunning(QWidget *parent) :
     this->show();
 }
 
+/**
+ * @brief ViewRunning::get_instance Returns the instance of this dialog.
+ * @param parent
+ * @return
+ */
+ViewRunning* ViewRunning::get_instance(QWidget *parent)
+{
+    if(instance == 0)
+        instance = new ViewRunning(parent);
+
+    return instance;
+}
+
 ViewRunning::~ViewRunning()
 {
     update = false;
     closed = true;
     update_thread.waitForFinished();
+    instance = 0;
     delete ui;
 }
 

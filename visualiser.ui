@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Process Visualiser</string>
+   <string>Process View</string>
   </property>
   <property name="windowIcon">
    <iconset resource="images.qrc">

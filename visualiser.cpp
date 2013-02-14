@@ -107,7 +107,7 @@ void Visualiser::on_infoTable_cellChanged(int row, int column)
 void Visualiser::on_killButton_clicked()
 {
     if(!simulation)
-        new ConfirmKill(this);
+        new ConfirmDialog(this, SLOT(kill_confirm_accepted()), QString("Ending a process in this way may cause data corruption and system instability.\n\nDo you wish to continue?"));
     else
         this->kill_confirm_accepted();
 }

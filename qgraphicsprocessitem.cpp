@@ -1,10 +1,5 @@
 #include "qgraphicsprocessitem.h"
 
-QGraphicsProcessItem::QGraphicsProcessItem()
-{
-
-}
-
 QGraphicsProcessItem::QGraphicsProcessItem(QGraphicsItem *parent, QGraphicsScene *scene, bool active, QTime time_stamp, QString name, pid_t pid) : QGraphicsEllipseItem(parent, scene)
 {
     this->active = active;

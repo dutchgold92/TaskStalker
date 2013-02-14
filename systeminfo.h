@@ -13,10 +13,12 @@ class SystemInfo : public QDialog
     Q_OBJECT
     
 public:
-    explicit SystemInfo(QWidget *parent = 0);
+    static SystemInfo* get_instance(QWidget *parent = 0);
     ~SystemInfo();
     
 private:
+    explicit SystemInfo(QWidget *parent = 0);
+    static SystemInfo* instance;
     Ui::SystemInfo *ui;
 };
 

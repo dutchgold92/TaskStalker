@@ -60,6 +60,7 @@ private slots:
     void on_actionSystem_Information_triggered();
     void on_actionRunning_Processes_triggered();
     void on_actionProcessor_Activity_triggered();
+    void kill_confirmed();
 };
 
 #endif // MAINWINDOW_H

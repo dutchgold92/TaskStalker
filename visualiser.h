@@ -2,7 +2,7 @@
 #define VISUALISER_H
 
 #include "proc.h"
-#include "confirmkill.h"
+#include "confirmdialog.h"
 #include "sys.h"
 #include "errordialog.h"
 #include <QDialog>

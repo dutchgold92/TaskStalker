@@ -13,6 +13,7 @@
 			<section title="Software Information" ref="info.html"></section>
 			<section title="System Information" ref="sysinfo.html"></section>
 			<section title="Running Processes" ref="runningprocs.html"></section>
+			<section title="Processor Activity" ref="viewprocessor.html"></section>
 		</toc>
 
 		<keywords>
@@ -24,6 +25,7 @@
 			<keyword name="settings" ref="settings.html" />
 			<keyword name="system" ref="sysinfo.html" />
 			<keyword name="running" ref="runningprocs.html" />
+			<keyword name="processor" ref="viewprocessor.html" />
 		</keywords>
 
 		<files>
@@ -35,12 +37,15 @@
 			<file>info.html</file>
 			<file>sysinfo.html</file>
 			<file>runningprocs.html</file>
+			<file>viewprocessor.html</file>
 			<file>mainwindow.png</file>
 			<file>viswindow.png</file>
 			<file>settings.png</file>
 			<file>simulatorinit.png</file>
 			<file>sysinfo.png</file>
 			<file>runningprocs.png</file>
+			<file>viewprocessorinit.png</file>
+			<file>viewprocessor.png</file>
 			<file>style.css</file>
 		</files>
 	</filterSection>

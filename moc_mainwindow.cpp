@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Thu Feb 14 20:15:51 2013
-**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
+** Created: Thu Feb 21 20:08:07 2013
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,8 +10,8 @@
 #include "mainwindow.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'mainwindow.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 63
-#error "This file was generated using the moc from 4.8.2. It"
+#elif Q_MOC_OUTPUT_REVISION != 62
+#error "This file was generated using the moc from 4.6.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,7 +20,7 @@ QT_BEGIN_MOC_NAMESPACE
 static const uint qt_meta_data_MainWindow[] = {
 
  // content:
-       6,       // revision
+       4,       // revision
        0,       // classname
        0,    0, // classinfo
       20,   14, // methods
@@ -80,44 +80,9 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "kill_confirmed()\0"
 };
 
-void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
-{
-    if (_c == QMetaObject::InvokeMetaMethod) {
-        Q_ASSERT(staticMetaObject.cast(_o));
-        MainWindow *_t = static_cast<MainWindow *>(_o);
-        switch (_id) {
-        case 0: _t->updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 1: _t->on_actionSettings_triggered(); break;
-        case 2: _t->on_toggleUpdateButton_clicked(); break;
-        case 3: _t->on_procTable_cellDoubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 4: _t->on_actionSimulate_triggered(); break;
-        case 5: _t->on_actionDocumentation_triggered(); break;
-        case 6: _t->on_actionAbout_triggered(); break;
-        case 7: _t->on_actionQuit_triggered(); break;
-        case 8: _t->procTable_updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 9: _t->procTable_sorted((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 10: _t->on_actionView_triggered(); break;
-        case 11: _t->on_procTable_currentCellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
-        case 12: _t->on_actionStop_triggered(); break;
-        case 13: _t->on_actionResume_triggered(); break;
-        case 14: _t->on_actionTerminate_triggered(); break;
-        case 15: _t->on_actionKill_triggered(); break;
-        case 16: _t->on_actionSystem_Information_triggered(); break;
-        case 17: _t->on_actionRunning_Processes_triggered(); break;
-        case 18: _t->on_actionProcessor_Activity_triggered(); break;
-        case 19: _t->kill_confirmed(); break;
-        default: ;
-        }
-    }
-}
-
-const QMetaObjectExtraData MainWindow::staticMetaObjectExtraData = {
-    0,  qt_static_metacall 
-};
-
 const QMetaObject MainWindow::staticMetaObject = {
     { &QMainWindow::staticMetaObject, qt_meta_stringdata_MainWindow,
-      qt_meta_data_MainWindow, &staticMetaObjectExtraData }
+      qt_meta_data_MainWindow, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
@@ -143,8 +108,29 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
-            qt_static_metacall(this, _c, _id, _a);
+        switch (_id) {
+        case 0: updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 1: on_actionSettings_triggered(); break;
+        case 2: on_toggleUpdateButton_clicked(); break;
+        case 3: on_procTable_cellDoubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 4: on_actionSimulate_triggered(); break;
+        case 5: on_actionDocumentation_triggered(); break;
+        case 6: on_actionAbout_triggered(); break;
+        case 7: on_actionQuit_triggered(); break;
+        case 8: procTable_updated((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 9: procTable_sorted((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: on_actionView_triggered(); break;
+        case 11: on_procTable_currentCellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 12: on_actionStop_triggered(); break;
+        case 13: on_actionResume_triggered(); break;
+        case 14: on_actionTerminate_triggered(); break;
+        case 15: on_actionKill_triggered(); break;
+        case 16: on_actionSystem_Information_triggered(); break;
+        case 17: on_actionRunning_Processes_triggered(); break;
+        case 18: on_actionProcessor_Activity_triggered(); break;
+        case 19: kill_confirmed(); break;
+        default: ;
+        }
         _id -= 20;
     }
     return _id;

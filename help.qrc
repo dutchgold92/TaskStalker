@@ -17,5 +17,8 @@
 	<file>doc/sysinfo.png</file>
 	<file>doc/runningprocs.html</file>
 	<file>doc/runningprocs.png</file>
+	<file>doc/viewprocessor.html</file>
+	<file>doc/viewprocessorinit.png</file>
+	<file>doc/viewprocessor.png</file>
     </qresource>
 </RCC>

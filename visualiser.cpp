@@ -60,7 +60,10 @@ void Visualiser::update_state()
         state = proc::get_state(pid);
 
         if(!state.empty())
+        {
             ui->infoTable->setItem(0, 2, new QTableWidgetItem(proc::format_state(state), Qt::DisplayRole));
+            ui->infoTable->setItem(0, 3, new QTableWidgetItem(proc::get_memory_usage(pid), Qt::DisplayRole));
+        }
         else
         {
             update = false;
@@ -80,7 +83,13 @@ void Visualiser::on_infoTable_cellChanged(int row, int column)
     if(row == 0 && column == 2)
     {
         if(ui->infoTable->item(row, column)->text() == "Running")
-            image.load(":/img/running.png");
+        {
+            //image.load(":/img/running.png");
+            if(proc::task_is_executing(pid))
+                image.load(":/img/executing.png");
+            else
+                image.load(":/img/ready.png");
+        }
         else if(ui->infoTable->item(row, column)->text() == "Sleeping")
             image.load(":/img/interruptible.png");
         else if(ui->infoTable->item(row, column)->text() == "Disk Sleep")

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Feb 21 20:07:36 2013
+** Created: Tue Feb 26 22:04:02 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -151,8 +151,8 @@ public:
         verticalLayout->addWidget(groupBox);
 
         procTable = new QTableWidget(centralWidget);
-        if (procTable->columnCount() < 4)
-            procTable->setColumnCount(4);
+        if (procTable->columnCount() < 5)
+            procTable->setColumnCount(5);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -161,6 +161,8 @@ public:
         procTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        procTable->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         procTable->setObjectName(QString::fromUtf8("procTable"));
         sizePolicy1.setHeightForWidth(procTable->sizePolicy().hasHeightForWidth());
         procTable->setSizePolicy(sizePolicy1);
@@ -176,10 +178,10 @@ public:
         procTable->setSortingEnabled(true);
         procTable->setWordWrap(false);
         procTable->setCornerButtonEnabled(true);
-        procTable->setColumnCount(4);
+        procTable->setColumnCount(5);
         procTable->horizontalHeader()->setVisible(true);
         procTable->horizontalHeader()->setCascadingSectionResizes(false);
-        procTable->horizontalHeader()->setDefaultSectionSize(150);
+        procTable->horizontalHeader()->setDefaultSectionSize(100);
         procTable->horizontalHeader()->setProperty("showSortIndicator", QVariant(true));
         procTable->horizontalHeader()->setStretchLastSection(true);
         procTable->verticalHeader()->setVisible(false);
@@ -190,7 +192,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(true);
-        menuBar->setGeometry(QRect(0, 0, 600, 19));
+        menuBar->setGeometry(QRect(0, 0, 600, 25));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         menuTools = new QMenu(menuBar);
@@ -253,13 +255,15 @@ public:
         toggleUpdateButton->setText(QString());
         processCountLabel->setText(QApplication::translate("MainWindow", "? system processes", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "Process ID", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = procTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem2 = procTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "Status", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem3 = procTable->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "Priority", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem4 = procTable->horizontalHeaderItem(4);
+        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "Allocated Memory", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
         menuID->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));

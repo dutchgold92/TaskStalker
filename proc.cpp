@@ -12,6 +12,49 @@ using namespace std;
   * TODO:
   * - sure it's looking grand?
   */
+/*vector<proc::process> proc::list_processes()
+{
+    vector<proc::process> proc_vector;
+    process p;
+    QDir root_dir = QDir(PATH);
+    QStringList entries = root_dir.entryList(QDir::AllDirs, QDir::Unsorted);
+
+    for(int x = 0; x < entries.length(); x++)
+    {
+        if(entries.at(x).toInt())
+        {
+            QFile status_file(PATH + entries.at(x) + "/status");
+            status_file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&status_file);
+            QString line = in.readLine();
+
+            while(!line.isNull())
+            {
+                if(line.startsWith("Name:"))
+                    p.name = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+                else if(line.startsWith("State:"))
+                    p.state = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+                else if(line.startsWith("Pid:") && !line.startsWith("PPid:") && !line.startsWith("TracerPid:"))
+                {
+                    p.pid = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+                    p.priority = proc::get_priority(p.pid.toInt());
+                }
+                else if(line.startsWith("VmSize:"))
+                    p.memory_usage = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+
+                line = in.readLine();
+            }
+
+            if(p.memory_usage.isNull())
+                p.memory_usage = "-";
+
+            proc_vector.push_back(p);
+            status_file.close();
+        }
+    }
+
+    return proc_vector;
+}*/
 vector<proc::process> proc::list_processes()
 {
     process p;
@@ -37,6 +80,8 @@ vector<proc::process> proc::list_processes()
 
                 if(file.is_open())
                 {
+                    bool memory_readable = false;
+
                     while(!file.eof())
                     {
                         getline(file, line);
@@ -50,7 +95,15 @@ vector<proc::process> proc::list_processes()
                             p.name = line.erase(0, 6);
                         else if(line.find("State:") != -1)
                             p.state = line.erase(0, 7);
+                        else if(line.find("VmSize:") != -1)
+                        {
+                            p.memory_usage = line.erase(0, 9);
+                            memory_readable = true;
+                        }
                     }
+
+                    if(!memory_readable)
+                        p.memory_usage = "-";
 
                     proc_info.push_back(p); // add process to the vector
                     file.close();
@@ -156,6 +209,30 @@ string proc::get_name(pid_t pid)
 signed short proc::get_priority(pid_t pid)
 {
     return getpriority(PRIO_PROCESS, pid);
+}
+
+QString proc::get_memory_usage(pid_t pid)
+{
+    QString file_path = "/proc/" + QString::number(pid) + "/status";
+    QFile file(file_path);
+
+    if(file.exists())
+    {
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        while(!line.isNull())
+        {
+            if(line.contains("VmSize"))
+                return line.remove(0, (line.indexOf(":") + 1)).trimmed();
+
+            line = in.readLine();
+        }
+    }
+
+    file.close();
+    return "-";
 }
 
 /**
@@ -549,4 +626,36 @@ pid_t proc::get_cpu_task(unsigned int cpu)
 
     file.close();
     return 0;
+}
+
+/**
+ * @brief proc::get_cpu_task Returns true if a task is currently executing, or false if not.
+ * @param cpu Task to check
+ * @return
+ */
+bool proc::task_is_executing(pid_t pid)
+{
+    QFile file("/proc/sched_debug");
+
+    if(file.exists())
+    {
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        while(!line.isNull())
+        {
+            if(line.contains(".curr->pid"))
+                if(line.remove(0, (line.indexOf(":") + 2)).toInt() == pid)
+                {
+                    file.close();
+                    return true;
+                }
+
+            line = in.readLine();
+        }
+    }
+
+    file.close();
+    return false;
 }

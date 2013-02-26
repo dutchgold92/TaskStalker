@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Thu Feb 21 20:07:36 2013
+** Created: Tue Feb 26 22:16:29 2013
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -60,14 +60,16 @@ public:
         visualContainer->setObjectName(QString::fromUtf8("visualContainer"));
         visualContainer->setGeometry(QRect(10, 60, 531, 401));
         infoTable = new QTableWidget(Visualiser);
-        if (infoTable->columnCount() < 3)
-            infoTable->setColumnCount(3);
+        if (infoTable->columnCount() < 4)
+            infoTable->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        infoTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         if (infoTable->rowCount() < 1)
             infoTable->setRowCount(1);
         infoTable->setObjectName(QString::fromUtf8("infoTable"));
@@ -85,7 +87,7 @@ public:
         infoTable->setShowGrid(false);
         infoTable->setWordWrap(false);
         infoTable->setRowCount(1);
-        infoTable->setColumnCount(3);
+        infoTable->setColumnCount(4);
         infoTable->horizontalHeader()->setMinimumSectionSize(40);
         infoTable->horizontalHeader()->setStretchLastSection(true);
         infoTable->verticalHeader()->setVisible(false);
@@ -124,6 +126,8 @@ public:
         ___qtablewidgetitem1->setText(QApplication::translate("Visualiser", "Name", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem2 = infoTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("Visualiser", "State", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem3 = infoTable->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("Visualiser", "Allocated Memory", 0, QApplication::UnicodeUTF8));
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
         endButton->setText(QApplication::translate("Visualiser", "End", 0, QApplication::UnicodeUTF8));

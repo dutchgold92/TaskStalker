@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <vector>
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 #include <QRegExp>
 
@@ -28,6 +29,7 @@ namespace proc
         std::string name;
         std::string state;
         signed short priority;
+        std::string memory_usage;
     };
 
     static QString kernel_version;
@@ -40,6 +42,7 @@ namespace proc
     std::string get_state(pid_t pid);
     std::string get_name(pid_t pid);
     signed short get_priority(pid_t pid);
+    QString get_memory_usage(pid_t pid);
     bool set_priority(pid_t pid, signed short value);
     bool stop_process(pid_t pid);
     bool resume_process(pid_t pid);
@@ -55,6 +58,7 @@ namespace proc
     std::string format_state_std(std::string state);
     std::vector<pid_t> get_tasks_running();
     pid_t get_cpu_task(unsigned int cpu);
+    bool task_is_executing(pid_t pid);
 }
 
 #endif // PROC_H

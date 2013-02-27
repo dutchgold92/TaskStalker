@@ -9,7 +9,6 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     this->update = true;
     this->pid = pid;
     this->simulation = simulation;

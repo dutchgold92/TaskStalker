@@ -106,6 +106,24 @@ void sys::save_config()
 }
 
 /**
+ * @brief sys::set_process_info_fields Sets the list of process information fields
+ * @param fields
+ */
+void sys::add_process_info_field(QString field)
+{
+    sys::process_info_fields.append(field);
+}
+
+/**
+ * @brief sys::get_process_info_fields Returns the list of the process information fields
+ * @return
+ */
+QStringList sys::get_process_info_fields()
+{
+    return sys::process_info_fields;
+}
+
+/**
   * Should always be used to set update_interval to avoid race conditions
   */
 void sys::set_update_interval(unsigned short value)

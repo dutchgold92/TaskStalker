@@ -15,6 +15,7 @@
 
 namespace sys
 {
+    static QStringList process_info_fields;
     static unsigned short update_interval = UPDATE_INTERVAL;
     static unsigned short sub_update_interval = SUB_UPDATE_INTERVAL;
     static unsigned short running_update_interval = RUNNING_UPDATE_INTERVAL;
@@ -26,6 +27,8 @@ namespace sys
     void reset_config();
     void load_config();
     void save_config();
+    void add_process_info_field(QString field);
+    QStringList get_process_info_fields();
     void set_update_interval(unsigned short);
     unsigned short get_update_interval();
     void set_sub_update_interval(unsigned short);

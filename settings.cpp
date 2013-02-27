@@ -11,6 +11,7 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
+    ui->sortByComboBox->insertItems(0, sys::get_process_info_fields());
     ui->updateIntervalSpinBox->setValue(sys::get_update_interval());
     ui->subUpdateIntervalSpinBox->setValue(sys::get_sub_update_interval());
     ui->runningUpdateIntervalSpinBox->setValue(sys::get_running_update_interval());

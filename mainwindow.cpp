@@ -23,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->procTable->addAction(ui->actionResume);
     ui->procTable->addAction(ui->actionTerminate);
     ui->procTable->addAction(ui->actionKill);
+
+    for(int x = 0; x < ui->procTable->horizontalHeader()->count(); x++)
+        sys::add_process_info_field(ui->procTable->horizontalHeaderItem(x)->text());
+
     connect(ui->procTable->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(procTable_sorted(int)), Qt::QueuedConnection);
     connect(this, SIGNAL(updated(bool)), this, SLOT(procTable_updated(bool)), Qt::QueuedConnection);
     QtConcurrent::run(this, &MainWindow::update_table);

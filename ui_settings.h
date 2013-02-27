@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'settings.ui'
 **
-** Created: Wed Feb 27 18:38:41 2013
+** Created: Wed Feb 27 21:55:40 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -213,13 +213,6 @@ public:
         subUpdateIntervalSpinBox->setSuffix(QApplication::translate("Settings", " seconds", 0, QApplication::UnicodeUTF8));
         sortByLabel->setText(QApplication::translate("Settings", "Sort processes by:", 0, QApplication::UnicodeUTF8));
         runningUpdateIntervalSpinBox->setSuffix(QApplication::translate("Settings", " seconds", 0, QApplication::UnicodeUTF8));
-        sortByComboBox->clear();
-        sortByComboBox->insertItems(0, QStringList()
-         << QApplication::translate("Settings", "Process ID", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("Settings", "Name", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("Settings", "State", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("Settings", "Priority", 0, QApplication::UnicodeUTF8)
-        );
         runningUpdateIntervalLabel->setText(QApplication::translate("Settings", "Running processes update interval:", 0, QApplication::UnicodeUTF8));
         cpuUpdateIntervalLabel->setText(QApplication::translate("Settings", "Processor activity update interval:", 0, QApplication::UnicodeUTF8));
         sortByOrderComboBox->clear();

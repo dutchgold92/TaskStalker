@@ -151,26 +151,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <item>
-        <property name="text">
-         <string>Process ID</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>State</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Priority</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item row="2" column="0" colspan="3">

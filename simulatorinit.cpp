@@ -11,7 +11,6 @@ SimulatorInit::SimulatorInit(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     browser = new QFileDialog(this, "Select an executable file", QDir::currentPath());
     connect(browser, SIGNAL(fileSelected(QString)), this, SLOT(file_selected()), Qt::QueuedConnection);
     this->show();

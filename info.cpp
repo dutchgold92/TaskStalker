@@ -9,7 +9,6 @@ Info::Info(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     this->logo.load(":/img/logo.png");
     ui->logoLabel->setPixmap(QPixmap::fromImage(logo));
     this->show();

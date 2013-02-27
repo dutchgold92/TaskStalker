@@ -97,13 +97,13 @@ vector<proc::process> proc::list_processes()
                             p.state = line.erase(0, 7);
                         else if(line.find("VmSize:") != -1)
                         {
-                            p.memory_usage = line.erase(0, 9);
+                            p.memory_usage = QString::fromStdString(line.erase(0, 9)).trimmed();
                             memory_readable = true;
                         }
                     }
 
                     if(!memory_readable)
-                        p.memory_usage = "-";
+                        p.memory_usage = "N/A";
 
                     proc_info.push_back(p); // add process to the vector
                     file.close();

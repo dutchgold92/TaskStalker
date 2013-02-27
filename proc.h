@@ -29,7 +29,7 @@ namespace proc
         std::string name;
         std::string state;
         signed short priority;
-        std::string memory_usage;
+        QString memory_usage;
     };
 
     static QString kernel_version;

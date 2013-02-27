@@ -9,7 +9,6 @@ SystemInfo::SystemInfo(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     ui->kernelVersionLabel->setText(proc::get_kernel_version());
     ui->processorLabel->setText(proc::get_cpu_type() + " (" + QString::number(proc::get_cpu_count()) + " cores)");
     ui->memoryLabel->setText(QString::number(proc::get_memory_size(), 'g', 3) + " GB");

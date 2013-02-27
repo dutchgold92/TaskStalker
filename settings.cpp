@@ -11,13 +11,12 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     ui->updateIntervalSpinBox->setValue(sys::get_update_interval());
     ui->subUpdateIntervalSpinBox->setValue(sys::get_sub_update_interval());
     ui->runningUpdateIntervalSpinBox->setValue(sys::get_running_update_interval());
     ui->cpuUpdateIntervalSpinBox->setValue(sys::get_cpu_update_interval());
     ui->sortByComboBox->setCurrentIndex(sys::get_sort_by_column());
-    ui->sortByOrderComboBox->setCurrentIndex(sys::get_sort_by_order());
+    ui->sortByOrderComboBox->setCurrentIndex(sys::get_sort_by_order());    
     this->show();
 }
 

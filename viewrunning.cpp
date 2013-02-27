@@ -11,7 +11,6 @@ ViewRunning::ViewRunning(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
     init_table();
     this->update = true;

@@ -83,7 +83,7 @@ void MainWindow::update_table()
                 procstate_item = new QTableWidgetItem(proc::format_state(proc_vector.at(x).state), Qt::DisplayRole);
                 procprio_item = new QTableWidgetItem;
                 procprio_item->setData(Qt::DisplayRole, proc_vector.at(x).priority);
-                procmem_item = new QTableWidgetItem(QString::fromStdString(proc_vector.at(x).memory_usage), Qt::DisplayRole);
+                procmem_item = new QTableWidgetItem(proc_vector.at(x).memory_usage, Qt::DisplayRole);
 
                 // Append new row
                 if(row_position == -1)

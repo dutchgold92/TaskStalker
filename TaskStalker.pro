@@ -1,6 +1,9 @@
 # -------------------------------------------------
 # Project created by QtCreator 2012-11-13T19:29:10
 # -------------------------------------------------
+
+QT       += svg
+
 TARGET = TaskStalker
 TEMPLATE = app
 SOURCES += main.cpp \

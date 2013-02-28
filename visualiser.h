@@ -10,6 +10,9 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <string>
+#include <QGraphicsScene>
+#include <QGraphicsSvgItem>
+#include <QFile>
 
 namespace Ui {
     class Visualiser;
@@ -23,16 +26,19 @@ public:
     ~Visualiser();
 
 protected:
+    virtual void resizeEvent(QResizeEvent * event);
     void changeEvent(QEvent *e);
 
 private:
     void update_state();
+    void scale_diagram();
     Ui::Visualiser *ui;
     pid_t pid;
     QString state;
     bool update;
     QFuture<void> update_thread;
-    QImage image;
+    QGraphicsScene *scene;
+    QGraphicsSvgItem *diagram;
     bool simulation;
 
 signals:

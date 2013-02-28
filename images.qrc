@@ -12,10 +12,18 @@
         <file>img/unknown.png</file>
         <file>img/zombie.png</file>
         <file>img/icon.png</file>
-	<file>img/view.png</file>
-	<file>img/stop.png</file>
-	<file>img/resume.png</file>
-	<file>img/terminate.png</file>
-	<file>img/kill.png</file>
+        <file>img/view.png</file>
+        <file>img/stop.png</file>
+        <file>img/resume.png</file>
+        <file>img/terminate.png</file>
+        <file>img/kill.png</file>
+        <file>img/zombie.svg</file>
+        <file>img/unknown.svg</file>
+        <file>img/uninterruptible.svg</file>
+        <file>img/stopped.svg</file>
+        <file>img/running.svg</file>
+        <file>img/ready.svg</file>
+        <file>img/interruptible.svg</file>
+        <file>img/executing.svg</file>
     </qresource>
 </RCC>

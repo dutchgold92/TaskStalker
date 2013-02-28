@@ -1,6 +1,8 @@
 #include "visualiser.h"
 #include "ui_visualiser.h"
 
+#include <iostream>
+
 using namespace std;
 
 Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
@@ -17,9 +19,12 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     ui->infoTable->setColumnWidth(3, 100);
     ui->priorityBox->setValue(proc::get_priority(this->pid));
 
-    QImage visualImage;
-    visualImage.load(":/img/blank.png");
-    ui->visualContainer->setPixmap(QPixmap::fromImage(visualImage));
+    QFile unknown_img(":/img/unknown.svg");
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+    diagram = new QGraphicsSvgItem(unknown_img.fileName());
+    scale_diagram();
+    scene->addItem(diagram);
 
     ui->infoTable->setItem(0, 0, new QTableWidgetItem(QString::number(pid), Qt::DisplayRole));
     ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
@@ -84,30 +89,50 @@ void Visualiser::on_infoTable_cellChanged(int row, int column)
 {
     if(row == 0 && column == 2)
     {
+        scene->removeItem(diagram);
+
         if(ui->infoTable->item(row, column)->text() == "Running")
         {
             if(proc::task_is_executing(pid))
-                image.load(":/img/executing.png");
+            {
+                QFile img(":/img/executing.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
             else
-                image.load(":/img/ready.png");
+            {
+                QFile img(":/img/ready.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
         }
         else if(ui->infoTable->item(row, column)->text() == "Sleeping")
-            image.load(":/img/interruptible.png");
+        {
+            QFile img(":/img/interruptible.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
         else if(ui->infoTable->item(row, column)->text() == "Disk Sleep")
-            image.load(":/img/uninterruptible.png");
+        {
+            QFile img(":/img/uninterruptible.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
         else if(ui->infoTable->item(row, column)->text() == "Zombie")
-            image.load(":/img/zombie.png");
+        {
+            QFile img(":/img/zombie.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
         else if(ui->infoTable->item(row, column)->text() == "Stopped")
         {
             ui->stopButton->setText("Resume");
-            image.load(":/img/stopped.png");
+            QFile img(":/img/stopped.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
         }
-        else if(ui->infoTable->item(row, column)->text() == "Paging")
-            image.load(":/img/unknown.png");  // no image for this currently
         else
-            image.load(":/img/unknown.png");
+        {
+            QFile img(":/img/unknown.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
 
-        ui->visualContainer->setPixmap(QPixmap::fromImage(image));
+        scale_diagram();
+        scene->addItem(diagram);
     }
 }
 
@@ -194,4 +219,21 @@ void Visualiser::on_priorityButton_clicked()
         ui->priorityBox->setValue(proc::get_priority(this->pid));
         new ErrorDialog(this, false, "Failed to change process priority; you may need to be root.");
     }
+}
+
+/**
+ * @brief Visualiser::scale_diagram Sets the diagram's scale.
+ */
+void Visualiser::scale_diagram()
+{
+    diagram->setScale(0.175 * (ui->graphicsView->height() / 200));
+}
+
+/**
+ * @brief Visualiser::resizeEvent Actions for when the window has been resized.
+ * @param event
+ */
+void Visualiser::resizeEvent(QResizeEvent *event)
+{
+    scale_diagram();
 }

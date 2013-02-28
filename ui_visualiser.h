@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Thu Feb 28 00:40:18 2013
+** Created: Thu Feb 28 18:26:09 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -16,9 +16,9 @@
 #include <QtGui/QButtonGroup>
 #include <QtGui/QDialog>
 #include <QtGui/QDialogButtonBox>
+#include <QtGui/QGraphicsView>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QSpinBox>
@@ -38,12 +38,8 @@ public:
     QPushButton *stopButton;
     QPushButton *endButton;
     QPushButton *killButton;
-    QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_3;
-    QSpacerItem *horizontalSpacer_2;
-    QLabel *visualContainer;
-    QSpacerItem *horizontalSpacer_3;
-    QSpacerItem *verticalSpacer_2;
+    QGraphicsView *graphicsView;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
     QDialogButtonBox *buttonBox;
@@ -142,39 +138,22 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout->addItem(verticalSpacer);
-
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalLayout_3->setSizeConstraint(QLayout::SetMinimumSize);
+        graphicsView = new QGraphicsView(Visualiser);
+        graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
+        sizePolicy.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
+        graphicsView->setSizePolicy(sizePolicy);
+        graphicsView->setMinimumSize(QSize(520, 400));
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
 
-        horizontalLayout_3->addItem(horizontalSpacer_2);
-
-        visualContainer = new QLabel(Visualiser);
-        visualContainer->setObjectName(QString::fromUtf8("visualContainer"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(visualContainer->sizePolicy().hasHeightForWidth());
-        visualContainer->setSizePolicy(sizePolicy2);
-        visualContainer->setLayoutDirection(Qt::LeftToRight);
-        visualContainer->setPixmap(QPixmap(QString::fromUtf8(":/img/unknown.png")));
-        visualContainer->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout_3->addWidget(visualContainer);
-
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_3);
+        horizontalLayout_3->addWidget(graphicsView);
 
 
         verticalLayout->addLayout(horizontalLayout_3);
-
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout->addItem(verticalSpacer_2);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
@@ -184,6 +163,9 @@ public:
 
         buttonBox = new QDialogButtonBox(Visualiser);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(buttonBox->sizePolicy().hasHeightForWidth());
         buttonBox->setSizePolicy(sizePolicy2);
         buttonBox->setMinimumSize(QSize(0, 25));
@@ -237,7 +219,6 @@ public:
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
         endButton->setText(QApplication::translate("Visualiser", "Terminate", 0, QApplication::UnicodeUTF8));
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
-        visualContainer->setText(QString());
     } // retranslateUi
 
 };

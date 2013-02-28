@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'viewrunning.h'
 **
-** Created: Thu Feb 28 00:23:30 2013
+** Created: Thu Feb 28 13:33:27 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!

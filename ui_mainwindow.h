@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Feb 28 00:40:42 2013
+** Created: Thu Feb 28 18:47:00 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,7 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
-#include <QtGui/QGroupBox>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QMainWindow>
@@ -47,7 +47,7 @@ public:
     QAction *actionProcessor_Activity;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
-    QGroupBox *groupBox;
+    QHBoxLayout *horizontalLayout;
     QPushButton *toggleUpdateButton;
     QLabel *processCountLabel;
     QTableWidget *procTable;
@@ -131,24 +131,29 @@ public:
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        groupBox = new QGroupBox(centralWidget);
-        groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-        groupBox->setFlat(false);
-        toggleUpdateButton = new QPushButton(groupBox);
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        toggleUpdateButton = new QPushButton(centralWidget);
         toggleUpdateButton->setObjectName(QString::fromUtf8("toggleUpdateButton"));
-        toggleUpdateButton->setGeometry(QRect(0, 0, 58, 27));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        toggleUpdateButton->setMinimumSize(QSize(50, 30));
+        toggleUpdateButton->setMaximumSize(QSize(50, 30));
+
+        horizontalLayout->addWidget(toggleUpdateButton);
+
+        processCountLabel = new QLabel(centralWidget);
+        processCountLabel->setObjectName(QString::fromUtf8("processCountLabel"));
+        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(toggleUpdateButton->sizePolicy().hasHeightForWidth());
-        toggleUpdateButton->setSizePolicy(sizePolicy2);
-        processCountLabel = new QLabel(groupBox);
-        processCountLabel->setObjectName(QString::fromUtf8("processCountLabel"));
-        processCountLabel->setGeometry(QRect(70, 0, 321, 21));
+        sizePolicy2.setHeightForWidth(processCountLabel->sizePolicy().hasHeightForWidth());
+        processCountLabel->setSizePolicy(sizePolicy2);
+        processCountLabel->setMinimumSize(QSize(0, 30));
 
-        verticalLayout->addWidget(groupBox);
+        horizontalLayout->addWidget(processCountLabel);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         procTable = new QTableWidget(centralWidget);
         if (procTable->columnCount() < 6)
@@ -194,7 +199,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(true);
-        menuBar->setGeometry(QRect(0, 0, 600, 19));
+        menuBar->setGeometry(QRect(0, 0, 600, 20));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         menuTools = new QMenu(menuBar);
@@ -253,9 +258,8 @@ public:
         actionRunning_Processes->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
         actionProcessor_Activity->setText(QApplication::translate("MainWindow", "Processor Activity", 0, QApplication::UnicodeUTF8));
         actionProcessor_Activity->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", 0, QApplication::UnicodeUTF8));
-        groupBox->setTitle(QString());
         toggleUpdateButton->setText(QString());
-        processCountLabel->setText(QApplication::translate("MainWindow", "? system processes", 0, QApplication::UnicodeUTF8));
+        processCountLabel->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "ID", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP

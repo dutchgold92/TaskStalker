@@ -283,7 +283,7 @@ void MainWindow::procTable_sorted(int column)
  */
 void MainWindow::on_actionView_triggered()
 {
-    new Visualiser(this, atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str()));
+    new Visualiser(this, ui->procTable->item(this->selected_row, 0)->text().toInt(), false);
 }
 
 /**
@@ -364,4 +364,12 @@ void MainWindow::kill_confirmed()
 {
     if(!proc::kill_process(atoi(ui->procTable->item(this->selected_row, 0)->text().toStdString().c_str())))
         new ErrorDialog(this, false, "Failed to kill process", ErrorDialog::error);
+}
+
+/**
+ * @brief MainWindow::on_actionProcess_Recording_triggered Triggered if View Recording menu option is selected.
+ */
+void MainWindow::on_actionProcess_Recording_triggered()
+{
+    SelectRecording::get_instance(this);
 }

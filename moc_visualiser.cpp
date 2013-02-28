@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'visualiser.h'
 **
-** Created: Thu Feb 28 18:06:43 2013
+** Created: Thu Feb 28 22:27:10 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,35 +23,41 @@ static const uint qt_meta_data_Visualiser[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x05,
+      40,   30,   11,   11, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      30,   11,   11,   11, 0x08,
-      58,   11,   11,   11, 0x08,
-      82,   11,   11,   11, 0x08,
-     105,   11,   11,   11, 0x08,
-     140,  129,   11,   11, 0x08,
-     174,   11,   11,   11, 0x08,
-     198,   11,   11,   11, 0x08,
+      64,   11,   11,   11, 0x08,
+      92,   11,   11,   11, 0x08,
+     116,   11,   11,   11, 0x08,
+     139,   11,   11,   11, 0x08,
+     174,  163,   11,   11, 0x08,
+     208,   11,   11,   11, 0x08,
+     232,   11,   11,   11, 0x08,
+     252,   11,   11,   11, 0x08,
+     278,   30,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Visualiser[] = {
-    "Visualiser\0\0missing_process()\0"
+    "Visualiser\0\0missing_process()\0timestamp\0"
+    "recording_tick(QString)\0"
     "on_priorityButton_clicked()\0"
     "on_stopButton_clicked()\0on_endButton_clicked()\0"
     "on_killButton_clicked()\0row,column\0"
     "on_infoTable_cellChanged(int,int)\0"
     "kill_confirm_accepted()\0process_not_found()\0"
+    "on_recordButton_clicked()\0"
+    "update_recording_timestamp(QString)\0"
 };
 
 void Visualiser::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -61,13 +67,16 @@ void Visualiser::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Visualiser *_t = static_cast<Visualiser *>(_o);
         switch (_id) {
         case 0: _t->missing_process(); break;
-        case 1: _t->on_priorityButton_clicked(); break;
-        case 2: _t->on_stopButton_clicked(); break;
-        case 3: _t->on_endButton_clicked(); break;
-        case 4: _t->on_killButton_clicked(); break;
-        case 5: _t->on_infoTable_cellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 6: _t->kill_confirm_accepted(); break;
-        case 7: _t->process_not_found(); break;
+        case 1: _t->recording_tick((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->on_priorityButton_clicked(); break;
+        case 3: _t->on_stopButton_clicked(); break;
+        case 4: _t->on_endButton_clicked(); break;
+        case 5: _t->on_killButton_clicked(); break;
+        case 6: _t->on_infoTable_cellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 7: _t->kill_confirm_accepted(); break;
+        case 8: _t->process_not_found(); break;
+        case 9: _t->on_recordButton_clicked(); break;
+        case 10: _t->update_recording_timestamp((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -105,9 +114,9 @@ int Visualiser::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 11;
     }
     return _id;
 }
@@ -116,5 +125,12 @@ int Visualiser::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 void Visualiser::missing_process()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, 0);
+}
+
+// SIGNAL 1
+void Visualiser::recording_tick(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE

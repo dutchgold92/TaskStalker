@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Thu Feb 28 18:26:09 2013
+** Created: Thu Feb 28 21:37:48 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -19,6 +19,7 @@
 #include <QtGui/QGraphicsView>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QSpinBox>
@@ -41,6 +42,8 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QGraphicsView *graphicsView;
     QHBoxLayout *horizontalLayout_2;
+    QPushButton *recordButton;
+    QLabel *timeStamp;
     QSpacerItem *horizontalSpacer;
     QDialogButtonBox *buttonBox;
 
@@ -157,6 +160,18 @@ public:
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        recordButton = new QPushButton(Visualiser);
+        recordButton->setObjectName(QString::fromUtf8("recordButton"));
+
+        horizontalLayout_2->addWidget(recordButton);
+
+        timeStamp = new QLabel(Visualiser);
+        timeStamp->setObjectName(QString::fromUtf8("timeStamp"));
+        timeStamp->setEnabled(false);
+        timeStamp->setMinimumSize(QSize(150, 0));
+
+        horizontalLayout_2->addWidget(timeStamp);
+
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer);
@@ -219,6 +234,8 @@ public:
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
         endButton->setText(QApplication::translate("Visualiser", "Terminate", 0, QApplication::UnicodeUTF8));
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
+        recordButton->setText(QApplication::translate("Visualiser", "Record", 0, QApplication::UnicodeUTF8));
+        timeStamp->setText(QString());
     } // retranslateUi
 
 };

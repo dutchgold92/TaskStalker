@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     viewprocessor.cpp \
     viewprocessorinit.cpp \
     qgraphicsprocessitem.cpp \
-    confirmdialog.cpp
+    confirmdialog.cpp \
+    selectrecording.cpp
 HEADERS += mainwindow.h \
     proc.h \
     visualiser.h \
@@ -34,7 +35,8 @@ HEADERS += mainwindow.h \
     viewprocessor.h \
     viewprocessorinit.h \
     qgraphicsprocessitem.h \
-    confirmdialog.h
+    confirmdialog.h \
+    selectrecording.h
 FORMS += mainwindow.ui \
     visualiser.ui \
     info.ui \
@@ -45,6 +47,7 @@ FORMS += mainwindow.ui \
     systeminfo.ui \
     viewprocessor.ui \
     viewprocessorinit.ui \
-    confirmdialog.ui
+    confirmdialog.ui \
+    selectrecording.ui
 RESOURCES = images.qrc \
     help.qrc

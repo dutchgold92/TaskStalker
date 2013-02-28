@@ -7,6 +7,8 @@ using namespace std;
   */
 void sys::init()
 {
+    QDir().mkdir(QDir::homePath() + "/.taskstalker");
+    QDir().mkdir(QDir::homePath() + "/.taskstalker/recordings");
     sys::init_help();
     sys::load_config();
 }
@@ -17,7 +19,6 @@ void sys::init()
 void sys::init_help()
 {
     QString dir = QDir::homePath() + "/.taskstalker";
-    QDir().mkdir(dir);
     dir += "/help";
     QDir().mkdir(dir);
     QString helpFile = dir + "/help.qhc";

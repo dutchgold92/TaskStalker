@@ -238,6 +238,7 @@
     <addaction name="actionSystem_Information"/>
     <addaction name="actionRunning_Processes"/>
     <addaction name="actionProcessor_Activity"/>
+    <addaction name="actionProcess_Recording"/>
    </widget>
    <addaction name="menuID"/>
    <addaction name="menuView"/>
@@ -379,6 +380,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionProcess_Recording">
+   <property name="text">
+    <string>Recording</string>
    </property>
   </action>
  </widget>

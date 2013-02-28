@@ -10,6 +10,7 @@
 #include "viewrunning.h"
 #include "systeminfo.h"
 #include "viewprocessorinit.h"
+#include "selectrecording.h"
 
 #include <QMainWindow>
 #include <QtConcurrentRun>
@@ -61,6 +62,7 @@ private slots:
     void on_actionRunning_Processes_triggered();
     void on_actionProcessor_Activity_triggered();
     void kill_confirmed();
+    void on_actionProcess_Recording_triggered();
 };
 
 #endif // MAINWINDOW_H

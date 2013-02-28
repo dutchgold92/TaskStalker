@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Feb 28 18:47:00 2013
+** Created: Thu Feb 28 20:57:43 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -45,6 +45,7 @@ public:
     QAction *actionSystem_Information;
     QAction *actionRunning_Processes;
     QAction *actionProcessor_Activity;
+    QAction *actionProcess_Recording;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
@@ -120,6 +121,8 @@ public:
         actionRunning_Processes->setObjectName(QString::fromUtf8("actionRunning_Processes"));
         actionProcessor_Activity = new QAction(MainWindow);
         actionProcessor_Activity->setObjectName(QString::fromUtf8("actionProcessor_Activity"));
+        actionProcess_Recording = new QAction(MainWindow);
+        actionProcess_Recording->setObjectName(QString::fromUtf8("actionProcess_Recording"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -226,6 +229,7 @@ public:
         menuView->addAction(actionSystem_Information);
         menuView->addAction(actionRunning_Processes);
         menuView->addAction(actionProcessor_Activity);
+        menuView->addAction(actionProcess_Recording);
 
         retranslateUi(MainWindow);
 
@@ -258,6 +262,7 @@ public:
         actionRunning_Processes->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
         actionProcessor_Activity->setText(QApplication::translate("MainWindow", "Processor Activity", 0, QApplication::UnicodeUTF8));
         actionProcessor_Activity->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", 0, QApplication::UnicodeUTF8));
+        actionProcess_Recording->setText(QApplication::translate("MainWindow", "Recording", 0, QApplication::UnicodeUTF8));
         toggleUpdateButton->setText(QString());
         processCountLabel->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);

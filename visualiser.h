@@ -13,6 +13,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSvgItem>
 #include <QFile>
+#include <QDateTime>
 
 namespace Ui {
     class Visualiser;
@@ -23,6 +24,7 @@ class Visualiser : public QDialog {
 
 public:
     Visualiser(QWidget *parent, pid_t pid, bool simulation = false);
+    Visualiser(QWidget *parent, QString recording_file_path);
     ~Visualiser();
 
 protected:
@@ -32,6 +34,8 @@ protected:
 private:
     void update_state();
     void scale_diagram();
+    void init_record();
+    void play_recording();
     Ui::Visualiser *ui;
     pid_t pid;
     QString state;
@@ -40,9 +44,13 @@ private:
     QGraphicsScene *scene;
     QGraphicsSvgItem *diagram;
     bool simulation;
+    bool recording;
+    bool playing_recording;
+    QString recording_file_path;
 
 signals:
     void missing_process();
+    void recording_tick(QString timestamp);
 
 private slots:
     void on_priorityButton_clicked();
@@ -52,6 +60,8 @@ private slots:
     void on_infoTable_cellChanged(int row, int column);
     void kill_confirm_accepted();
     void process_not_found();
+    void on_recordButton_clicked();
+    void update_recording_timestamp(QString timestamp);
 };
 
 #endif // VISUALISER_H

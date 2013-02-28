@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Thu Feb 28 18:06:42 2013
+** Created: Thu Feb 28 22:27:08 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -53,6 +53,7 @@ static const uint qt_meta_data_MainWindow[] = {
      588,   11,   11,   11, 0x08,
      627,   11,   11,   11, 0x08,
      667,   11,   11,   11, 0x08,
+     684,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -78,6 +79,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_actionRunning_Processes_triggered()\0"
     "on_actionProcessor_Activity_triggered()\0"
     "kill_confirmed()\0"
+    "on_actionProcess_Recording_triggered()\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -106,6 +108,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 17: _t->on_actionRunning_Processes_triggered(); break;
         case 18: _t->on_actionProcessor_Activity_triggered(); break;
         case 19: _t->kill_confirmed(); break;
+        case 20: _t->on_actionProcess_Recording_triggered(); break;
         default: ;
         }
     }
@@ -143,9 +146,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }

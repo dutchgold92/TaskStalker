@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Feb 27 19:29:57 2013
+** Created: Thu Feb 28 00:40:42 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -151,8 +151,8 @@ public:
         verticalLayout->addWidget(groupBox);
 
         procTable = new QTableWidget(centralWidget);
-        if (procTable->columnCount() < 5)
-            procTable->setColumnCount(5);
+        if (procTable->columnCount() < 6)
+            procTable->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -163,6 +163,8 @@ public:
         procTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(4, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        procTable->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         procTable->setObjectName(QString::fromUtf8("procTable"));
         sizePolicy1.setHeightForWidth(procTable->sizePolicy().hasHeightForWidth());
         procTable->setSizePolicy(sizePolicy1);
@@ -178,7 +180,7 @@ public:
         procTable->setSortingEnabled(true);
         procTable->setWordWrap(false);
         procTable->setCornerButtonEnabled(true);
-        procTable->setColumnCount(5);
+        procTable->setColumnCount(6);
         procTable->horizontalHeader()->setVisible(true);
         procTable->horizontalHeader()->setCascadingSectionResizes(false);
         procTable->horizontalHeader()->setDefaultSectionSize(100);
@@ -256,14 +258,34 @@ public:
         processCountLabel->setText(QApplication::translate("MainWindow", "? system processes", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "ID", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem->setToolTip(QApplication::translate("MainWindow", "A task's Process ID is a unique number used to identify it.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem1 = procTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem1->setToolTip(QApplication::translate("MainWindow", "The command name associated with the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem2 = procTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "Status", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem2->setToolTip(QApplication::translate("MainWindow", "Information regarding the current status of the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem3 = procTable->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "Priority", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem3->setToolTip(QApplication::translate("MainWindow", "Priority or \"nice\" value of the process. A higher (positive) value means the task will more often yield the processor to other processes, whereas a lower (negative) value means it will less willingly yield the CPU.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem4 = procTable->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "Available Memory", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "User", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem4->setToolTip(QApplication::translate("MainWindow", "Username of the owner of the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        QTableWidgetItem *___qtablewidgetitem5 = procTable->horizontalHeaderItem(5);
+        ___qtablewidgetitem5->setText(QApplication::translate("MainWindow", "Memory", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem5->setToolTip(QApplication::translate("MainWindow", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
         menuID->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));

@@ -29,7 +29,7 @@ private:
     void update_state();
     Ui::Visualiser *ui;
     pid_t pid;
-    std::string state;
+    QString state;
     bool update;
     QFuture<void> update_thread;
     QImage image;

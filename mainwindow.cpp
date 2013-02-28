@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->procTable->setColumnWidth(1, 150);
     ui->procTable->setColumnWidth(2, 100);
     ui->procTable->setColumnWidth(3, 75);
+    ui->procTable->setColumnWidth(4, 100);
     ui->procTable->horizontalHeader()->setHighlightSections(false);
     ui->procTable->addAction(ui->actionView);
     QAction *menu_separator = new QAction(this);
@@ -69,6 +70,7 @@ void MainWindow::update_table()
     QTableWidgetItem *procname_item;
     QTableWidgetItem *procstate_item;
     QTableWidgetItem *procprio_item;
+    QTableWidgetItem *procuser_item;
     QTableWidgetItem *procmem_item;
 
     while(true)
@@ -80,13 +82,14 @@ void MainWindow::update_table()
 
             for(size_t x = 0; x < proc_vector.size(); x++)
             {
-                signed int row_position = procTable_find_process(atoi(proc_vector.at(x).pid.c_str()));
+                signed int row_position = procTable_find_process(proc_vector.at(x).pid);
                 pid_item = new QTableWidgetItem;
-                pid_item->setData(Qt::DisplayRole, atoi(proc_vector.at(x).pid.c_str()));
-                procname_item = new QTableWidgetItem(QString::fromStdString(proc_vector.at(x).name), Qt::DisplayRole);
+                pid_item->setData(Qt::DisplayRole, proc_vector.at(x).pid);
+                procname_item = new QTableWidgetItem(proc_vector.at(x).name, Qt::DisplayRole);
                 procstate_item = new QTableWidgetItem(proc::format_state(proc_vector.at(x).state), Qt::DisplayRole);
                 procprio_item = new QTableWidgetItem;
                 procprio_item->setData(Qt::DisplayRole, proc_vector.at(x).priority);
+                procuser_item = new QTableWidgetItem(proc_vector.at(x).username, Qt::DisplayRole);
                 procmem_item = new QTableWidgetItem(proc_vector.at(x).memory_usage, Qt::DisplayRole);
 
                 // Append new row
@@ -98,7 +101,8 @@ void MainWindow::update_table()
                     ui->procTable->setItem(new_row, 1, procname_item);
                     ui->procTable->setItem(new_row, 2, procstate_item);
                     ui->procTable->setItem(new_row, 3, procprio_item);
-                    ui->procTable->setItem(new_row, 4, procmem_item);
+                    ui->procTable->setItem(new_row, 4, procuser_item);
+                    ui->procTable->setItem(new_row, 5, procmem_item);
                 }
                 // Update existing row
                 else
@@ -107,7 +111,8 @@ void MainWindow::update_table()
                     ui->procTable->setItem(row_position, 1, procname_item);
                     ui->procTable->setItem(row_position, 2, procstate_item);
                     ui->procTable->setItem(row_position, 3, procprio_item);
-                    ui->procTable->setItem(row_position, 4, procmem_item);
+                    ui->procTable->setItem(row_position, 4, procuser_item);
+                    ui->procTable->setItem(row_position, 5, procmem_item);
                 }
             }
 
@@ -150,7 +155,7 @@ void MainWindow::procTable_remove_dead(vector<proc::process> proc_vector)
 
         for(size_t y = 0; y < proc_vector.size(); y++)
         {
-            if(ui->procTable->item(x, 0)->text() == QString::fromStdString(proc_vector.at(y).pid))
+            if(ui->procTable->item(x, 0)->text() == QString::number(proc_vector.at(y).pid))
             {
                 exists = true;
                 break;

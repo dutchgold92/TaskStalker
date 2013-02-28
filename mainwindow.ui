@@ -130,7 +130,7 @@
        <bool>true</bool>
       </property>
       <property name="columnCount">
-       <number>5</number>
+       <number>6</number>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>true</bool>
@@ -154,25 +154,51 @@
        <property name="text">
         <string>ID</string>
        </property>
+       <property name="toolTip">
+        <string>A task's Process ID is a unique number used to identify it.</string>
+       </property>
       </column>
       <column>
        <property name="text">
         <string>Name</string>
+       </property>
+       <property name="toolTip">
+        <string>The command name associated with the process.</string>
        </property>
       </column>
       <column>
        <property name="text">
         <string>Status</string>
        </property>
+       <property name="toolTip">
+        <string>Information regarding the current status of the process.</string>
+       </property>
       </column>
       <column>
        <property name="text">
         <string>Priority</string>
        </property>
+       <property name="toolTip">
+        <string>Priority or &quot;nice&quot; value of the process. A higher (positive) value means the task will more often yield the processor to other processes, whereas a lower (negative) value means it will less willingly yield the CPU.</string>
+       </property>
       </column>
       <column>
        <property name="text">
-        <string>Available Memory</string>
+        <string>User</string>
+       </property>
+       <property name="toolTip">
+        <string>Username of the owner of the process.</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Memory</string>
+       </property>
+       <property name="toolTip">
+        <string>The sum of virtual memory allocated to the task. This memory may be shared.</string>
+       </property>
+       <property name="whatsThis">
+        <string/>
        </property>
       </column>
      </widget>

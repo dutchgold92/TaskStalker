@@ -114,7 +114,7 @@ void ViewRunning::update_outputTable()
         else
         {
             ui->outputTable->item(x, 1)->setData(Qt::DisplayRole, update_data.at(x));
-            ui->outputTable->item(x, 2)->setData(Qt::DisplayRole, QString::fromStdString(proc::get_name(update_data.at(x))));
+            ui->outputTable->item(x, 2)->setData(Qt::DisplayRole, proc::get_name(update_data.at(x)));
         }
     }
 }

@@ -12,7 +12,9 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     this->update = true;
     this->pid = pid;
     this->simulation = simulation;
-    ui->infoTable->setColumnWidth(1, 200);
+    ui->infoTable->setColumnWidth(0, 75);
+    ui->infoTable->setColumnWidth(1, 150);
+    ui->infoTable->setColumnWidth(3, 100);
     ui->priorityBox->setValue(proc::get_priority(this->pid));
 
     QImage visualImage;
@@ -20,7 +22,8 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     ui->visualContainer->setPixmap(QPixmap::fromImage(visualImage));
 
     ui->infoTable->setItem(0, 0, new QTableWidgetItem(QString::number(pid), Qt::DisplayRole));
-    ui->infoTable->setItem(0, 1, new QTableWidgetItem(QString::fromStdString(proc::get_name(pid)), Qt::DisplayRole));
+    ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
+    ui->infoTable->setItem(0, 3, new QTableWidgetItem(proc::get_username(pid), Qt::DisplayRole));
 
     update_thread = QtConcurrent::run(this, &Visualiser::update_state);
     connect(this, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
@@ -58,10 +61,10 @@ void Visualiser::update_state()
     {
         state = proc::get_state(pid);
 
-        if(!state.empty())
+        if(!state.isEmpty())
         {
             ui->infoTable->setItem(0, 2, new QTableWidgetItem(proc::format_state(state), Qt::DisplayRole));
-            ui->infoTable->setItem(0, 3, new QTableWidgetItem(proc::get_memory_usage(pid), Qt::DisplayRole));
+            ui->infoTable->setItem(0, 4, new QTableWidgetItem(proc::get_memory_usage(pid), Qt::DisplayRole));
         }
         else
         {
@@ -83,7 +86,6 @@ void Visualiser::on_infoTable_cellChanged(int row, int column)
     {
         if(ui->infoTable->item(row, column)->text() == "Running")
         {
-            //image.load(":/img/running.png");
             if(proc::task_is_executing(pid))
                 image.load(":/img/executing.png");
             else

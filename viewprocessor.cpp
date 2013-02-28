@@ -9,7 +9,6 @@ ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFixedSize(this->size());
     this->cpu = cpu;
     this->setWindowTitle("Activity for CPU#" + QString::number(cpu));
     ui->graphTimeScaleLabel->setText(ui->graphTimeScaleLabel->text() + QString::number(sys::get_cpu_update_interval() * GRAPH_TIME_PERIOD_SECONDS) + " seconds:");
@@ -46,7 +45,7 @@ void ViewProcessor::init_table()
     if(current_pid > 0)
     {
         ui->procTable->item(0, 0)->setData(Qt::DisplayRole, current_pid);
-        ui->procTable->item(0, 1)->setData(Qt::DisplayRole, QString::fromStdString(proc::get_name(current_pid)));
+        ui->procTable->item(0, 1)->setData(Qt::DisplayRole, proc::get_name(current_pid));
     }
     else
     {
@@ -110,7 +109,7 @@ void ViewProcessor::update_data()
     if(this->current_pid > 0)
     {
         ui->procTable->item(0, 0)->setData(Qt::DisplayRole, this->current_pid);
-        QString proc_name = QString::fromStdString(proc::get_name(current_pid));
+        QString proc_name = proc::get_name(current_pid);
         ui->procTable->item(0, 1)->setData(Qt::DisplayRole, proc_name);
         item = new QGraphicsProcessItem(0, scene, true, last_update_time, proc_name, current_pid);
         item->setRect(180.0, -75.0, 10.0, 10.0);

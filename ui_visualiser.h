@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Wed Feb 27 21:35:37 2013
+** Created: Thu Feb 28 00:40:18 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -67,8 +67,8 @@ public:
         verticalLayout = new QVBoxLayout(Visualiser);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         infoTable = new QTableWidget(Visualiser);
-        if (infoTable->columnCount() < 4)
-            infoTable->setColumnCount(4);
+        if (infoTable->columnCount() < 5)
+            infoTable->setColumnCount(5);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -77,6 +77,8 @@ public:
         infoTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        infoTable->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         if (infoTable->rowCount() < 1)
             infoTable->setRowCount(1);
         infoTable->setObjectName(QString::fromUtf8("infoTable"));
@@ -96,7 +98,7 @@ public:
         infoTable->setShowGrid(false);
         infoTable->setWordWrap(false);
         infoTable->setRowCount(1);
-        infoTable->setColumnCount(4);
+        infoTable->setColumnCount(5);
         infoTable->horizontalHeader()->setMinimumSectionSize(40);
         infoTable->horizontalHeader()->setStretchLastSection(true);
         infoTable->verticalHeader()->setVisible(false);
@@ -206,13 +208,30 @@ public:
     {
         Visualiser->setWindowTitle(QApplication::translate("Visualiser", "Process View", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = infoTable->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QApplication::translate("Visualiser", "Process ID", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem->setText(QApplication::translate("Visualiser", "ID", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem->setToolTip(QApplication::translate("Visualiser", "A task's Process ID is a unique number used to identify it.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem1 = infoTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("Visualiser", "Name", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem1->setToolTip(QApplication::translate("Visualiser", "The command name associated with the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem2 = infoTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("Visualiser", "State", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem2->setToolTip(QApplication::translate("Visualiser", "Information regarding the current status of the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem3 = infoTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("Visualiser", "Allocated Memory", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem3->setText(QApplication::translate("Visualiser", "User", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem3->setToolTip(QApplication::translate("Visualiser", "Username of the owner of the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        QTableWidgetItem *___qtablewidgetitem4 = infoTable->horizontalHeaderItem(4);
+        ___qtablewidgetitem4->setText(QApplication::translate("Visualiser", "Memory", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem4->setToolTip(QApplication::translate("Visualiser", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         priorityBox->setPrefix(QString());
         priorityButton->setText(QApplication::translate("Visualiser", "Set Priority", 0, QApplication::UnicodeUTF8));
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));

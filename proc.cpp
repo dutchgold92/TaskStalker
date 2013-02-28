@@ -1,18 +1,14 @@
 #include "proc.h"
 
+#include <iostream>
+
 using namespace std;
 
 /**
   * Gathers a list of all PIDs active on the system, along with the respective name/status.
   * Returns a vector of structs representing this information
-  *
-  * Notes:
-  * - Should check the returned vector isn't empty before using it
-  *
-  * TODO:
-  * - sure it's looking grand?
   */
-/*vector<proc::process> proc::list_processes()
+vector<proc::process> proc::list_processes()
 {
     vector<proc::process> proc_vector;
     process p;
@@ -28,6 +24,8 @@ using namespace std;
             QTextStream in(&status_file);
             QString line = in.readLine();
 
+            bool memory_entry = false;
+
             while(!line.isNull())
             {
                 if(line.startsWith("Name:"))
@@ -36,17 +34,27 @@ using namespace std;
                     p.state = line.remove(0, (line.indexOf(":") + 1)).trimmed();
                 else if(line.startsWith("Pid:") && !line.startsWith("PPid:") && !line.startsWith("TracerPid:"))
                 {
-                    p.pid = line.remove(0, (line.indexOf(":") + 1)).trimmed();
-                    p.priority = proc::get_priority(p.pid.toInt());
+                    p.pid = line.remove(0, (line.indexOf(":") + 1)).trimmed().toInt();
+                    p.priority = proc::get_priority(p.pid);
+                }
+                else if(line.startsWith("Uid:"))
+                {
+                    line = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+                    line = line.remove(line.indexOf(QRegExp("\\s")), line.length());
+                    p.uid = line.toInt();
+                    p.username = proc::get_username_from_uid(p.uid);
                 }
                 else if(line.startsWith("VmSize:"))
+                {
                     p.memory_usage = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+                    memory_entry = true;
+                }
 
                 line = in.readLine();
             }
 
-            if(p.memory_usage.isNull())
-                p.memory_usage = "-";
+            if(!memory_entry)
+                p.memory_usage = "N/A";
 
             proc_vector.push_back(p);
             status_file.close();
@@ -54,153 +62,50 @@ using namespace std;
     }
 
     return proc_vector;
-}*/
-vector<proc::process> proc::list_processes()
-{
-    process p;
-    DIR *rootdir = NULL;
-    struct dirent *entry_point;
-    vector<proc::process> proc_info;
-    rootdir = opendir(PATH);
-
-    ifstream file;
-    string line;
-    stringstream file_name;
-
-    if(rootdir != NULL)
-    {
-        while((entry_point = readdir(rootdir)))
-        {
-            file_name.str("");  // empty the stringstream
-
-            if(strcmp(entry_point->d_name, ".") != 0 && strcmp(entry_point->d_name, "..") != 0 && isdigit(entry_point->d_name[0]))
-            {
-                file_name << PATH << entry_point->d_name << "/status";
-                file.open(file_name.str().c_str());
-
-                if(file.is_open())
-                {
-                    bool memory_readable = false;
-
-                    while(!file.eof())
-                    {
-                        getline(file, line);
-
-                        if(line.find("Pid:") != -1 && line.find("PPid:") == std::string::npos && line.find("TracerPid:") == std::string::npos)
-                        {
-                            p.pid = line.erase(0, 5);
-                            p.priority = get_priority(atoi(p.pid.c_str()));
-                        }
-                        else if(line.find("Name:") != -1)
-                            p.name = line.erase(0, 6);
-                        else if(line.find("State:") != -1)
-                            p.state = line.erase(0, 7);
-                        else if(line.find("VmSize:") != -1)
-                        {
-                            p.memory_usage = QString::fromStdString(line.erase(0, 9)).trimmed();
-                            memory_readable = true;
-                        }
-                    }
-
-                    if(!memory_readable)
-                        p.memory_usage = "N/A";
-
-                    proc_info.push_back(p); // add process to the vector
-                    file.close();
-                }
-                else
-                {
-                    file.close();
-                    perror("Failed to open status file");
-                }
-            }
-        }
-
-        closedir(rootdir);
-
-        return proc_info;
-    }
-    else
-    {
-        perror("Couldn't open the directory");
-        return proc_info;
-    }
 }
 
 /**
   * Returns the state of a process, as shown in /proc/[pid]/status.
   * Parameter represents the PID of the process to check.
-  *
-  * Notes:
-  * - Should check the returned string isn't empty before using it
-  *
-  * TODO: do something more useful if the file doesn't exist?
   */
-string proc::get_state(pid_t pid)
+QString proc::get_state(pid_t pid)
 {
-    ifstream file;
-    string line;
-    stringstream file_name;
-    file_name << PATH << pid << "/status";
-    file.open(file_name.str().c_str());
+    QFile status_file(PATH + QString::number(pid) + "/status");
+    status_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&status_file);
+    QString line = in.readLine();
 
-    if(file.is_open())
+    while(!line.isNull())
     {
-        while(!file.eof())
-        {
-            getline(file, line);
+        if(line.startsWith("State:"))
+            return line.remove(0, (line.indexOf(":") + 1)).trimmed();
 
-            if(line.find("State:") != -1)
-            {
-                file.close();
-                return (line.erase(0, 7));  // trim the field identifier prefix before returning
-            }
-        }
+        line = in.readLine();
     }
-    else
-    {
-        file.close();
-        perror("Failed to open status file in proc::get_state()");
-        return "";
-    }
+
+    return "";
 }
 
 /**
   * Returns the name (eg. starting command) of the process
   * with the PID supplied as parameter
-  *
-  * Notes:
-  * - Should check the returned string isn't null before using it
-  *
-  * TODO: do something more useful if the file doesn't exist?
   */
-string proc::get_name(pid_t pid)
+QString proc::get_name(pid_t pid)
 {
-    ifstream file;
-    string line;
-    stringstream file_name;
-    file_name << PATH << pid << "/status";
-    file.open(file_name.str().c_str());
+    QFile status_file(PATH + QString::number(pid) + "/status");
+    status_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&status_file);
+    QString line = in.readLine();
 
-    if(file.is_open())
+    while(!line.isNull())
     {
-        while(!file.eof())
-        {
-            getline(file, line);
+        if(line.startsWith("Name:"))
+            return line.remove(0, (line.indexOf(":") + 1)).trimmed();
 
-            if(line.find("Name:") != -1)
-            {
-                file.close();
-                return (line.erase(0, 6));  // trim the field identifier prefix before returning
-            }
-        }
+        line = in.readLine();
     }
-    else
-    {
-        file.close();
-        perror("Failed to open status file");
-        return "";
-    }
+
+    return "";
 }
 
 /**
@@ -211,6 +116,51 @@ signed short proc::get_priority(pid_t pid)
     return getpriority(PRIO_PROCESS, pid);
 }
 
+/**
+ * @brief proc::get_uid Returns the User ID of the owner of the specified task.
+ * @param pid
+ * @return
+ */
+unsigned int proc::get_uid(pid_t pid)
+{
+    QFile status_file(PATH + QString::number(pid) + "/status");
+    status_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&status_file);
+    QString line = in.readLine();
+
+    while(!line.isNull())
+    {
+        if(line.startsWith("Uid:"))
+        {
+            line = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+            line = line.remove(line.indexOf(QRegExp("\\s")), line.length());
+            return line.toInt();
+        }
+
+        line = in.readLine();
+    }
+}
+
+/**
+ * @brief proc::get_username_from_uid Returns the username corresponding to the supplied UID.
+ * @param uid
+ * @return
+ */
+QString proc::get_username_from_uid(unsigned int uid)
+{
+    return getpwuid(uid)->pw_name;
+}
+
+QString proc::get_username(pid_t pid)
+{
+    return proc::get_username_from_uid(proc::get_uid(pid));
+}
+
+/**
+ * @brief proc::get_memory_usage Returns the quantity of memory allocated to the specified task.
+ * @param pid
+ * @return
+ */
 QString proc::get_memory_usage(pid_t pid)
 {
     QString file_path = "/proc/" + QString::number(pid) + "/status";
@@ -232,7 +182,7 @@ QString proc::get_memory_usage(pid_t pid)
     }
 
     file.close();
-    return "-";
+    return "N/A";
 }
 
 /**
@@ -421,38 +371,35 @@ float proc::get_memory_size()
  */
 float proc::get_swap_size()
 {
-    if(proc::swap_size == 0)
+    QFile file("/proc/meminfo");
+
+    if(file.exists())
     {
-        QFile file("/proc/meminfo");
+        QRegExp numbers("(\\d+)");  // regex for finding numbers in a string
+        unsigned int str_pos = 0;   // position variable, for searching strings with regex
 
-        if(file.exists())
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&file);
+        QString line = in.readLine();
+
+        while(!line.isEmpty())
         {
-            QRegExp numbers("(\\d+)");  // regex for finding numbers in a string
-            unsigned int str_pos = 0;   // position variable, for searching strings with regex
-
-            file.open(QIODevice::ReadOnly | QIODevice::Text);
-            QTextStream in(&file);
-            QString line = in.readLine();
-
-            while(!line.isEmpty())
+            if(line.startsWith("SwapTotal"))
             {
-                if(line.startsWith("SwapTotal"))
+                while((str_pos = numbers.indexIn(line, str_pos)) != -1)
                 {
-                    while((str_pos = numbers.indexIn(line, str_pos)) != -1)
-                    {
-                        proc::swap_size = (numbers.cap(1).toFloat() / (1024 * 1024));
-                        str_pos += numbers.matchedLength();
-                    }
-
-                    break;
+                    proc::swap_size = (numbers.cap(1).toFloat() / (1024 * 1024));
+                    str_pos += numbers.matchedLength();
                 }
 
-                line = in.readLine();
+                break;
             }
-        }
 
-        file.close();
+            line = in.readLine();
+        }
     }
+
+    file.close();
 
     return proc::swap_size;
 }
@@ -520,7 +467,7 @@ unsigned short proc::get_cpu_usage(pid_t pid)
   * Formats the std::string state, returning it in a prettier format as a QString
   * Returns empty QString if passed an unknown state
   */
-QString proc::format_state(std::string state)
+QString proc::format_state(QString state)
 {
     if(state == "R (running)")
         return "Running";

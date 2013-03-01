@@ -118,7 +118,7 @@ void ViewProcessor::update_data()
     {
         ui->procTable->item(0, 0)->setData(Qt::DisplayRole, "None");
         ui->procTable->item(0, 1)->setData(Qt::DisplayRole, "-");
-        item = new QGraphicsProcessItem(0, scene, false);
+        item = new QGraphicsProcessItem(0, scene, false, last_update_time, 0, 0);
         item->setRect(180.0, -55.0, 10.0, 10.0);
     }
 }

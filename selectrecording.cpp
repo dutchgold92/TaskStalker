@@ -16,10 +16,7 @@ SelectRecording::SelectRecording(QWidget *parent) :
     QStringList entries = recordings_dir.entryList(QDir::Files, QDir::Unsorted);
 
     if(entries.isEmpty())
-    {
-        ui->selector->addItem("No recordings available");
-        ui->playButton->setEnabled(false);
-    }
+        set_no_recordings_available();
 
     for(int x = 0; x < entries.length(); x++)
     {
@@ -51,11 +48,17 @@ SelectRecording::~SelectRecording()
     instance = 0;
 }
 
+/**
+ * @brief SelectRecording::on_cancelButton_clicked Cancel and close this dialog.
+ */
 void SelectRecording::on_cancelButton_clicked()
 {
     this->close();
 }
 
+/**
+ * @brief SelectRecording::on_playButton_clicked Play the selected recording file.
+ */
 void SelectRecording::on_playButton_clicked()
 {
     QFile recording_file(QDir::homePath() + "/.taskstalker/recordings/" + ui->selector->currentText());
@@ -66,6 +69,38 @@ void SelectRecording::on_playButton_clicked()
         this->close();
     }
     else
-        cout << recording_file.fileName().toStdString() << endl;
         new ErrorDialog(this, false, "The selected recording could not be read.", ErrorDialog::error);
+}
+
+/**
+ * @brief SelectRecording::on_deleteButton_clicked Delete the selected recording file.
+ */
+void SelectRecording::on_deleteButton_clicked()
+{
+    QFile recording_file(QDir::homePath() + "/.taskstalker/recordings/" + ui->selector->currentText());
+
+    if(recording_file.exists())
+    {
+        if(!QFile::remove(recording_file.fileName()))
+            new ErrorDialog(this, false, "The selected recording could not be deleted.", ErrorDialog::error);
+        else
+        {
+            ui->selector->removeItem(ui->selector->currentIndex());
+
+            if(ui->selector->count() == 0)
+                set_no_recordings_available();
+        }
+    }
+    else
+        new ErrorDialog(this, false, "The selected recording could not be found.", ErrorDialog::error);
+}
+
+/**
+ * @brief SelectRecording::set_no_recordings_available Disables delete/play buttons and informs the user that no recordings are available.
+ */
+void SelectRecording::set_no_recordings_available()
+{
+    ui->selector->addItem("No recordings available");
+    ui->playButton->setEnabled(false);
+    ui->deleteButton->setEnabled(false);
 }

@@ -22,11 +22,13 @@ public:
 private slots:
     void on_cancelButton_clicked();
     void on_playButton_clicked();
+    void on_deleteButton_clicked();
 
 private:
     explicit SelectRecording(QWidget *parent = 0);
     Ui::SelectRecording *ui;
     static SelectRecording* instance;
+    void set_no_recordings_available();
 };
 
 #endif // SELECTRECORDING_H

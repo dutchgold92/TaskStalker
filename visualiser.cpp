@@ -63,7 +63,6 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
 
     this->setWindowTitle("Process Recording Viewer");
     ui->recordButton->setEnabled(false);
-    ui->timeStamp->setEnabled(true);
     update_thread = QtConcurrent::run(this, &Visualiser::play_recording);
     connect(this, SIGNAL(recording_tick(QString)), this, SLOT(update_recording_timestamp(QString)), Qt::QueuedConnection);
 
@@ -134,6 +133,7 @@ void Visualiser::update_state()
             break;
         }
 
+        ui->timeStamp->setText(QTime::currentTime().toString());
         sleep(sys::get_sub_update_interval());
     }
 }
@@ -331,7 +331,7 @@ void Visualiser::on_recordButton_clicked()
  */
 void Visualiser::init_record()
 {
-    QString file_name = QTime::currentTime().toString() + "_" + ui->infoTable->item(0, 1)->text() + ".tsr";
+    QString file_name = QDate::currentDate().toString() + "-" + QTime::currentTime().toString() + "_" + ui->infoTable->item(0, 1)->text() + ".tsr";
     QFile file(QDir::homePath() + "/.taskstalker/recordings/" + file_name);
 
     if(!file.exists())
@@ -372,19 +372,26 @@ void Visualiser::play_recording()
 
         QString line = in.readLine();
 
-        while(!line.isNull())
+        while(update)
         {
-            emit(recording_tick(line.left(line.indexOf("="))));
+            QString timestamp = line.left(line.indexOf("="));
             line.remove(0, (line.indexOf("=") + 1));
             ui->infoTable->setItem(0, 2, new QTableWidgetItem(line.left(line.indexOf("=")), Qt::DisplayRole));
             line.remove(0, (line.indexOf("=") + 1));
             ui->infoTable->setItem(0, 4, new QTableWidgetItem(line, Qt::DisplayRole));
-            sleep(1);
+            emit(recording_tick(timestamp));
+
+            if(in.atEnd())  // end of recording
+                break;
+
             line = in.readLine();
+            sleep(QTime::fromString(timestamp).secsTo(QTime::fromString(line.left(line.indexOf("=")))));
         }
     }
     else
         cout << "File doesn't exist" << endl;
+
+    update = false;
 }
 
 /**
@@ -393,5 +400,8 @@ void Visualiser::play_recording()
  */
 void Visualiser::update_recording_timestamp(QString timestamp)
 {
-    ui->timeStamp->setText(timestamp);
+    if(update)
+        ui->timeStamp->setText(timestamp + " (Playing)");
+    else
+        ui->timeStamp->setText(timestamp + " (Finished)");
 }

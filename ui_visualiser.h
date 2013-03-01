@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Thu Feb 28 21:37:48 2013
+** Created: Fri Mar 1 11:06:17 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -167,7 +167,7 @@ public:
 
         timeStamp = new QLabel(Visualiser);
         timeStamp->setObjectName(QString::fromUtf8("timeStamp"));
-        timeStamp->setEnabled(false);
+        timeStamp->setEnabled(true);
         timeStamp->setMinimumSize(QSize(150, 0));
 
         horizontalLayout_2->addWidget(timeStamp);

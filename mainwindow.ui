@@ -73,7 +73,7 @@
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -384,7 +384,10 @@
   </action>
   <action name="actionProcess_Recording">
    <property name="text">
-    <string>Recording</string>
+    <string>Manage Recordings...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>

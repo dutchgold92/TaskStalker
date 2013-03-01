@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Feb 28 20:57:43 2013
+** Created: Fri Mar 1 11:04:16 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -262,9 +262,10 @@ public:
         actionRunning_Processes->setShortcut(QApplication::translate("MainWindow", "Ctrl+R", 0, QApplication::UnicodeUTF8));
         actionProcessor_Activity->setText(QApplication::translate("MainWindow", "Processor Activity", 0, QApplication::UnicodeUTF8));
         actionProcessor_Activity->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", 0, QApplication::UnicodeUTF8));
-        actionProcess_Recording->setText(QApplication::translate("MainWindow", "Recording", 0, QApplication::UnicodeUTF8));
+        actionProcess_Recording->setText(QApplication::translate("MainWindow", "Manage Recordings...", 0, QApplication::UnicodeUTF8));
+        actionProcess_Recording->setShortcut(QApplication::translate("MainWindow", "Ctrl+M", 0, QApplication::UnicodeUTF8));
         toggleUpdateButton->setText(QString());
-        processCountLabel->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
+        processCountLabel->setText(QString());
         QTableWidgetItem *___qtablewidgetitem = procTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "ID", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'visualiser.h'
 **
-** Created: Sat Mar 2 13:31:12 2013
+** Created: Sat Mar 2 14:07:38 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -43,7 +43,7 @@ static const uint qt_meta_data_Visualiser[] = {
      208,   11,   11,   11, 0x08,
      232,   11,   11,   11, 0x08,
      252,   11,   11,   11, 0x08,
-     278,   30,   11,   11, 0x08,
+     289,   30,   11,   11, 0x08,
 
        0        // eod
 };
@@ -56,7 +56,7 @@ static const char qt_meta_stringdata_Visualiser[] = {
     "on_killButton_clicked()\0row,column\0"
     "on_infoTable_cellChanged(int,int)\0"
     "kill_confirm_accepted()\0process_not_found()\0"
-    "on_recordButton_clicked()\0"
+    "on_recordOrPlayAgainButton_clicked()\0"
     "update_recording_timestamp(QString)\0"
 };
 
@@ -75,7 +75,7 @@ void Visualiser::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->on_infoTable_cellChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 7: _t->kill_confirm_accepted(); break;
         case 8: _t->process_not_found(); break;
-        case 9: _t->on_recordButton_clicked(); break;
+        case 9: _t->on_recordOrPlayAgainButton_clicked(); break;
         case 10: _t->update_recording_timestamp((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }

@@ -13,11 +13,13 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->update = true;
     this->recording = false;
+    this->playing_recording = false;
     this->pid = pid;
     this->simulation = simulation;
     ui->infoTable->setColumnWidth(0, 75);
     ui->infoTable->setColumnWidth(1, 150);
     ui->infoTable->setColumnWidth(3, 100);
+    ui->recordOrPlayAgainButton->setText("Record");
 
     QFile unknown_img(":/img/unknown.svg");
     scene = new QGraphicsScene(this);
@@ -53,6 +55,7 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
     ui->infoTable->setColumnWidth(0, 75);
     ui->infoTable->setColumnWidth(1, 150);
     ui->infoTable->setColumnWidth(3, 100);
+    ui->recordOrPlayAgainButton->setText("Play Again");
 
     QFile unknown_img(":/img/unknown.svg");
     scene = new QGraphicsScene(this);
@@ -62,7 +65,12 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
     scene->addItem(diagram);
 
     this->setWindowTitle("Process Recording Viewer");
-    ui->recordButton->setEnabled(false);
+    ui->recordOrPlayAgainButton->setEnabled(false);
+    ui->priorityBox->setEnabled(false);
+    ui->priorityButton->setEnabled(false);
+    ui->stopButton->setEnabled(false);
+    ui->endButton->setEnabled(false);
+    ui->killButton->setEnabled(false);
     update_thread = QtConcurrent::run(this, &Visualiser::play_recording);
     connect(this, SIGNAL(recording_tick(QString)), this, SLOT(update_recording_timestamp(QString)), Qt::QueuedConnection);
 
@@ -75,7 +83,7 @@ Visualiser::~Visualiser()
         proc::kill_process(this->pid);
 
     update = false;
-    update_thread.waitForFinished();
+    update_thread.cancel();
     delete ui;
 }
 
@@ -313,16 +321,26 @@ void Visualiser::resizeEvent(QResizeEvent *event)
 }
 
 /**
- * @brief Visualiser::on_recordButton_clicked Toggles recording of the task's activity.
+ * @brief Visualiser::on_recordButton_clicked Toggles recording of the task's activity, or repeats playback of the recording, depending on the situation.
  */
-void Visualiser::on_recordButton_clicked()
+void Visualiser::on_recordOrPlayAgainButton_clicked()
 {
-    if(!recording)
-        init_record();
-    else
+    if(!playing_recording)
     {
-        recording = false;
-        ui->recordButton->setText("Record");
+        if(!recording)
+            init_record();
+        else
+        {
+            recording = false;
+            ui->recordOrPlayAgainButton->setText("Record");
+        }
+    }
+    else if(playing_recording)
+    {
+        update_thread.waitForFinished();
+        update = true;
+        update_thread = QtConcurrent::run(this, &Visualiser::play_recording);
+        ui->recordOrPlayAgainButton->setEnabled(false);
     }
 }
 
@@ -345,7 +363,7 @@ void Visualiser::init_record()
             file.close();
             recording_file_path = file.fileName();
             recording = true;
-            ui->recordButton->setText("Stop Recording");
+            ui->recordOrPlayAgainButton->setText("Stop Recording");
         }
         else
             cout << "Recording file not writable" << endl;
@@ -392,6 +410,8 @@ void Visualiser::play_recording()
         cout << "File doesn't exist" << endl;
 
     update = false;
+    ui->recordOrPlayAgainButton->setEnabled(true);
+    update_thread.cancel();
 }
 
 /**

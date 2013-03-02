@@ -60,7 +60,7 @@ private slots:
     void on_infoTable_cellChanged(int row, int column);
     void kill_confirm_accepted();
     void process_not_found();
-    void on_recordButton_clicked();
+    void on_recordOrPlayAgainButton_clicked();
     void update_recording_timestamp(QString timestamp);
 };
 

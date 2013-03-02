@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Sat Mar 2 13:30:41 2013
+** Created: Sat Mar 2 14:07:02 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,16 +33,16 @@ class Ui_Visualiser
 public:
     QVBoxLayout *verticalLayout;
     QTableWidget *infoTable;
-    QHBoxLayout *horizontalLayout;
+    QHBoxLayout *controlPanel;
     QSpinBox *priorityBox;
     QPushButton *priorityButton;
     QPushButton *stopButton;
     QPushButton *endButton;
     QPushButton *killButton;
-    QHBoxLayout *horizontalLayout_3;
+    QHBoxLayout *graphicsViewPanel;
     QGraphicsView *graphicsView;
-    QHBoxLayout *horizontalLayout_2;
-    QPushButton *recordButton;
+    QHBoxLayout *bottomPanel;
+    QPushButton *recordOrPlayAgainButton;
     QLabel *timeStamp;
     QSpacerItem *horizontalSpacer;
     QDialogButtonBox *buttonBox;
@@ -104,46 +104,46 @@ public:
 
         verticalLayout->addWidget(infoTable);
 
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        controlPanel = new QHBoxLayout();
+        controlPanel->setObjectName(QString::fromUtf8("controlPanel"));
         priorityBox = new QSpinBox(Visualiser);
         priorityBox->setObjectName(QString::fromUtf8("priorityBox"));
         priorityBox->setMinimumSize(QSize(0, 25));
         priorityBox->setMinimum(-20);
         priorityBox->setMaximum(20);
 
-        horizontalLayout->addWidget(priorityBox);
+        controlPanel->addWidget(priorityBox);
 
         priorityButton = new QPushButton(Visualiser);
         priorityButton->setObjectName(QString::fromUtf8("priorityButton"));
         priorityButton->setMinimumSize(QSize(0, 25));
 
-        horizontalLayout->addWidget(priorityButton);
+        controlPanel->addWidget(priorityButton);
 
         stopButton = new QPushButton(Visualiser);
         stopButton->setObjectName(QString::fromUtf8("stopButton"));
         stopButton->setMinimumSize(QSize(0, 25));
 
-        horizontalLayout->addWidget(stopButton);
+        controlPanel->addWidget(stopButton);
 
         endButton = new QPushButton(Visualiser);
         endButton->setObjectName(QString::fromUtf8("endButton"));
         endButton->setMinimumSize(QSize(0, 25));
 
-        horizontalLayout->addWidget(endButton);
+        controlPanel->addWidget(endButton);
 
         killButton = new QPushButton(Visualiser);
         killButton->setObjectName(QString::fromUtf8("killButton"));
         killButton->setMinimumSize(QSize(0, 25));
 
-        horizontalLayout->addWidget(killButton);
+        controlPanel->addWidget(killButton);
 
 
-        verticalLayout->addLayout(horizontalLayout);
+        verticalLayout->addLayout(controlPanel);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        horizontalLayout_3->setSizeConstraint(QLayout::SetMinimumSize);
+        graphicsViewPanel = new QHBoxLayout();
+        graphicsViewPanel->setObjectName(QString::fromUtf8("graphicsViewPanel"));
+        graphicsViewPanel->setSizeConstraint(QLayout::SetMinimumSize);
         graphicsView = new QGraphicsView(Visualiser);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
         sizePolicy.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
@@ -153,28 +153,29 @@ public:
         graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         graphicsView->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
 
-        horizontalLayout_3->addWidget(graphicsView);
+        graphicsViewPanel->addWidget(graphicsView);
 
 
-        verticalLayout->addLayout(horizontalLayout_3);
+        verticalLayout->addLayout(graphicsViewPanel);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        recordButton = new QPushButton(Visualiser);
-        recordButton->setObjectName(QString::fromUtf8("recordButton"));
+        bottomPanel = new QHBoxLayout();
+        bottomPanel->setObjectName(QString::fromUtf8("bottomPanel"));
+        recordOrPlayAgainButton = new QPushButton(Visualiser);
+        recordOrPlayAgainButton->setObjectName(QString::fromUtf8("recordOrPlayAgainButton"));
+        recordOrPlayAgainButton->setMinimumSize(QSize(80, 30));
 
-        horizontalLayout_2->addWidget(recordButton);
+        bottomPanel->addWidget(recordOrPlayAgainButton);
 
         timeStamp = new QLabel(Visualiser);
         timeStamp->setObjectName(QString::fromUtf8("timeStamp"));
         timeStamp->setEnabled(true);
         timeStamp->setMinimumSize(QSize(150, 0));
 
-        horizontalLayout_2->addWidget(timeStamp);
+        bottomPanel->addWidget(timeStamp);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_2->addItem(horizontalSpacer);
+        bottomPanel->addItem(horizontalSpacer);
 
         buttonBox = new QDialogButtonBox(Visualiser);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
@@ -183,15 +184,15 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(buttonBox->sizePolicy().hasHeightForWidth());
         buttonBox->setSizePolicy(sizePolicy2);
-        buttonBox->setMinimumSize(QSize(0, 25));
+        buttonBox->setMinimumSize(QSize(80, 30));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Close);
         buttonBox->setCenterButtons(true);
 
-        horizontalLayout_2->addWidget(buttonBox);
+        bottomPanel->addWidget(buttonBox);
 
 
-        verticalLayout->addLayout(horizontalLayout_2);
+        verticalLayout->addLayout(bottomPanel);
 
 
         retranslateUi(Visualiser);
@@ -234,7 +235,7 @@ public:
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
         endButton->setText(QApplication::translate("Visualiser", "Terminate", 0, QApplication::UnicodeUTF8));
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
-        recordButton->setText(QApplication::translate("Visualiser", "Record", 0, QApplication::UnicodeUTF8));
+        recordOrPlayAgainButton->setText(QString());
         timeStamp->setText(QString());
     } // retranslateUi
 

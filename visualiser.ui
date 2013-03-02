@@ -139,7 +139,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="controlPanel">
      <item>
       <widget class="QSpinBox" name="priorityBox">
        <property name="minimumSize">
@@ -214,7 +214,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="graphicsViewPanel">
      <property name="sizeConstraint">
       <enum>QLayout::SetMinimumSize</enum>
      </property>
@@ -246,11 +246,17 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="bottomPanel">
      <item>
-      <widget class="QPushButton" name="recordButton">
+      <widget class="QPushButton" name="recordOrPlayAgainButton">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Record</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -293,8 +299,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>0</width>
-         <height>25</height>
+         <width>80</width>
+         <height>30</height>
         </size>
        </property>
        <property name="orientation">

@@ -1,4 +1,4 @@
 TaskStalker
 ===========
 
-TaskStalker process visualisation/simulation software
+Visual process monitoring and management software for Linux-amd64

@@ -64,7 +64,6 @@ namespace proc
     signed int get_cpu_usage(pid_t pid);
     void reset_usage_vars();
     QString format_state(QString state);
-    std::string format_state_std(std::string state);
     std::vector<pid_t> get_tasks_running();
     pid_t get_cpu_task(unsigned int cpu);
     bool task_is_executing(pid_t pid);

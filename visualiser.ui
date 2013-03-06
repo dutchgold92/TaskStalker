@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
+    <width>600</width>
     <height>555</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>550</width>
+    <width>600</width>
     <height>555</height>
    </size>
   </property>
@@ -84,7 +84,7 @@
       <number>1</number>
      </property>
      <property name="columnCount">
-      <number>5</number>
+      <number>6</number>
      </property>
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>40</number>
@@ -118,6 +118,11 @@
       </property>
       <property name="toolTip">
        <string>Information regarding the current status of the process.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>CPU %</string>
       </property>
      </column>
      <column>
@@ -246,7 +251,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="bottomPanel">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="recordOrPlayAgainButton">
        <property name="minimumSize">
@@ -290,27 +295,15 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QPushButton" name="closeButton">
        <property name="minimumSize">
         <size>
          <width>80</width>
          <height>30</height>
         </size>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Close</set>
-       </property>
-       <property name="centerButtons">
-        <bool>true</bool>
+       <property name="text">
+        <string>Close</string>
        </property>
       </widget>
      </item>
@@ -321,38 +314,5 @@
  <resources>
   <include location="images.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Visualiser</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Visualiser</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

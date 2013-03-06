@@ -62,6 +62,7 @@ private slots:
     void process_not_found();
     void on_recordOrPlayAgainButton_clicked();
     void update_recording_timestamp(QString timestamp);
+    void on_closeButton_clicked();
 };
 
 #endif // VISUALISER_H

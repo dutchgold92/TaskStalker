@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Sat Mar 2 14:07:02 2013
+** Created: Wed Mar 6 22:11:40 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,7 +15,6 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QDialog>
-#include <QtGui/QDialogButtonBox>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
@@ -41,24 +40,24 @@ public:
     QPushButton *killButton;
     QHBoxLayout *graphicsViewPanel;
     QGraphicsView *graphicsView;
-    QHBoxLayout *bottomPanel;
+    QHBoxLayout *horizontalLayout;
     QPushButton *recordOrPlayAgainButton;
     QLabel *timeStamp;
     QSpacerItem *horizontalSpacer;
-    QDialogButtonBox *buttonBox;
+    QPushButton *closeButton;
 
     void setupUi(QDialog *Visualiser)
     {
         if (Visualiser->objectName().isEmpty())
             Visualiser->setObjectName(QString::fromUtf8("Visualiser"));
         Visualiser->setEnabled(true);
-        Visualiser->resize(550, 555);
+        Visualiser->resize(600, 555);
         QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Visualiser->sizePolicy().hasHeightForWidth());
         Visualiser->setSizePolicy(sizePolicy);
-        Visualiser->setMinimumSize(QSize(550, 555));
+        Visualiser->setMinimumSize(QSize(600, 555));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
         Visualiser->setWindowIcon(icon);
@@ -66,8 +65,8 @@ public:
         verticalLayout = new QVBoxLayout(Visualiser);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         infoTable = new QTableWidget(Visualiser);
-        if (infoTable->columnCount() < 5)
-            infoTable->setColumnCount(5);
+        if (infoTable->columnCount() < 6)
+            infoTable->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -78,6 +77,8 @@ public:
         infoTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
         infoTable->setHorizontalHeaderItem(4, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        infoTable->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         if (infoTable->rowCount() < 1)
             infoTable->setRowCount(1);
         infoTable->setObjectName(QString::fromUtf8("infoTable"));
@@ -97,7 +98,7 @@ public:
         infoTable->setShowGrid(false);
         infoTable->setWordWrap(false);
         infoTable->setRowCount(1);
-        infoTable->setColumnCount(5);
+        infoTable->setColumnCount(6);
         infoTable->horizontalHeader()->setMinimumSectionSize(40);
         infoTable->horizontalHeader()->setStretchLastSection(true);
         infoTable->verticalHeader()->setVisible(false);
@@ -158,46 +159,36 @@ public:
 
         verticalLayout->addLayout(graphicsViewPanel);
 
-        bottomPanel = new QHBoxLayout();
-        bottomPanel->setObjectName(QString::fromUtf8("bottomPanel"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         recordOrPlayAgainButton = new QPushButton(Visualiser);
         recordOrPlayAgainButton->setObjectName(QString::fromUtf8("recordOrPlayAgainButton"));
         recordOrPlayAgainButton->setMinimumSize(QSize(80, 30));
 
-        bottomPanel->addWidget(recordOrPlayAgainButton);
+        horizontalLayout->addWidget(recordOrPlayAgainButton);
 
         timeStamp = new QLabel(Visualiser);
         timeStamp->setObjectName(QString::fromUtf8("timeStamp"));
         timeStamp->setEnabled(true);
         timeStamp->setMinimumSize(QSize(150, 0));
 
-        bottomPanel->addWidget(timeStamp);
+        horizontalLayout->addWidget(timeStamp);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        bottomPanel->addItem(horizontalSpacer);
+        horizontalLayout->addItem(horizontalSpacer);
 
-        buttonBox = new QDialogButtonBox(Visualiser);
-        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(buttonBox->sizePolicy().hasHeightForWidth());
-        buttonBox->setSizePolicy(sizePolicy2);
-        buttonBox->setMinimumSize(QSize(80, 30));
-        buttonBox->setOrientation(Qt::Horizontal);
-        buttonBox->setStandardButtons(QDialogButtonBox::Close);
-        buttonBox->setCenterButtons(true);
+        closeButton = new QPushButton(Visualiser);
+        closeButton->setObjectName(QString::fromUtf8("closeButton"));
+        closeButton->setMinimumSize(QSize(80, 30));
 
-        bottomPanel->addWidget(buttonBox);
+        horizontalLayout->addWidget(closeButton);
 
 
-        verticalLayout->addLayout(bottomPanel);
+        verticalLayout->addLayout(horizontalLayout);
 
 
         retranslateUi(Visualiser);
-        QObject::connect(buttonBox, SIGNAL(accepted()), Visualiser, SLOT(accept()));
-        QObject::connect(buttonBox, SIGNAL(rejected()), Visualiser, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(Visualiser);
     } // setupUi
@@ -221,14 +212,16 @@ public:
         ___qtablewidgetitem2->setToolTip(QApplication::translate("Visualiser", "Information regarding the current status of the process.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem3 = infoTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("Visualiser", "User", 0, QApplication::UnicodeUTF8));
-#ifndef QT_NO_TOOLTIP
-        ___qtablewidgetitem3->setToolTip(QApplication::translate("Visualiser", "Username of the owner of the process.", 0, QApplication::UnicodeUTF8));
-#endif // QT_NO_TOOLTIP
+        ___qtablewidgetitem3->setText(QApplication::translate("Visualiser", "CPU %", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem4 = infoTable->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("Visualiser", "Memory", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem4->setText(QApplication::translate("Visualiser", "User", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        ___qtablewidgetitem4->setToolTip(QApplication::translate("Visualiser", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem4->setToolTip(QApplication::translate("Visualiser", "Username of the owner of the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        QTableWidgetItem *___qtablewidgetitem5 = infoTable->horizontalHeaderItem(5);
+        ___qtablewidgetitem5->setText(QApplication::translate("Visualiser", "Memory", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem5->setToolTip(QApplication::translate("Visualiser", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         priorityBox->setPrefix(QString());
         priorityButton->setText(QApplication::translate("Visualiser", "Set Priority", 0, QApplication::UnicodeUTF8));
@@ -237,6 +230,7 @@ public:
         killButton->setText(QApplication::translate("Visualiser", "Kill", 0, QApplication::UnicodeUTF8));
         recordOrPlayAgainButton->setText(QString());
         timeStamp->setText(QString());
+        closeButton->setText(QApplication::translate("Visualiser", "Close", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

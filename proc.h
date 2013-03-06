@@ -19,6 +19,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QRegExp>
+#include <stdio.h>
 
 #define PATH "/proc/"
 
@@ -40,6 +41,7 @@ namespace proc
     static QString cpu_type;
     static float memory_size = 0;   // 0 indicates it must be calculated
     static float swap_size;
+    static unsigned long last_cpu_jiffies = 0, last_proc_jiffies = 0;
 
     std::vector<process> list_processes();
     QString get_state(pid_t pid);
@@ -59,7 +61,8 @@ namespace proc
     QString get_cpu_type();
     float get_memory_size();
     float get_swap_size();
-    unsigned short get_cpu_usage(pid_t pid);
+    signed int get_cpu_usage(pid_t pid);
+    void reset_usage_vars();
     QString format_state(QString state);
     std::string format_state_std(std::string state);
     std::vector<pid_t> get_tasks_running();

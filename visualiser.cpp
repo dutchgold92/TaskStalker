@@ -5,6 +5,12 @@
 
 using namespace std;
 
+/**
+ * @brief Visualiser::Visualiser Creates a Process Viewer to view a live process.
+ * @param parent Parent widget.
+ * @param pid Process's ID.
+ * @param simulation Whether or not this is a simulation.
+ */
 Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     QDialog(parent),
     ui(new Ui::Visualiser)
@@ -17,8 +23,9 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     this->pid = pid;
     this->simulation = simulation;
     ui->infoTable->setColumnWidth(0, 75);
-    ui->infoTable->setColumnWidth(1, 150);
+    ui->infoTable->setColumnWidth(1, 125);
     ui->infoTable->setColumnWidth(3, 100);
+    ui->infoTable->setColumnWidth(4, 90);
     ui->recordOrPlayAgainButton->setText("Record");
 
     QFile unknown_img(":/img/unknown.svg");
@@ -28,19 +35,21 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     scale_diagram();
     scene->addItem(diagram);
 
-    if(!playing_recording)
-    {
-        ui->priorityBox->setValue(proc::get_priority(this->pid));
-        ui->infoTable->setItem(0, 0, new QTableWidgetItem(QString::number(pid), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 3, new QTableWidgetItem(proc::get_username(pid), Qt::DisplayRole));
-        update_thread = QtConcurrent::run(this, &Visualiser::update_state);
-        connect(this, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
-    }
+    ui->priorityBox->setValue(proc::get_priority(this->pid));
+    ui->infoTable->setItem(0, 0, new QTableWidgetItem(QString::number(pid), Qt::DisplayRole));
+    ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
+    ui->infoTable->setItem(0, 4, new QTableWidgetItem(proc::get_username(pid), Qt::DisplayRole));
+    update_thread = QtConcurrent::run(this, &Visualiser::update_state);
+    connect(this, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
 
     this->show();
 }
 
+/**
+ * @brief Visualiser::Visualiser Creates a Process Viewer to view a process recording.
+ * @param parent Parent widget.
+ * @param recording_file_path Path to the recording file.
+ */
 Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
     QDialog(parent),
     ui(new Ui::Visualiser)
@@ -53,8 +62,9 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
     this->simulation = false;
     this->recording_file_path = recording_file_path;
     ui->infoTable->setColumnWidth(0, 75);
-    ui->infoTable->setColumnWidth(1, 150);
+    ui->infoTable->setColumnWidth(1, 125);
     ui->infoTable->setColumnWidth(3, 100);
+    ui->infoTable->setColumnWidth(4, 90);
     ui->recordOrPlayAgainButton->setText("Play Again");
 
     QFile unknown_img(":/img/unknown.svg");
@@ -79,11 +89,7 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
 
 Visualiser::~Visualiser()
 {
-    if(simulation)
-        proc::kill_process(this->pid);
-
-    update = false;
-    update_thread.cancel();
+    on_closeButton_clicked();
     delete ui;
 }
 
@@ -108,6 +114,10 @@ void Visualiser::update_state()
     {
         state = proc::format_state(proc::get_state(pid));
         QString memory_usage = proc::get_memory_usage(pid);
+        QString cpu_usage = QString::number(proc::get_cpu_usage(pid));
+
+        if(cpu_usage == "-1")
+            cpu_usage = "Calculating...";
 
         if(!state.isEmpty())
         {
@@ -127,12 +137,13 @@ void Visualiser::update_state()
                 else
                     out << QTime::currentTime().toString() << "=" << state;
 
-                out << "=" << memory_usage << "\n";
+                out << "=" << cpu_usage << "=" << memory_usage << "\n";
                 file.close();
             }
 
             ui->infoTable->setItem(0, 2, new QTableWidgetItem(state, Qt::DisplayRole));
-            ui->infoTable->setItem(0, 4, new QTableWidgetItem(memory_usage, Qt::DisplayRole));
+            ui->infoTable->setItem(0, 3, new QTableWidgetItem(cpu_usage, Qt::DisplayRole));
+            ui->infoTable->setItem(0, 5, new QTableWidgetItem(memory_usage, Qt::DisplayRole));
         }
         else
         {
@@ -359,7 +370,7 @@ void Visualiser::init_record()
 
         if(file.isWritable())
         {
-            out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 3)->text() << "\n";
+            out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 4)->text() << "\n";
             file.close();
             recording_file_path = file.fileName();
             recording = true;
@@ -386,7 +397,7 @@ void Visualiser::play_recording()
         ui->infoTable->setItem(0, 0, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
         this->pid = ui->infoTable->item(0, 0)->text().toInt();
         ui->infoTable->setItem(0, 1, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 3, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 4, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
 
         QString line = in.readLine();
 
@@ -396,7 +407,9 @@ void Visualiser::play_recording()
             line.remove(0, (line.indexOf("=") + 1));
             ui->infoTable->setItem(0, 2, new QTableWidgetItem(line.left(line.indexOf("=")), Qt::DisplayRole));
             line.remove(0, (line.indexOf("=") + 1));
-            ui->infoTable->setItem(0, 4, new QTableWidgetItem(line, Qt::DisplayRole));
+            ui->infoTable->setItem(0, 3, new QTableWidgetItem(line.left(line.indexOf("=")), Qt::DisplayRole));
+            line.remove(0, (line.indexOf("=") + 1));
+            ui->infoTable->setItem(0, 5, new QTableWidgetItem(line, Qt::DisplayRole));
             emit(recording_tick(timestamp));
 
             if(in.atEnd())  // end of recording
@@ -424,4 +437,19 @@ void Visualiser::update_recording_timestamp(QString timestamp)
         ui->timeStamp->setText(timestamp + " (Playing)");
     else
         ui->timeStamp->setText(timestamp + " (Finished)");
+}
+
+/**
+ * @brief Visualiser::on_closeButton_clicked Closes the dialog.
+ */
+void Visualiser::on_closeButton_clicked()
+{
+    if(simulation)
+        proc::kill_process(this->pid);
+
+    proc::reset_usage_vars();
+    update = false;
+    update_thread.cancel();
+    update_thread.waitForFinished();
+    this->close();
 }

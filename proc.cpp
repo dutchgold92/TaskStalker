@@ -405,15 +405,16 @@ float proc::get_swap_size()
 }
 
 /**
-  * Calculates and returns the CPU usage of the process
-  * Doesn't work :(
-  */
-unsigned short proc::get_cpu_usage(pid_t pid)
+ * @brief proc::get_cpu_usage Calculates and returns CPU Usage for the specified process. NOTE: Be sure to call proc::reset_usage_vars() when finished with a process!
+ * @param pid Task to check.
+ * @return Returns CPU usage percentage for the given process. This value cannot be calculated on the initial call of this function, in which case -1 is returned.
+ */
+signed int proc::get_cpu_usage(pid_t pid)
 {
-    unsigned int total_cpu_time = 0;
-    unsigned int proc_cpu_time = 0;
-    QRegExp numbers("(\\d+)");  // regex for finding numbers in a string
-    unsigned int str_pos = 0;   // position variable, for searching strings with regex
+    unsigned long last_total_cpu_time = proc::last_cpu_jiffies;
+    unsigned long last_proc_cpu_time = proc::last_proc_jiffies;
+    unsigned long total_cpu_time = 0;
+    unsigned long proc_cpu_time = 0;
 
     // Calculate total CPU time
     QFile stat_file("/proc/stat");
@@ -424,22 +425,24 @@ unsigned short proc::get_cpu_usage(pid_t pid)
         QTextStream in(&stat_file);
         QString line = in.readLine();
 
-        // sum the numerical substrings, as integers
-        while((str_pos = numbers.indexIn(line, str_pos)) != -1)
+        if(line.startsWith("cpu "))
         {
-            total_cpu_time += numbers.cap(1).toInt();
-            str_pos += numbers.matchedLength();
+            line = line.remove(0, line.indexOf(" ")).trimmed();
+
+            for(short x = 0; x < 10; x++)
+            {
+                total_cpu_time += line.left(line.indexOf(" ")).toLong();
+                line = line.remove(0, line.indexOf(" ")).trimmed();
+            }
         }
 
-        str_pos = 0;
+        stat_file.close();
     }
-
-    stat_file.close();
+    else
+        cout << "Failed to open /proc/stat";
 
     // Calculate CPU time for THIS process
-    stringstream file_name;
-    file_name << PATH << pid << "/stat";
-    QFile proc_stat_file(QString::fromStdString(file_name.str()));
+    QFile proc_stat_file(PATH + QString::number(pid) + "/stat");
 
     if(proc_stat_file.exists())
     {
@@ -447,20 +450,40 @@ unsigned short proc::get_cpu_usage(pid_t pid)
         QTextStream in(&proc_stat_file);
         QString line = in.readLine();
 
-        for(unsigned short x = 0; x < 13; x++)  // remove everything up to the utime field
-            line.remove(0, (line.indexOf(" ") + 1));
-
-        for(unsigned short x = 0; x < 2 && (str_pos = numbers.indexIn(line, str_pos) != -1); x++)   // add utime and stime field values together, into proc_cpu_time
+        for(short x = 0; x < 14; x++)
         {
-            proc_cpu_time += numbers.cap(1).toInt();
-            str_pos += numbers.matchedLength();
+            if(x >= 13)
+                proc_cpu_time += line.left(line.indexOf(" ")).toLong();
+
+            line = line.remove(0, line.indexOf(" ")).trimmed();
         }
+
+        proc_stat_file.close();
     }
     else
-        ; // invalid pid specified
+        cout << "Failed to open /proc/" << pid << "/stat";
 
-    // Derive CPU usage statistic
-    return (total_cpu_time / proc_cpu_time);
+    if(proc::last_cpu_jiffies == 0)
+    {
+        proc::last_cpu_jiffies = total_cpu_time;
+        proc::last_proc_jiffies = proc_cpu_time;
+        return -1;
+    }
+    else
+    {
+        proc::last_cpu_jiffies = total_cpu_time;
+        proc::last_proc_jiffies = proc_cpu_time;
+        return (100 * (proc_cpu_time - last_proc_cpu_time) / (total_cpu_time - last_total_cpu_time));
+    }
+}
+
+/**
+ * @brief proc::reset_usage_vars Resets resource usage variables.
+ */
+void proc::reset_usage_vars()
+{
+    proc::last_cpu_jiffies = 0;
+    proc::last_proc_jiffies = 0;
 }
 
 /**
@@ -480,29 +503,6 @@ QString proc::format_state(QString state)
     else if(state == "T (stopped)")
         return "Stopped";
     else if(state == "W (paging")
-        return "Paging";
-    else
-        return "";
-}
-
-/**
-  * Formats the std::string state, returning it in a prettier format
-  * Returns empty string if passed an unknown state
-  * Probably will only need the QString equivalent, but sure this is here anyway
-  */
-string proc::format_state_std(std::string state)
-{
-    if(state == "R (running)")
-        return "Running";
-    else if(state == "S (sleeping)")
-        return "Sleeping";
-    else if(state == "Z (zombie)")
-        return "Zombie";
-    else if(state == "D (disk sleep")
-        return "Disk Sleep";
-    else if(state == "T (stopped)")
-        return "Stopped";
-    else if(state == "W (paging)")
         return "Paging";
     else
         return "";

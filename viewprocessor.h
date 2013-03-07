@@ -12,23 +12,41 @@
 #define GRAPH_TIME_PERIOD_SECONDS 30    // period of time in seconds that can be represented by the graph
 #define GRAPH_MIMIMUM_X_POSITION -375   // if an item moves below this x value, it is of bounds of the display area
 
+// FIXME: signals/slots between the two classes should use pid_t not QString! but cannot seem to register pid_t.
+
 namespace Ui {
 class ViewProcessor;
 }
 
+class ViewProcessorUpdater : public QThread {
+    Q_OBJECT
+public:
+    ViewProcessorUpdater(unsigned int cpu = 0);
+    friend class ViewProcessor;
+protected:
+    virtual void run();
+private:
+    unsigned int cpu;
+    bool update;
+signals:
+    void updated(QString pid);
+private slots:
+    void set_paused(bool);
+};
+
 class ViewProcessor : public QDialog
 {
-    Q_OBJECT
-    
+    Q_OBJECT    
 public:
     explicit ViewProcessor(QWidget *parent = 0, unsigned int cpu = 0);
     ~ViewProcessor();
     
 signals:
     void data_updated();
+    void paused(bool);
 
 private slots:
-    void update_data();
+    void receive_update(QString pid);
     void on_closeButton_clicked();
     void on_toggleUpdateButton_clicked();
     void graph_item_clicked();
@@ -36,11 +54,8 @@ private slots:
 private:
     Ui::ViewProcessor *ui;
     unsigned int cpu;
-    pid_t current_pid;
-    void update_info();
-    QFuture<void> update_thread;
+    ViewProcessorUpdater *update_thread;
     bool update;
-    bool closed;
     QGraphicsScene *scene;
     QGraphicsSimpleTextItem *process_info;
     unsigned short static_graph_items;

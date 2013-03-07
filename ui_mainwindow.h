@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Mar 7 16:26:38 2013
+** Created: Thu Mar 7 17:00:53 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -70,6 +70,7 @@ public:
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setMinimumSize(QSize(680, 250));
+        MainWindow->setFocusPolicy(Qt::StrongFocus);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
@@ -178,6 +179,7 @@ public:
         procTable->setObjectName(QString::fromUtf8("procTable"));
         sizePolicy1.setHeightForWidth(procTable->sizePolicy().hasHeightForWidth());
         procTable->setSizePolicy(sizePolicy1);
+        procTable->setFocusPolicy(Qt::NoFocus);
         procTable->setContextMenuPolicy(Qt::ActionsContextMenu);
         procTable->setLineWidth(1);
         procTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);

@@ -3,6 +3,11 @@
 
 using namespace std;
 
+/**
+ * @brief ViewProcessor::ViewProcessor Creates a new instance of this dialog/class.
+ * @param parent Parent widget.
+ * @param cpu CPU to monitor, by ID.
+ */
 ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
     QDialog(parent),
     ui(new Ui::ViewProcessor)
@@ -16,19 +21,22 @@ ViewProcessor::ViewProcessor(QWidget *parent, unsigned int cpu) :
     init_table();
     init_graph();
     this->update = true;
-    this->closed = false;
-    this->update_thread = QtConcurrent::run(this, &ViewProcessor::update_info);
-    connect(this, SIGNAL(data_updated()), this, SLOT(update_data()), Qt::QueuedConnection);
+    update_thread = new ViewProcessorUpdater(cpu);
+    update_thread->start();
+    connect(update_thread, SIGNAL(updated(QString)), this, SLOT(receive_update(QString)), Qt::QueuedConnection);
+    connect(this, SIGNAL(paused(bool)), update_thread, SLOT(set_paused(bool)), Qt::QueuedConnection);
     connect(this->scene, SIGNAL(selectionChanged()), this, SLOT(graph_item_clicked()), Qt::QueuedConnection);
     update_timestamps();
     this->show();
 }
 
+/**
+ * @brief ViewProcessor::~ViewProcessor Destroys the class and dialog, and terminates the updater thread.
+ */
 ViewProcessor::~ViewProcessor()
 {
     update = false;
-    closed = true;
-    update_thread.waitForFinished();
+    update_thread->terminate();
     delete ui;
 }
 
@@ -40,7 +48,7 @@ void ViewProcessor::init_table()
     ui->procTable->insertRow(ui->procTable->rowCount());
     ui->procTable->setItem(0, 0, new QTableWidgetItem());
     ui->procTable->setItem(0, 1, new QTableWidgetItem());
-    current_pid = proc::get_cpu_task(cpu);
+    int current_pid = proc::get_cpu_task(cpu);
 
     if(current_pid > 0)
     {
@@ -77,28 +85,10 @@ void ViewProcessor::init_graph()
 }
 
 /**
- * @brief ViewProcessor::update_info Updates this->current_pid using proc::get_cpu_task(), then emits data_updated() signal. Should be threaded.
+ * @brief ViewProcessor::receive_update Updates the GUI with new information from the worker thread.
+ * @param pid PID of currently executing task.
  */
-void ViewProcessor::update_info()
-{
-    while(true)
-    {
-        while(update)
-        {
-            this->current_pid = proc::get_cpu_task(this->cpu);
-            emit(data_updated());
-            sleep(sys::get_cpu_update_interval());
-        }
-
-        if(closed)
-            break;
-    }
-}
-
-/**
- * @brief ViewProcessor::update_data Slot called when current process data is updated.
- */
-void ViewProcessor::update_data()
+void ViewProcessor::receive_update(QString pid)
 {
     last_update_time = QTime::currentTime();
     update_timestamps();
@@ -106,12 +96,12 @@ void ViewProcessor::update_data()
 
     QGraphicsProcessItem *item;
 
-    if(this->current_pid > 0)
+    if(pid.toInt() > 0)
     {
-        ui->procTable->item(0, 0)->setData(Qt::DisplayRole, this->current_pid);
-        QString proc_name = proc::get_name(current_pid);
+        ui->procTable->item(0, 0)->setData(Qt::DisplayRole, pid);
+        QString proc_name = proc::get_name(pid.toInt());
         ui->procTable->item(0, 1)->setData(Qt::DisplayRole, proc_name);
-        item = new QGraphicsProcessItem(0, scene, true, last_update_time, proc_name, current_pid);
+        item = new QGraphicsProcessItem(0, scene, true, last_update_time, proc_name, pid.toInt());
         item->setRect(180.0, -75.0, 10.0, 10.0);
     }
     else
@@ -165,6 +155,7 @@ void ViewProcessor::on_toggleUpdateButton_clicked()
     {
         update = false;
         ui->toggleUpdateButton->setIcon(QIcon(":/img/button_play.png"));
+        emit(paused(true));
     }
     else
     {
@@ -173,6 +164,7 @@ void ViewProcessor::on_toggleUpdateButton_clicked()
 
         update = true;
         ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
+        emit(paused(false));
     }
 }
 
@@ -188,4 +180,43 @@ void ViewProcessor::graph_item_clicked()
     }
     else
         process_info->setText("");
+}
+
+/**
+ * @brief ViewProcessorUpdater::ViewProcessorUpdater Constructor for this worker thread class.
+ * @param cpu CPU to probe for information.
+ */
+ViewProcessorUpdater::ViewProcessorUpdater(unsigned int cpu)
+{
+    this->cpu = cpu;
+    this->update = true;
+}
+
+/**
+ * @brief ViewProcessorUpdater::run Updater function.
+ */
+void ViewProcessorUpdater::run()
+{
+    while(true)
+    {
+        while(update)
+        {
+            this->setTerminationEnabled(false);
+            emit(updated(QString::number(proc::get_cpu_task(this->cpu))));
+            this->setTerminationEnabled(true);
+            sleep(sys::get_cpu_update_interval());
+        }
+    }
+}
+
+/**
+ * @brief ViewProcessorUpdater::set_paused Pauses/Resumes updating.
+ * @param pause Pause if true, resume if false.
+ */
+void ViewProcessorUpdater::set_paused(bool pause)
+{
+    if(pause)
+        update = false;
+    else
+        update = true;
 }

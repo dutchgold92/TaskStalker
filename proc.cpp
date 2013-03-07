@@ -53,11 +53,12 @@ vector<proc::process> proc::list_processes()
                 line = in.readLine();
             }
 
+            status_file.close();
+
             if(!memory_entry)
                 p.memory_usage = "N/A";
 
             proc_vector.push_back(p);
-            status_file.close();
         }
     }
 
@@ -474,6 +475,83 @@ signed int proc::get_cpu_usage(pid_t pid)
         proc::last_cpu_jiffies = total_cpu_time;
         proc::last_proc_jiffies = proc_cpu_time;
         return (100 * (proc_cpu_time - last_proc_cpu_time) / (total_cpu_time - last_total_cpu_time));
+    }
+}
+
+/**
+ * @brief proc::get_cpu_usage_independent Calculates and returns CPU Usage for the specified process. This version does not use shared variables, hence can be used multiple times simultaneously.
+ * @param pid Task to check.
+ * @param last_cpu_jiffies The system total jiffy count at last update.
+ * @param last_proc_jiffies The task's jiffy count at last update.
+ * @return CPU usage percentage for the given process, as well as jiffy counts. This value cannot be calculated on the initial call of this function, in which case -1 is returned.
+ */
+proc::cpu_usage proc::get_cpu_usage_independent(pid_t pid, unsigned long last_cpu_jiffies, unsigned long last_proc_jiffies)
+{
+    cpu_usage usage;
+    unsigned long last_total_cpu_time = last_cpu_jiffies;
+    unsigned long last_proc_cpu_time = last_proc_jiffies;
+    unsigned long total_cpu_time = 0;
+    unsigned long proc_cpu_time = 0;
+
+    // Calculate total CPU time
+    QFile stat_file("/proc/stat");
+
+    if(stat_file.exists())
+    {
+        stat_file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&stat_file);
+        QString line = in.readLine();
+
+        if(line.startsWith("cpu "))
+        {
+            line = line.remove(0, line.indexOf(" ")).trimmed();
+
+            for(short x = 0; x < 10; x++)
+            {
+                total_cpu_time += line.left(line.indexOf(" ")).toLong();
+                line = line.remove(0, line.indexOf(" ")).trimmed();
+            }
+        }
+
+        stat_file.close();
+    }
+    else
+        cout << "Failed to open /proc/stat";
+
+    // Calculate CPU time for THIS process
+    QFile proc_stat_file(PATH + QString::number(pid) + "/stat");
+
+    if(proc_stat_file.exists())
+    {
+        proc_stat_file.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&proc_stat_file);
+        QString line = in.readLine();
+
+        for(short x = 0; x < 14; x++)
+        {
+            if(x >= 13)
+                proc_cpu_time += line.left(line.indexOf(" ")).toLong();
+
+            line = line.remove(0, line.indexOf(" ")).trimmed();
+        }
+
+        proc_stat_file.close();
+    }
+    else
+        cout << "Failed to open /proc/" << pid << "/stat";
+
+    usage.last_cpu_jiffies = total_cpu_time;
+    usage.last_proc_jiffies = proc_cpu_time;
+
+    if(last_cpu_jiffies == 0)
+    {
+        usage.usage = -1;
+        return usage;
+    }
+    else
+    {
+        usage.usage = (100 * (proc_cpu_time - last_proc_cpu_time) / (total_cpu_time - last_total_cpu_time));
+        return usage;
     }
 }
 

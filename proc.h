@@ -36,6 +36,13 @@ namespace proc
         QString memory_usage;
     };
 
+    struct cpu_usage
+    {
+        signed int usage;
+        unsigned long last_cpu_jiffies;
+        unsigned long last_proc_jiffies;
+    };
+
     static QString kernel_version;
     static unsigned short cpu_count = 0;    // how can a computer have no CPUs? := if 0, clearly it hasn't been successfully calculated, yet.
     static QString cpu_type;
@@ -62,6 +69,7 @@ namespace proc
     float get_memory_size();
     float get_swap_size();
     signed int get_cpu_usage(pid_t pid);
+    cpu_usage get_cpu_usage_independent(pid_t pid, unsigned long last_cpu_jiffies, unsigned long last_proc_jiffies);
     void reset_usage_vars();
     QString format_state(QString state);
     std::vector<pid_t> get_tasks_running();

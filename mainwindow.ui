@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>680</width>
     <height>500</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>600</width>
+    <width>680</width>
     <height>250</height>
    </size>
   </property>
@@ -124,7 +124,7 @@
        <bool>true</bool>
       </property>
       <property name="columnCount">
-       <number>6</number>
+       <number>7</number>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>true</bool>
@@ -170,6 +170,14 @@
       </column>
       <column>
        <property name="text">
+        <string>CPU %</string>
+       </property>
+       <property name="toolTip">
+        <string>Percentage of processor resources this task is currently using. This is an overall figure for all CPUs.</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Priority</string>
        </property>
        <property name="toolTip">
@@ -207,7 +215,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>680</width>
      <height>20</height>
     </rect>
    </property>

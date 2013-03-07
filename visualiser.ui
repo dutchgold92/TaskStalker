@@ -124,6 +124,9 @@
       <property name="text">
        <string>CPU %</string>
       </property>
+      <property name="toolTip">
+       <string>Percentage of processor resources this task is currently using. This is an overall figure for all CPUs.</string>
+      </property>
      </column>
      <column>
       <property name="text">
@@ -154,7 +157,7 @@
         </size>
        </property>
        <property name="prefix">
-        <string extracomment="Nice"/>
+        <string extracomment="Nice">Priority: </string>
        </property>
        <property name="minimum">
         <number>-20</number>

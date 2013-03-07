@@ -24,6 +24,7 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
     this->simulation = simulation;
     ui->infoTable->setColumnWidth(0, 75);
     ui->infoTable->setColumnWidth(1, 125);
+    ui->infoTable->setColumnWidth(2, 100);
     ui->infoTable->setColumnWidth(3, 100);
     ui->infoTable->setColumnWidth(4, 90);
     ui->recordOrPlayAgainButton->setText("Record");

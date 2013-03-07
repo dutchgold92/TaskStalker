@@ -10,11 +10,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->update = true;
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
-    ui->procTable->setColumnWidth(0, 75);
-    ui->procTable->setColumnWidth(1, 150);
+
+    ui->procTable->setColumnWidth(0, 65);
+    ui->procTable->setColumnWidth(1, 125);
     ui->procTable->setColumnWidth(2, 100);
-    ui->procTable->setColumnWidth(3, 75);
-    ui->procTable->setColumnWidth(4, 100);
+    ui->procTable->setColumnWidth(3, 100);
+    ui->procTable->setColumnWidth(4, 75);
+    ui->procTable->setColumnWidth(5, 90);
+
     ui->procTable->horizontalHeader()->setHighlightSections(false);
     ui->procTable->addAction(ui->actionView);
     QAction *menu_separator = new QAction(this);
@@ -95,25 +98,27 @@ void MainWindow::update_table()
                 // Append new row
                 if(row_position == -1)
                 {
-                    signed int new_row = ui->procTable->rowCount();
-                    ui->procTable->insertRow(new_row);
-                    ui->procTable->setItem(new_row, 0, pid_item);
-                    ui->procTable->setItem(new_row, 1, procname_item);
-                    ui->procTable->setItem(new_row, 2, procstate_item);
-                    ui->procTable->setItem(new_row, 3, procprio_item);
-                    ui->procTable->setItem(new_row, 4, procuser_item);
-                    ui->procTable->setItem(new_row, 5, procmem_item);
+                    row_position = ui->procTable->rowCount();
+                    ui->procTable->insertRow(row_position);
+                    ui->procTable->setItem(row_position, 3, new QTableWidgetCpuUsageItem());
                 }
-                // Update existing row
+
+                ui->procTable->setItem(row_position, 0, pid_item);
+                ui->procTable->setItem(row_position, 1, procname_item);
+                ui->procTable->setItem(row_position, 2, procstate_item);
+                ui->procTable->setItem(row_position, 4, procprio_item);
+                ui->procTable->setItem(row_position, 5, procuser_item);
+                ui->procTable->setItem(row_position, 6, procmem_item);
+
+                proc::cpu_usage usage = proc::get_cpu_usage_independent(proc_vector.at(x).pid, ((QTableWidgetCpuUsageItem*)ui->procTable->item(row_position, 3))->get_last_cpu_jiffies(), ((QTableWidgetCpuUsageItem*)ui->procTable->item(row_position, 3))->get_last_proc_jiffies());
+
+                if(usage.usage == -1)
+                    ui->procTable->item(row_position, 3)->setData(Qt::DisplayRole, "Calculating...");
                 else
-                {
-                    ui->procTable->setItem(row_position, 0, pid_item);
-                    ui->procTable->setItem(row_position, 1, procname_item);
-                    ui->procTable->setItem(row_position, 2, procstate_item);
-                    ui->procTable->setItem(row_position, 3, procprio_item);
-                    ui->procTable->setItem(row_position, 4, procuser_item);
-                    ui->procTable->setItem(row_position, 5, procmem_item);
-                }
+                    ui->procTable->item(row_position, 3)->setData(Qt::DisplayRole, usage.usage);
+
+                ((QTableWidgetCpuUsageItem*)ui->procTable->item(row_position, 3))->set_last_cpu_jiffies(usage.last_cpu_jiffies);
+                ((QTableWidgetCpuUsageItem*)ui->procTable->item(row_position, 3))->set_last_proc_jiffies(usage.last_proc_jiffies);
             }
 
             procTable_remove_dead(proc_vector);

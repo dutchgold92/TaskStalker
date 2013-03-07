@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat Mar 2 16:56:42 2013
+** Created: Thu Mar 7 14:12:46 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -63,13 +63,13 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(600, 500);
+        MainWindow->resize(680, 500);
         QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(600, 250));
+        MainWindow->setMinimumSize(QSize(680, 250));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/img/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
@@ -159,8 +159,8 @@ public:
         verticalLayout->addLayout(horizontalLayout);
 
         procTable = new QTableWidget(centralWidget);
-        if (procTable->columnCount() < 6)
-            procTable->setColumnCount(6);
+        if (procTable->columnCount() < 7)
+            procTable->setColumnCount(7);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -173,6 +173,8 @@ public:
         procTable->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
         procTable->setHorizontalHeaderItem(5, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        procTable->setHorizontalHeaderItem(6, __qtablewidgetitem6);
         procTable->setObjectName(QString::fromUtf8("procTable"));
         sizePolicy1.setHeightForWidth(procTable->sizePolicy().hasHeightForWidth());
         procTable->setSizePolicy(sizePolicy1);
@@ -188,7 +190,7 @@ public:
         procTable->setSortingEnabled(true);
         procTable->setWordWrap(false);
         procTable->setCornerButtonEnabled(true);
-        procTable->setColumnCount(6);
+        procTable->setColumnCount(7);
         procTable->horizontalHeader()->setVisible(true);
         procTable->horizontalHeader()->setCascadingSectionResizes(false);
         procTable->horizontalHeader()->setDefaultSectionSize(100);
@@ -202,7 +204,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(true);
-        menuBar->setGeometry(QRect(0, 0, 600, 20));
+        menuBar->setGeometry(QRect(0, 0, 680, 20));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         menuTools = new QMenu(menuBar);
@@ -282,19 +284,24 @@ public:
         ___qtablewidgetitem2->setToolTip(QApplication::translate("MainWindow", "Information regarding the current status of the process.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem3 = procTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "Priority", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "CPU %", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        ___qtablewidgetitem3->setToolTip(QApplication::translate("MainWindow", "Priority or \"nice\" value of the process. A higher (positive) value means the task will more often yield the processor to other processes, whereas a lower (negative) value means it will less willingly yield the CPU.", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem3->setToolTip(QApplication::translate("MainWindow", "Percentage of processor resources this task is currently using. This is an overall figure for all CPUs.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem4 = procTable->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "User", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "Priority", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        ___qtablewidgetitem4->setToolTip(QApplication::translate("MainWindow", "Username of the owner of the process.", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem4->setToolTip(QApplication::translate("MainWindow", "Priority or \"nice\" value of the process. A higher (positive) value means the task will more often yield the processor to other processes, whereas a lower (negative) value means it will less willingly yield the CPU.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem5 = procTable->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QApplication::translate("MainWindow", "Memory", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem5->setText(QApplication::translate("MainWindow", "User", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        ___qtablewidgetitem5->setToolTip(QApplication::translate("MainWindow", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem5->setToolTip(QApplication::translate("MainWindow", "Username of the owner of the process.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        QTableWidgetItem *___qtablewidgetitem6 = procTable->horizontalHeaderItem(6);
+        ___qtablewidgetitem6->setText(QApplication::translate("MainWindow", "Memory", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem6->setToolTip(QApplication::translate("MainWindow", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));

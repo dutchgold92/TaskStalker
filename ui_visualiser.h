@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'visualiser.ui'
 **
-** Created: Wed Mar 6 22:11:40 2013
+** Created: Thu Mar 7 14:12:46 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -213,6 +213,9 @@ public:
 #endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem3 = infoTable->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("Visualiser", "CPU %", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        ___qtablewidgetitem3->setToolTip(QApplication::translate("Visualiser", "Percentage of processor resources this task is currently using. This is an overall figure for all CPUs.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         QTableWidgetItem *___qtablewidgetitem4 = infoTable->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QApplication::translate("Visualiser", "User", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
@@ -223,7 +226,7 @@ public:
 #ifndef QT_NO_TOOLTIP
         ___qtablewidgetitem5->setToolTip(QApplication::translate("Visualiser", "The sum of virtual memory allocated to the task. This memory may be shared.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
-        priorityBox->setPrefix(QString());
+        priorityBox->setPrefix(QApplication::translate("Visualiser", "Priority: ", 0, QApplication::UnicodeUTF8));
         priorityButton->setText(QApplication::translate("Visualiser", "Set Priority", 0, QApplication::UnicodeUTF8));
         stopButton->setText(QApplication::translate("Visualiser", "Stop", 0, QApplication::UnicodeUTF8));
         endButton->setText(QApplication::translate("Visualiser", "Terminate", 0, QApplication::UnicodeUTF8));

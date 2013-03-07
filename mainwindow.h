@@ -11,6 +11,7 @@
 #include "systeminfo.h"
 #include "viewprocessorinit.h"
 #include "selectrecording.h"
+#include "qtablewidgetcpuusageitem.h"
 
 #include <QMainWindow>
 #include <QtConcurrentRun>

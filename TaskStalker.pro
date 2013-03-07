@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     viewprocessorinit.cpp \
     qgraphicsprocessitem.cpp \
     confirmdialog.cpp \
-    selectrecording.cpp
+    selectrecording.cpp \
+    qtablewidgetcpuusageitem.cpp
 HEADERS += mainwindow.h \
     proc.h \
     visualiser.h \
@@ -36,7 +37,8 @@ HEADERS += mainwindow.h \
     viewprocessorinit.h \
     qgraphicsprocessitem.h \
     confirmdialog.h \
-    selectrecording.h
+    selectrecording.h \
+    qtablewidgetcpuusageitem.h
 FORMS += mainwindow.ui \
     visualiser.ui \
     info.ui \

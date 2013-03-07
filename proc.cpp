@@ -590,9 +590,9 @@ QString proc::format_state(QString state)
  * Returns information about tasks that have recently entered the literally running state,
  * as defined in /proc/sched_debug.
  */
-vector<pid_t> proc::get_tasks_running()
+QVector<pid_t> proc::get_tasks_running()
 {
-    vector<pid_t> running_tasks;
+    QVector<pid_t> running_tasks;
     QFile file("/proc/sched_debug");
 
     if(file.exists())

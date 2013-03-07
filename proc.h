@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QRegExp>
 #include <stdio.h>
+#include <QVector>
 
 #define PATH "/proc/"
 
@@ -72,7 +73,7 @@ namespace proc
     cpu_usage get_cpu_usage_independent(pid_t pid, unsigned long last_cpu_jiffies, unsigned long last_proc_jiffies);
     void reset_usage_vars();
     QString format_state(QString state);
-    std::vector<pid_t> get_tasks_running();
+    QVector<pid_t> get_tasks_running();
     pid_t get_cpu_task(unsigned int cpu);
     bool task_is_executing(pid_t pid);
 }

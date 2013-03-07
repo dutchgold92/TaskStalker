@@ -6,37 +6,50 @@
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QDateTime>
+#include <QVector>
 
 namespace Ui {
     class ViewRunning;
 }
 
+Q_DECLARE_METATYPE(QVector<pid_t>);
+
+class ViewRunningUpdater : public QThread {
+    Q_OBJECT
+public:
+    ViewRunningUpdater();
+protected:
+    virtual void run();
+private:
+    bool update;
+signals:
+    void updated(QVector<pid_t> update_data);
+private slots:
+    void set_paused(bool pause);
+};
+
 class ViewRunning : public QDialog
 {
-    Q_OBJECT
-    
+    Q_OBJECT    
 public:
     static ViewRunning* get_instance(QWidget *parent = 0);
     ~ViewRunning();
     
 signals:
-    void update_data_updated();
+    void paused(bool pause);
 
 private slots:
     void on_toggleUpdateButton_clicked();
-    void update_outputTable();
+    void receive_update(QVector<pid_t> update_data);
     void on_closeButton_clicked();
 
 private:
     explicit ViewRunning(QWidget *parent = 0);
     static ViewRunning* instance;
     Ui::ViewRunning *ui;
-    std::vector<pid_t> update_data;
-    QFuture<void> update_thread;
+    ViewRunningUpdater *update_thread;
     bool update;
-    bool closed;
     void init_table();
-    void update_info();
 };
 
 #endif // VIEWRUNNING_H

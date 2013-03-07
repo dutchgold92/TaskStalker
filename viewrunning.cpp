@@ -14,9 +14,13 @@ ViewRunning::ViewRunning(QWidget *parent) :
     ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
     init_table();
     this->update = true;
-    this->closed = false;
-    this->update_thread = QtConcurrent::run(this, &ViewRunning::update_info);
-    connect(this, SIGNAL(update_data_updated()), this, SLOT(update_outputTable()), Qt::QueuedConnection);
+
+    qRegisterMetaType<QVector<pid_t> >();
+    update_thread = new ViewRunningUpdater();
+    update_thread->start();
+    connect(update_thread, SIGNAL(updated(QVector<pid_t>)), this, SLOT(receive_update(QVector<pid_t>)), Qt::QueuedConnection);
+    connect(this, SIGNAL(paused(bool)), update_thread, SLOT(set_paused(bool)), Qt::QueuedConnection);
+
     this->show();
 }
 
@@ -36,8 +40,7 @@ ViewRunning* ViewRunning::get_instance(QWidget *parent)
 ViewRunning::~ViewRunning()
 {
     update = false;
-    closed = true;
-    update_thread.waitForFinished();
+    update_thread->terminate();
     instance = 0;
     delete ui;
 }
@@ -68,39 +71,21 @@ void ViewRunning::on_toggleUpdateButton_clicked()
     {
         update = false;
         ui->toggleUpdateButton->setIcon(QIcon(":/img/button_play.png"));
+        emit(paused(true));
     }
     else
     {
         update = true;
         ui->toggleUpdateButton->setIcon(QIcon(":/img/button_pause.png"));
+        emit(paused(false));
     }
 }
 
 /**
- * Updates this->update_string with more recent information from proc::get_tasks_running(),
- * emits a signal so that the GUI can take relevant action, and sleeps for a period of sys::get_sub_update_interval().
- * Should be allocated its own thread of execution.
+ * @brief ViewRunning::receive_update Updates the table when the worker thread emits its corresponding signal.
+ * @param update_data
  */
-void ViewRunning::update_info()
-{
-    while(true)
-    {
-        while(update)
-        {
-            update_data = proc::get_tasks_running();
-            emit(update_data_updated());
-            sleep(sys::get_running_update_interval());
-        }
-
-        if(this->closed)
-            break;
-    }
-}
-
-/**
- * Slot to update ui->outputArea when the update_string_updated() signal is emitted.
- */
-void ViewRunning::update_outputTable()
+void ViewRunning::receive_update(QVector<pid_t> update_data)
 {
     ui->timeLabel->setText(QTime::currentTime().toString());
 
@@ -125,5 +110,42 @@ void ViewRunning::update_outputTable()
  */
 void ViewRunning::on_closeButton_clicked()
 {
-    this->done(0);
+    this->close();
+}
+
+/**
+ * @brief ViewRunningUpdater::ViewRunningUpdater Constructor for ViewRunning's worker thread class.
+ */
+ViewRunningUpdater::ViewRunningUpdater()
+{
+    this->update = true;
+}
+
+/**
+ * @brief ViewRunningUpdater::run Updater function.
+ */
+void ViewRunningUpdater::run()
+{
+    while(true)
+    {
+        while(update)
+        {
+            this->setTerminationEnabled(false);
+            emit(updated(proc::get_tasks_running()));
+            this->setTerminationEnabled(true);
+            sleep(sys::get_running_update_interval());
+        }
+    }
+}
+
+/**
+ * @brief ViewRunningUpdater::set_paused Pauses/Resumes updating.
+ * @param pause
+ */
+void ViewRunningUpdater::set_paused(bool pause)
+{
+    if(pause)
+        update = false;
+    else
+        update = true;
 }

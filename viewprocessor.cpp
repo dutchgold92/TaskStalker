@@ -183,7 +183,7 @@ void ViewProcessor::graph_item_clicked()
 }
 
 /**
- * @brief ViewProcessorUpdater::ViewProcessorUpdater Constructor for this worker thread class.
+ * @brief ViewProcessorUpdater::ViewProcessorUpdater Constructor for ViewProcessor's worker thread class.
  * @param cpu CPU to probe for information.
  */
 ViewProcessorUpdater::ViewProcessorUpdater(unsigned int cpu)

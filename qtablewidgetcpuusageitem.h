@@ -18,9 +18,8 @@ signals:
 public slots:
 
 private:
-    unsigned long last_cpu_jiffies = 0;
-    unsigned long last_proc_jiffies = 0;
-    
+    unsigned long last_cpu_jiffies;
+    unsigned long last_proc_jiffies;
 };
 
 #endif // QTABLEWIDGETCPUUSAGEITEM_H

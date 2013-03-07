@@ -3,7 +3,8 @@
 QTableWidgetCpuUsageItem::QTableWidgetCpuUsageItem() :
     QTableWidgetItem("Calculating...", Qt::DisplayRole)
 {
-
+    this->last_cpu_jiffies = 0;
+    this->last_proc_jiffies = 0;
 }
 
 /**

@@ -22,7 +22,6 @@ class ViewProcessorUpdater : public QThread {
     Q_OBJECT
 public:
     ViewProcessorUpdater(unsigned int cpu = 0);
-    friend class ViewProcessor;
 protected:
     virtual void run();
 private:

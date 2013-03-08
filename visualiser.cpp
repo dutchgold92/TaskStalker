@@ -6,84 +6,66 @@
 using namespace std;
 
 /**
- * @brief Visualiser::Visualiser Creates a Process Viewer to view a live process.
- * @param parent Parent widget.
+ * @brief Visualiser::Visualiser Creates a Process Viewer to monitor a live process.
+ * @param parent Parent Widget.
  * @param pid Process's ID.
  * @param simulation Whether or not this is a simulation.
  */
-Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) :
-    QDialog(parent),
-    ui(new Ui::Visualiser)
+Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) : QDialog(parent), ui(new Ui::Visualiser)
 {
     ui->setupUi(this);
-    this->setAttribute(Qt::WA_DeleteOnClose);
-    this->update = true;
-    this->recording = false;
-    this->playing_recording = false;
     this->pid = pid;
     this->simulation = simulation;
-    ui->infoTable->setColumnWidth(0, 75);
-    ui->infoTable->setColumnWidth(1, 125);
-    ui->infoTable->setColumnWidth(2, 100);
-    ui->infoTable->setColumnWidth(3, 100);
-    ui->infoTable->setColumnWidth(4, 90);
-    ui->recordOrPlayAgainButton->setText("Record");
+    this->playing_recording = false;
+    this->setWindowTitle("Process Viewer");
 
-    QFile unknown_img(":/img/unknown.svg");
-    scene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
-    diagram = new QGraphicsSvgItem(unknown_img.fileName());
-    scale_diagram();
-    scene->addItem(diagram);
-
-    ui->priorityBox->setValue(proc::get_priority(this->pid));
+    init_ui();
+    ui->priorityBox->setValue(proc::get_priority(pid));
     ui->infoTable->setItem(0, 0, new QTableWidgetItem(QString::number(pid), Qt::DisplayRole));
     ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
     ui->infoTable->setItem(0, 4, new QTableWidgetItem(proc::get_username(pid), Qt::DisplayRole));
-    update_thread = QtConcurrent::run(this, &Visualiser::update_state);
-    connect(this, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
+    ui->recordOrPlayAgainButton->setText("Record");
+
+    update_thread = new VisualiserUpdater(pid);
+    update_thread->start();
+    connect(update_thread, SIGNAL(updated(QStringList)), this, SLOT(receive_update(QStringList)), Qt::QueuedConnection);
+    connect(update_thread, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
+    connect(this, SIGNAL(record(bool, QString)), update_thread, SLOT(set_recording(bool, QString)), Qt::QueuedConnection);
 
     this->show();
 }
 
 /**
  * @brief Visualiser::Visualiser Creates a Process Viewer to view a process recording.
- * @param parent Parent widget.
+ * @param parent Parent Widget.
  * @param recording_file_path Path to the recording file.
  */
-Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
-    QDialog(parent),
-    ui(new Ui::Visualiser)
+Visualiser::Visualiser(QWidget *parent, QString recording_file_path) : QDialog(parent), ui(new Ui::Visualiser)
 {
     ui->setupUi(this);
-    this->setAttribute(Qt::WA_DeleteOnClose);
-    this->update = true;
-    this->recording = false;
-    this->playing_recording = true;
-    this->simulation = false;
     this->recording_file_path = recording_file_path;
-    ui->infoTable->setColumnWidth(0, 75);
-    ui->infoTable->setColumnWidth(1, 125);
-    ui->infoTable->setColumnWidth(3, 100);
-    ui->infoTable->setColumnWidth(4, 90);
-    ui->recordOrPlayAgainButton->setText("Play Again");
-
-    QFile unknown_img(":/img/unknown.svg");
-    scene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
-    diagram = new QGraphicsSvgItem(unknown_img.fileName());
-    scale_diagram();
-    scene->addItem(diagram);
-
+    this->simulation = false;
+    this->playing_recording = true;
     this->setWindowTitle("Process Recording Viewer");
+
+    init_ui();
+    ui->infoTable->setItem(0, 2, new QTableWidgetItem(Qt::DisplayRole));
+    ui->infoTable->setItem(0, 3, new QTableWidgetItem(Qt::DisplayRole));
+    ui->infoTable->setItem(0, 5, new QTableWidgetItem(Qt::DisplayRole));
+    ui->recordOrPlayAgainButton->setText("Play Again");
     ui->recordOrPlayAgainButton->setEnabled(false);
     ui->priorityBox->setEnabled(false);
     ui->priorityButton->setEnabled(false);
     ui->stopButton->setEnabled(false);
     ui->endButton->setEnabled(false);
     ui->killButton->setEnabled(false);
-    update_thread = QtConcurrent::run(this, &Visualiser::play_recording);
-    connect(this, SIGNAL(recording_tick(QString)), this, SLOT(update_recording_timestamp(QString)), Qt::QueuedConnection);
+
+    update_thread = new VisualiserUpdater(recording_file_path);
+    update_thread->start();
+    connect(update_thread, SIGNAL(updated(QStringList)), this, SLOT(receive_update(QStringList)), Qt::QueuedConnection);
+    connect(update_thread, SIGNAL(recording_tick(QString,bool)), this, SLOT(update_recording_timestamp(QString,bool)), Qt::QueuedConnection);
+    connect(update_thread, SIGNAL(recording_finished()), this, SLOT(end_recording()), Qt::QueuedConnection);
+    connect(update_thread, SIGNAL(read_recording_header(QStringList)), this, SLOT(init_recording_playback(QStringList)), Qt::QueuedConnection);
 
     this->show();
 }
@@ -91,71 +73,62 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) :
 Visualiser::~Visualiser()
 {
     on_closeButton_clicked();
+    update_thread->terminate();
     delete ui;
 }
 
-void Visualiser::changeEvent(QEvent *e)
+void Visualiser::init_ui()
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
+    this->setAttribute(Qt::WA_DeleteOnClose);
+    ui->infoTable->setColumnWidth(0, 75);
+    ui->infoTable->setColumnWidth(1, 125);
+    ui->infoTable->setColumnWidth(2, 100);
+    ui->infoTable->setColumnWidth(3, 100);
+    ui->infoTable->setColumnWidth(4, 90);
+
+    QFile unknown_img(":/img/unknown.svg");
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+    diagram = new QGraphicsSvgItem(unknown_img.fileName());
+    scale_diagram();
+    scene->addItem(diagram);
+}
+
+/**
+ * @brief Visualiser::receive_update Receives updated data from the updater thread.
+ * @param update_data
+ */
+void Visualiser::receive_update(QStringList update_data)
+{
+    if(!playing_recording)
+    {
+        ui->infoTable->setItem(0, 2, new QTableWidgetItem(update_data.at(0), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 3, new QTableWidgetItem(update_data.at(1), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 5, new QTableWidgetItem(update_data.at(2), Qt::DisplayRole));
+        ui->timeStamp->setText(QTime::currentTime().toString());
+    }
+    else
+    {
+        ui->infoTable->item(0, 2)->setData(Qt::DisplayRole, update_data.first());
+        ui->infoTable->item(0, 3)->setData(Qt::DisplayRole, update_data.at(1));
+        ui->infoTable->item(0, 5)->setData(Qt::DisplayRole, update_data.last());
     }
 }
 
 /**
-  * Update the process data in the dialog
-  */
-void Visualiser::update_state()
+ * @brief Visualiser::init_recording_playback Sets constant process information from the recording.
+ * @param data
+ */
+void Visualiser::init_recording_playback(QStringList data)
 {
-    while(update)
+    if(data.length() == 3)
     {
-        state = proc::format_state(proc::get_state(pid));
-        QString memory_usage = proc::get_memory_usage(pid);
-        QString cpu_usage = QString::number(proc::get_cpu_usage(pid));
-
-        if(cpu_usage == "-1")
-            cpu_usage = "Calculating...";
-
-        if(!state.isEmpty())
-        {
-            if(recording)
-            {
-                QFile file(recording_file_path);
-                file.open(QIODevice::Append | QIODevice::Text);
-                QTextStream out(&file);
-
-                if(state == "Running")
-                {
-                    if(proc::task_is_executing(pid))
-                        out << QTime::currentTime().toString() << "=" << "Executing";
-                    else
-                        out << QTime::currentTime().toString() << "=" << "Ready";
-                }
-                else
-                    out << QTime::currentTime().toString() << "=" << state;
-
-                out << "=" << cpu_usage << "=" << memory_usage << "\n";
-                file.close();
-            }
-
-            ui->infoTable->setItem(0, 2, new QTableWidgetItem(state, Qt::DisplayRole));
-            ui->infoTable->setItem(0, 3, new QTableWidgetItem(cpu_usage, Qt::DisplayRole));
-            ui->infoTable->setItem(0, 5, new QTableWidgetItem(memory_usage, Qt::DisplayRole));
-        }
-        else
-        {
-            update = false;
-            emit(missing_process());
-            break;
-        }
-
-        ui->timeStamp->setText(QTime::currentTime().toString());
-        sleep(sys::get_sub_update_interval());
+        ui->infoTable->setItem(0, 0, new QTableWidgetItem(data.first(), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 1, new QTableWidgetItem(data.at(1), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 4, new QTableWidgetItem(data.last(), Qt::DisplayRole));
     }
+    else
+        cout << "Error in update packet" << endl;
 }
 
 /**
@@ -164,70 +137,123 @@ void Visualiser::update_state()
 void Visualiser::on_infoTable_cellChanged(int row, int column)
 {
     if(row == 0 && column == 2)
-    {
-        scene->removeItem(diagram);
-
-        if(ui->infoTable->item(row, column)->text() == "Running")
         {
-            if(!playing_recording)
+            scene->removeItem(diagram);
+
+            if(ui->infoTable->item(row, column)->text() == "Running")
             {
-                if(proc::task_is_executing(pid))
+                if(!playing_recording)
                 {
-                    QFile img(":/img/executing.svg");
-                    diagram = new QGraphicsSvgItem(img.fileName());
+                    if(proc::task_is_executing(pid))
+                    {
+                        QFile img(":/img/executing.svg");
+                        diagram = new QGraphicsSvgItem(img.fileName());
+                    }
+                    else
+                    {
+                        QFile img(":/img/ready.svg");
+                        diagram = new QGraphicsSvgItem(img.fileName());
+                    }
                 }
                 else
                 {
-                    QFile img(":/img/ready.svg");
+                    QFile img(":/img/running.svg");
                     diagram = new QGraphicsSvgItem(img.fileName());
                 }
             }
-            else
+            else if(ui->infoTable->item(row, column)->text() == "Executing")
             {
-                QFile img(":/img/running.svg");
+                QFile img(":/img/executing.svg");
                 diagram = new QGraphicsSvgItem(img.fileName());
             }
-        }
-        else if(ui->infoTable->item(row, column)->text() == "Executing")
-        {
-            QFile img(":/img/executing.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
-        }
-        else if(ui->infoTable->item(row, column)->text() == "Ready")
-        {
-            QFile img(":/img/ready.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
-        }
-        else if(ui->infoTable->item(row, column)->text() == "Sleeping")
-        {
-            QFile img(":/img/interruptible.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
-        }
-        else if(ui->infoTable->item(row, column)->text() == "Disk Sleep")
-        {
-            QFile img(":/img/uninterruptible.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
-        }
-        else if(ui->infoTable->item(row, column)->text() == "Zombie")
-        {
-            QFile img(":/img/zombie.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
-        }
-        else if(ui->infoTable->item(row, column)->text() == "Stopped")
-        {
-            ui->stopButton->setText("Resume");
-            QFile img(":/img/stopped.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
-        }
+            else if(ui->infoTable->item(row, column)->text() == "Ready")
+            {
+                QFile img(":/img/ready.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
+            else if(ui->infoTable->item(row, column)->text() == "Sleeping")
+            {
+                QFile img(":/img/interruptible.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
+            else if(ui->infoTable->item(row, column)->text() == "Disk Sleep")
+            {
+                QFile img(":/img/uninterruptible.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
+            else if(ui->infoTable->item(row, column)->text() == "Zombie")
+            {
+                QFile img(":/img/zombie.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
+            else if(ui->infoTable->item(row, column)->text() == "Stopped")
+            {
+                ui->stopButton->setText("Resume");
+                QFile img(":/img/stopped.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
+            else
+            {
+                QFile img(":/img/unknown.svg");
+                diagram = new QGraphicsSvgItem(img.fileName());
+            }
+
+            scale_diagram();
+            scene->addItem(diagram);
+    }
+}
+
+/**
+ * @brief Visualiser::on_recordOrPlayAgainButton_clicked Enables/Disables recording or playback of a recording, depending on the situation.
+ */
+void Visualiser::on_recordOrPlayAgainButton_clicked()
+{
+    if(!playing_recording)
+    {
+        if(!recording)
+            init_record();
         else
         {
-            QFile img(":/img/unknown.svg");
-            diagram = new QGraphicsSvgItem(img.fileName());
+            ui->recordOrPlayAgainButton->setText("Record");
+            recording = false;
+            emit(record(false, recording_file_path));
         }
-
-        scale_diagram();
-        scene->addItem(diagram);
     }
+    else if(playing_recording)
+    {
+        update_thread->terminate();
+        update_thread->start();
+        ui->recordOrPlayAgainButton->setEnabled(false);
+    }
+}
+
+/**
+ * @brief Visualiser::init_record Outputs the task's constant information to a recording file, then starts a recording of its variable information.
+ */
+void Visualiser::init_record()
+{
+    QString file_name = QDate::currentDate().toString() + "-" + QTime::currentTime().toString() + "_" + ui->infoTable->item(0, 1)->text() + ".tsr";
+    QFile file(QDir::homePath() + "/.taskstalker/recordings/" + file_name);
+
+    if(!file.exists())
+    {
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+
+        if(file.isWritable())
+        {
+            out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 4)->text() << "\n";
+            file.close();
+            recording_file_path = file.fileName();
+            ui->recordOrPlayAgainButton->setText("Stop Recording");
+            recording = true;
+            emit(record(true, recording_file_path));
+        }
+        else
+            cout << "Recording file not writable" << endl;
+    }
+    else
+        cout << "Recording file already exists!" << endl;
 }
 
 /**
@@ -238,7 +264,7 @@ void Visualiser::on_killButton_clicked()
     if(!simulation)
         new ConfirmDialog(this, SLOT(kill_confirm_accepted()), QString("Ending a process in this way may cause data corruption and system instability.\n\nDo you wish to continue?"));
     else
-        this->kill_confirm_accepted();
+       this->kill_confirm_accepted();
 }
 
 /**
@@ -249,7 +275,7 @@ void Visualiser::kill_confirm_accepted()
     if(proc::kill_process(this->pid))
     {
         new ErrorDialog(this, true, "Process successfully terminated.", ErrorDialog::notification);
-        update = false;
+        update_thread->terminate();
     }
     else
         new ErrorDialog(this, false, "Failed to kill process; permission denied.");
@@ -296,7 +322,7 @@ void Visualiser::on_endButton_clicked()
     if(proc::end_process(this->pid))
     {
         new ErrorDialog(this, true, "Process successfully terminated.", ErrorDialog::notification);
-        update = false;
+        update_thread->terminate();
     }
     else
         new ErrorDialog(this, false, "Failed to terminate process; permission denied.");
@@ -324,120 +350,16 @@ void Visualiser::scale_diagram()
 }
 
 /**
- * @brief Visualiser::resizeEvent Actions for when the window has been resized.
- * @param event
- */
-void Visualiser::resizeEvent(QResizeEvent *event)
-{
-    scale_diagram();
-}
-
-/**
- * @brief Visualiser::on_recordButton_clicked Toggles recording of the task's activity, or repeats playback of the recording, depending on the situation.
- */
-void Visualiser::on_recordOrPlayAgainButton_clicked()
-{
-    if(!playing_recording)
-    {
-        if(!recording)
-            init_record();
-        else
-        {
-            recording = false;
-            ui->recordOrPlayAgainButton->setText("Record");
-        }
-    }
-    else if(playing_recording)
-    {
-        update_thread.waitForFinished();
-        update = true;
-        update_thread = QtConcurrent::run(this, &Visualiser::play_recording);
-        ui->recordOrPlayAgainButton->setEnabled(false);
-    }
-}
-
-/**
- * @brief Visualiser::init_record Records the process's activity, outputting to a text file.
- */
-void Visualiser::init_record()
-{
-    QString file_name = QDate::currentDate().toString() + "-" + QTime::currentTime().toString() + "_" + ui->infoTable->item(0, 1)->text() + ".tsr";
-    QFile file(QDir::homePath() + "/.taskstalker/recordings/" + file_name);
-
-    if(!file.exists())
-    {
-        file.open(QIODevice::WriteOnly | QIODevice::Text);
-        QTextStream out(&file);
-
-        if(file.isWritable())
-        {
-            out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 4)->text() << "\n";
-            file.close();
-            recording_file_path = file.fileName();
-            recording = true;
-            ui->recordOrPlayAgainButton->setText("Stop Recording");
-        }
-        else
-            cout << "Recording file not writable" << endl;
-    }
-    else
-        cout << "Recording file exists" << endl;
-}
-
-/**
- * @brief Visualiser::play_recording Simulates process events based on a previously generated recording.
- */
-void Visualiser::play_recording()
-{
-    QFile file(recording_file_path);
-
-    if(file.exists())
-    {
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        QTextStream in(&file);
-        ui->infoTable->setItem(0, 0, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
-        this->pid = ui->infoTable->item(0, 0)->text().toInt();
-        ui->infoTable->setItem(0, 1, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 4, new QTableWidgetItem(in.readLine(), Qt::DisplayRole));
-
-        QString line = in.readLine();
-
-        while(update)
-        {
-            QString timestamp = line.left(line.indexOf("="));
-            line.remove(0, (line.indexOf("=") + 1));
-            ui->infoTable->setItem(0, 2, new QTableWidgetItem(line.left(line.indexOf("=")), Qt::DisplayRole));
-            line.remove(0, (line.indexOf("=") + 1));
-            ui->infoTable->setItem(0, 3, new QTableWidgetItem(line.left(line.indexOf("=")), Qt::DisplayRole));
-            line.remove(0, (line.indexOf("=") + 1));
-            ui->infoTable->setItem(0, 5, new QTableWidgetItem(line, Qt::DisplayRole));
-            emit(recording_tick(timestamp));
-
-            if(in.atEnd())  // end of recording
-                break;
-
-            line = in.readLine();
-            sleep(QTime::fromString(timestamp).secsTo(QTime::fromString(line.left(line.indexOf("=")))));
-        }
-    }
-    else
-        cout << "File doesn't exist" << endl;
-
-    update = false;
-    ui->recordOrPlayAgainButton->setEnabled(true);
-    update_thread.cancel();
-}
-
-/**
- * @brief Visualiser::update_recording_timestamp Slot to update the timestamp for recordings.
+ * @brief Visualiser::update_recording_timestamp Updates the timestamp for recordings.
  * @param timestamp
+ * @param finished
  */
-void Visualiser::update_recording_timestamp(QString timestamp)
+void Visualiser::update_recording_timestamp(QString timestamp, bool finished)
 {
-    if(update)
-        ui->timeStamp->setText(timestamp + " (Playing)");
-    else
+    if(finished)
         ui->timeStamp->setText(timestamp + " (Finished)");
+    else
+        ui->timeStamp->setText(timestamp + " (Playing)");
 }
 
 /**
@@ -446,11 +368,150 @@ void Visualiser::update_recording_timestamp(QString timestamp)
 void Visualiser::on_closeButton_clicked()
 {
     if(simulation)
-        proc::kill_process(this->pid);
+        proc::kill_process(pid);
 
-    proc::reset_usage_vars();
-    update = false;
-    update_thread.cancel();
-    update_thread.waitForFinished();
     this->close();
+}
+
+/**
+ * @brief Visualiser::end_recording Establishes that the recording has finished.
+ */
+void Visualiser::end_recording()
+{
+    ui->recordOrPlayAgainButton->setEnabled(true);
+}
+
+/**
+ * @brief VisualiserUpdater::VisualiserUpdater Constructor for Visualiser's worker thread - process viewer.
+ * @param pid
+ */
+VisualiserUpdater::VisualiserUpdater(pid_t pid)
+{
+    this->pid = pid;
+    this->playing_recording = false;
+    this->recording = false;
+}
+
+/**
+ * @brief VisualiserUpdater::VisualiserUpdater Constructor for Visualiser's worker thread - recording viewer.
+ * @param recording_file_path
+ */
+VisualiserUpdater::VisualiserUpdater(QString recording_file_path)
+{
+    this->recording_file_path = recording_file_path;
+    this->playing_recording = true;
+    this->recording = false;
+}
+
+/**
+ * @brief VisualiserUpdater::run Update function.
+ */
+void VisualiserUpdater::run()
+{
+    if(!playing_recording)
+    {
+        while(true)
+        {
+            this->setTerminationEnabled(false);
+            QStringList update_data;
+            QString state = proc::format_state(proc::get_state(pid));
+            QString cpu_usage = QString::number(proc::get_cpu_usage(pid));
+            QString memory_usage = proc::get_memory_usage(pid);
+
+            if(cpu_usage == "-1")
+                cpu_usage = "Calculating...";
+
+            if(state.isNull() || state.isEmpty())
+            {
+                emit(missing_process());
+                break;
+            }
+            else
+            {
+                if(recording)
+                {
+                    QFile file(recording_file_path);
+                    file.open(QIODevice::Append | QIODevice::Text);
+                    QTextStream out(&file);
+
+                    if(state == "Running")
+                    {
+                        if(proc::task_is_executing(pid))
+                            out << QTime::currentTime().toString() << "=" << "Executing";
+                        else
+                            out << QTime::currentTime().toString() << "=" << "Ready";
+                    }
+                    else
+                        out << QTime::currentTime().toString() << "=" << state;
+
+                    out << "=" << cpu_usage << "=" << memory_usage << "\n";
+                }
+
+                update_data.push_back(state);
+                update_data.push_back(cpu_usage);
+                update_data.push_back(memory_usage);
+            }
+
+            emit(updated(update_data));
+            this->setTerminationEnabled(true);
+            sleep(sys::get_sub_update_interval());
+        }
+    }
+    else if(playing_recording)
+    {
+        this->setTerminationEnabled(false);
+        QStringList update_data;
+        QFile file(recording_file_path);
+
+        if(file.exists())
+        {
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&file);
+            update_data.push_back(in.readLine());
+            update_data.push_back(in.readLine());
+            update_data.push_back(in.readLine());
+
+            emit(read_recording_header(update_data));
+            QString line = in.readLine();
+
+            while(true)
+            {
+                this->setTerminationEnabled(false);
+                update_data.clear();
+                QString timestamp = line.left(line.indexOf("="));
+                emit(recording_tick(timestamp, false));
+                line.remove(0, (line.indexOf("=") + 1));
+                update_data.push_back(line.left(line.indexOf("=")));
+                line.remove(0, (line.indexOf("=") + 1));
+                update_data.push_back(line.left(line.indexOf("=")));
+                line.remove(0, (line.indexOf("=") + 1));
+                update_data.push_back(line);
+                emit(updated(update_data));
+
+                if(in.atEnd())  // end of recording
+                {
+                    emit(recording_tick(timestamp, true));
+                    break;
+                }
+
+                line = in.readLine();
+                this->setTerminationEnabled(true);
+                sleep(QTime::fromString(timestamp).secsTo(QTime::fromString(line.left(line.indexOf("=")))));
+            }
+        }
+        else
+            cout << "File doesn't exist" << endl;
+
+        emit(recording_finished());
+    }
+}
+
+/**
+ * @brief VisualiserUpdater::set_recording Commence/End recording.
+ * @param record
+ */
+void VisualiserUpdater::set_recording(bool record, QString file_path)
+{
+    this->recording_file_path = file_path;
+    this->recording = record;
 }

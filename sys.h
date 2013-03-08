@@ -1,12 +1,12 @@
 #ifndef SYS_H
 #define SYS_H
 
-#define UPDATE_INTERVAL 3           // 3 seconds
+#define UPDATE_INTERVAL 2           // 3 seconds
 #define SUB_UPDATE_INTERVAL 1       // 1 second
 #define RUNNING_UPDATE_INTERVAL 1   // 1 second
 #define CPU_UPDATE_INTERVAL 1       // 1 second
-#define SORT_BY_COLUMN 0            // 0 = PID, 1 = Name, 2 = State, 3 = Priority
-#define SORT_BY_ORDER 0             // 0 = Ascending, 1 = Descending
+#define SORT_BY_COLUMN 3            // 0 = PID, 1 = Name, 2 = Status, 3 = CPU %, 4 = Priority, 5 = User, 6 = Memory
+#define SORT_BY_ORDER 1             // 0 = Ascending, 1 = Descending
 
 #include <QDir>
 #include <QFile>

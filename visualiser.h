@@ -5,6 +5,7 @@
 #include "confirmdialog.h"
 #include "sys.h"
 #include "errordialog.h"
+#include "qtablewidgetcpuusageitem.h"
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QFuture>
@@ -14,6 +15,10 @@
 #include <QGraphicsSvgItem>
 #include <QFile>
 #include <QDateTime>
+#include <QMetaType>
+
+Q_DECLARE_METATYPE(pid_t)
+Q_DECLARE_METATYPE(proc::cpu_usage)
 
 namespace Ui {
     class Visualiser;
@@ -37,8 +42,10 @@ signals:
     void recording_finished();
     void recording_tick(QString timestamp, bool finished);
     void read_recording_header(QStringList data);
+    void update_cpu_usage(proc::cpu_usage usage);
 private slots:
     void set_recording(bool record, QString file_path);
+    void receive_cpu_usage_update_request(pid_t pid, unsigned long last_cpu_jiffies, unsigned long last_proc_jiffies);
 };
 
 class Visualiser : public QDialog {
@@ -62,6 +69,7 @@ private:
     void scale_diagram();
 signals:
     void record(bool record, QString file_path);
+    void request_cpu_usage_update(pid_t pid, unsigned long last_cpu_jiffies, unsigned long last_proc_jiffies);
 
 private slots:
     void receive_update(QStringList update_data);
@@ -77,6 +85,7 @@ private slots:
     void on_closeButton_clicked();
     void end_recording();
     void init_recording_playback(QStringList data);
+    void receive_cpu_usage_update(proc::cpu_usage usage);
 };
 
 #endif // VISUALISER_H

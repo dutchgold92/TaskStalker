@@ -219,3 +219,21 @@ unsigned short sys::get_sort_by_order()
 {
     return sys::sort_by_order;
 }
+
+/**
+ * @brief sys::set_recording Notifies the system that a process viewer is currently recording.
+ * @param recording
+ */
+void sys::set_recording(bool recording)
+{
+    sys::is_recording = recording;
+}
+
+/**
+ * @brief sys::get_is_recording Checks whether a process viewer is currently recording.
+ * @return
+ */
+bool sys::get_is_recording()
+{
+    return sys::is_recording;
+}

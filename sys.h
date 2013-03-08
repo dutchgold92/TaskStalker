@@ -22,6 +22,7 @@ namespace sys
     static unsigned short cpu_update_interval = CPU_UPDATE_INTERVAL;
     static unsigned short sort_by_column = SORT_BY_COLUMN;
     static unsigned short sort_by_order = SORT_BY_ORDER;
+    static bool is_recording = false;
     void init();
     void init_help();
     void reset_config();
@@ -41,6 +42,8 @@ namespace sys
     unsigned short get_sort_by_column();
     void set_sort_by_order(unsigned short);
     unsigned short get_sort_by_order();
+    void set_recording(bool recording);
+    bool get_is_recording();
 }
 
 #endif // SYS_H

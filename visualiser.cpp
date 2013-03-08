@@ -14,6 +14,8 @@ using namespace std;
 Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) : QDialog(parent), ui(new Ui::Visualiser)
 {
     ui->setupUi(this);
+    qRegisterMetaType<pid_t>("pid_t");
+    qRegisterMetaType<proc::cpu_usage>();
     this->pid = pid;
     this->simulation = simulation;
     this->playing_recording = false;
@@ -23,6 +25,7 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) : QDialog(pa
     ui->priorityBox->setValue(proc::get_priority(pid));
     ui->infoTable->setItem(0, 0, new QTableWidgetItem(QString::number(pid), Qt::DisplayRole));
     ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
+    ui->infoTable->setItem(0, 3, new QTableWidgetCpuUsageItem());
     ui->infoTable->setItem(0, 4, new QTableWidgetItem(proc::get_username(pid), Qt::DisplayRole));
     ui->recordOrPlayAgainButton->setText("Record");
 
@@ -31,6 +34,8 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) : QDialog(pa
     connect(update_thread, SIGNAL(updated(QStringList)), this, SLOT(receive_update(QStringList)), Qt::QueuedConnection);
     connect(update_thread, SIGNAL(missing_process()), this, SLOT(process_not_found()), Qt::QueuedConnection);
     connect(this, SIGNAL(record(bool, QString)), update_thread, SLOT(set_recording(bool, QString)), Qt::QueuedConnection);
+    connect(this, SIGNAL(request_cpu_usage_update(pid_t, unsigned long, unsigned long)), update_thread, SLOT(receive_cpu_usage_update_request(pid_t, unsigned long, unsigned long)), Qt::QueuedConnection);
+    connect(update_thread, SIGNAL(update_cpu_usage(proc::cpu_usage)), this, SLOT(receive_cpu_usage_update(proc::cpu_usage)), Qt::QueuedConnection);
 
     this->show();
 }
@@ -102,10 +107,10 @@ void Visualiser::receive_update(QStringList update_data)
 {
     if(!playing_recording)
     {
-        ui->infoTable->setItem(0, 2, new QTableWidgetItem(update_data.at(0), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 3, new QTableWidgetItem(update_data.at(1), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 5, new QTableWidgetItem(update_data.at(2), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 2, new QTableWidgetItem(update_data.first(), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 5, new QTableWidgetItem(update_data.last(), Qt::DisplayRole));
         ui->timeStamp->setText(QTime::currentTime().toString());
+        emit(request_cpu_usage_update(this->pid, ((QTableWidgetCpuUsageItem*)ui->infoTable->item(0, 3))->get_last_cpu_jiffies(), ((QTableWidgetCpuUsageItem*)ui->infoTable->item(0, 3))->get_last_proc_jiffies()));
     }
     else
     {
@@ -113,6 +118,21 @@ void Visualiser::receive_update(QStringList update_data)
         ui->infoTable->item(0, 3)->setData(Qt::DisplayRole, update_data.at(1));
         ui->infoTable->item(0, 5)->setData(Qt::DisplayRole, update_data.last());
     }
+}
+
+/**
+ * @brief Visualiser::receive_cpu_usage_update Receives updated CPU usage data from the updater thread.
+ * @param usage
+ */
+void Visualiser::receive_cpu_usage_update(proc::cpu_usage usage)
+{
+    ((QTableWidgetCpuUsageItem*)ui->infoTable->item(0, 3))->set_last_cpu_jiffies(usage.last_cpu_jiffies);
+    ((QTableWidgetCpuUsageItem*)ui->infoTable->item(0, 3))->set_last_proc_jiffies(usage.last_proc_jiffies);
+
+    if(usage.usage == -1)
+        ui->infoTable->item(0, 3)->setData(Qt::DisplayRole, "Calculating...");
+    else
+        ui->infoTable->item(0, 3)->setData(Qt::DisplayRole, usage.usage);
 }
 
 /**
@@ -211,11 +231,17 @@ void Visualiser::on_recordOrPlayAgainButton_clicked()
     if(!playing_recording)
     {
         if(!recording)
-            init_record();
+        {
+            if(!sys::get_is_recording())
+                init_record();
+            else
+                new ErrorDialog(this, false, "Only one recording may take place simultaneously.", ErrorDialog::error);
+        }
         else
         {
             ui->recordOrPlayAgainButton->setText("Record");
             recording = false;
+            sys::set_recording(false);
             emit(record(false, recording_file_path));
         }
     }
@@ -242,6 +268,7 @@ void Visualiser::init_record()
 
         if(file.isWritable())
         {
+            sys::set_recording(true);
             out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 4)->text() << "\n";
             file.close();
             recording_file_path = file.fileName();
@@ -415,8 +442,13 @@ void VisualiserUpdater::run()
             this->setTerminationEnabled(false);
             QStringList update_data;
             QString state = proc::format_state(proc::get_state(pid));
-            QString cpu_usage = QString::number(proc::get_cpu_usage(pid));
+            QString cpu_usage;
             QString memory_usage = proc::get_memory_usage(pid);
+
+            if(!(!this->recording && sys::get_is_recording()))  // Ensure that we don't calculate CPU usage in this way if another viewer instance is recording.
+                cpu_usage = QString::number(proc::get_cpu_usage(pid));
+            else
+                cpu_usage = "Calculating...";
 
             if(cpu_usage == "-1")
                 cpu_usage = "Calculating...";
@@ -448,7 +480,6 @@ void VisualiserUpdater::run()
                 }
 
                 update_data.push_back(state);
-                update_data.push_back(cpu_usage);
                 update_data.push_back(memory_usage);
             }
 
@@ -514,4 +545,13 @@ void VisualiserUpdater::set_recording(bool record, QString file_path)
 {
     this->recording_file_path = file_path;
     this->recording = record;
+}
+
+/**
+ * @brief VisualiserUpdater::receive_cpu_usage_update_request Fulfils request for cpu usage info update.
+ */
+void VisualiserUpdater::receive_cpu_usage_update_request(pid_t pid, unsigned long last_cpu_jiffies, unsigned long last_proc_jiffies)
+{
+    proc::cpu_usage usage = proc::get_cpu_usage_independent(pid, last_cpu_jiffies, last_proc_jiffies);
+    emit(update_cpu_usage(usage));
 }

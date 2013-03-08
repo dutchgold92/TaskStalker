@@ -7,12 +7,13 @@
 #include <QtConcurrentRun>
 #include <QDateTime>
 #include <QVector>
+#include <QMetaType>
 
 namespace Ui {
     class ViewRunning;
 }
 
-Q_DECLARE_METATYPE(QVector<pid_t>);
+Q_DECLARE_METATYPE(QVector<pid_t>)
 
 class ViewRunningUpdater : public QThread {
     Q_OBJECT

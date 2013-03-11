@@ -130,7 +130,7 @@
        <bool>true</bool>
       </property>
       <property name="columnCount">
-       <number>7</number>
+       <number>9</number>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>true</bool>
@@ -207,6 +207,22 @@
        </property>
        <property name="whatsThis">
         <string/>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Parent</string>
+       </property>
+       <property name="toolTip">
+        <string>ID of this task's parent process.</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Threads</string>
+       </property>
+       <property name="toolTip">
+        <string>Number of logical threads created by this application.</string>
        </property>
       </column>
      </widget>
@@ -402,6 +418,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionViewParent">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/view.png</normaloff>:/img/view.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Parent</string>
+   </property>
+   <property name="toolTip">
+    <string>View Parent</string>
    </property>
   </action>
  </widget>

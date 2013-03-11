@@ -27,7 +27,9 @@ Visualiser::Visualiser(QWidget *parent, pid_t pid, bool simulation) : QDialog(pa
     ui->infoTable->setItem(0, 1, new QTableWidgetItem(proc::get_name(pid), Qt::DisplayRole));
     ui->infoTable->setItem(0, 3, new QTableWidgetCpuUsageItem());
     ui->infoTable->setItem(0, 4, new QTableWidgetItem(proc::get_username(pid), Qt::DisplayRole));
+    ui->infoTable->setItem(0, 6, new QTableWidgetItem(proc::get_parent_pid(pid), Qt::DisplayRole));
     ui->recordOrPlayAgainButton->setText("Record");
+    diagram_cpu_label = new QGraphicsSimpleTextItem("CPU: ", 0, scene);
 
     update_thread = new VisualiserUpdater(pid);
     update_thread->start();
@@ -57,6 +59,7 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) : QDialog(p
     ui->infoTable->setItem(0, 2, new QTableWidgetItem(Qt::DisplayRole));
     ui->infoTable->setItem(0, 3, new QTableWidgetItem(Qt::DisplayRole));
     ui->infoTable->setItem(0, 5, new QTableWidgetItem(Qt::DisplayRole));
+    ui->infoTable->setItem(0, 7, new QTableWidgetItem(Qt::DisplayRole));
     ui->recordOrPlayAgainButton->setText("Play Again");
     ui->recordOrPlayAgainButton->setEnabled(false);
     ui->priorityBox->setEnabled(false);
@@ -96,8 +99,8 @@ void Visualiser::init_ui()
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
     diagram = new QGraphicsSvgItem(unknown_img.fileName());
-    scale_diagram();
     scene->addItem(diagram);
+    scale_diagram();
 }
 
 /**
@@ -109,7 +112,8 @@ void Visualiser::receive_update(QStringList update_data)
     if(!playing_recording)
     {
         ui->infoTable->setItem(0, 2, new QTableWidgetItem(update_data.first(), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 5, new QTableWidgetItem(update_data.last(), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 5, new QTableWidgetItem(update_data.at(1), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 7, new QTableWidgetItem(update_data.last(), Qt::DisplayRole));
         ui->timeStamp->setText(QTime::currentTime().toString());
         emit(request_cpu_usage_update(this->pid, ((QTableWidgetCpuUsageItem*)ui->infoTable->item(0, 3))->get_last_cpu_jiffies(), ((QTableWidgetCpuUsageItem*)ui->infoTable->item(0, 3))->get_last_proc_jiffies()));
     }
@@ -117,7 +121,8 @@ void Visualiser::receive_update(QStringList update_data)
     {
         ui->infoTable->item(0, 2)->setData(Qt::DisplayRole, update_data.first());
         ui->infoTable->item(0, 3)->setData(Qt::DisplayRole, update_data.at(1));
-        ui->infoTable->item(0, 5)->setData(Qt::DisplayRole, update_data.last());
+        ui->infoTable->item(0, 5)->setData(Qt::DisplayRole, update_data.at(2));
+        ui->infoTable->item(0, 7)->setData(Qt::DisplayRole, update_data.last());
     }
 }
 
@@ -142,11 +147,12 @@ void Visualiser::receive_cpu_usage_update(proc::cpu_usage usage)
  */
 void Visualiser::init_recording_playback(QStringList data)
 {
-    if(data.length() == 3)
+    if(data.length() == 4)  // FIXME: why is this all hard-coded? should use an enum or something.
     {
         ui->infoTable->setItem(0, 0, new QTableWidgetItem(data.first(), Qt::DisplayRole));
         ui->infoTable->setItem(0, 1, new QTableWidgetItem(data.at(1), Qt::DisplayRole));
-        ui->infoTable->setItem(0, 4, new QTableWidgetItem(data.last(), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 4, new QTableWidgetItem(data.at(2), Qt::DisplayRole));
+        ui->infoTable->setItem(0, 6, new QTableWidgetItem(data.last(), Qt::DisplayRole));
     }
     else
         cout << "Error in update packet" << endl;
@@ -158,69 +164,75 @@ void Visualiser::init_recording_playback(QStringList data)
 void Visualiser::on_infoTable_cellChanged(int row, int column)
 {
     if(row == 0 && column == 2)
-        {
-            scene->removeItem(diagram);
+    {
+        if(!playing_recording)
+            diagram_cpu_label->setText("CPU: -");
 
-            if(ui->infoTable->item(row, column)->text() == "Running")
+        scene->removeItem(diagram);
+
+        if(ui->infoTable->item(row, column)->text() == "Running")
+        {
+            if(!playing_recording)
             {
-                if(!playing_recording)
+                signed short cpu = proc::task_is_executing(pid);
+
+                if(cpu >= 0)
                 {
-                    if(proc::task_is_executing(pid))
-                    {
-                        QFile img(":/img/executing.svg");
-                        diagram = new QGraphicsSvgItem(img.fileName());
-                    }
-                    else
-                    {
-                        QFile img(":/img/ready.svg");
-                        diagram = new QGraphicsSvgItem(img.fileName());
-                    }
+                    QFile img(":/img/executing.svg");
+                    diagram = new QGraphicsSvgItem(img.fileName());
+                    diagram_cpu_label->setText("CPU: " + QString::number(cpu));
                 }
                 else
                 {
-                    QFile img(":/img/running.svg");
+                    QFile img(":/img/ready.svg");
                     diagram = new QGraphicsSvgItem(img.fileName());
                 }
             }
-            else if(ui->infoTable->item(row, column)->text() == "Executing")
-            {
-                QFile img(":/img/executing.svg");
-                diagram = new QGraphicsSvgItem(img.fileName());
-            }
-            else if(ui->infoTable->item(row, column)->text() == "Ready")
-            {
-                QFile img(":/img/ready.svg");
-                diagram = new QGraphicsSvgItem(img.fileName());
-            }
-            else if(ui->infoTable->item(row, column)->text() == "Sleeping")
-            {
-                QFile img(":/img/interruptible.svg");
-                diagram = new QGraphicsSvgItem(img.fileName());
-            }
-            else if(ui->infoTable->item(row, column)->text() == "Disk Sleep")
-            {
-                QFile img(":/img/uninterruptible.svg");
-                diagram = new QGraphicsSvgItem(img.fileName());
-            }
-            else if(ui->infoTable->item(row, column)->text() == "Zombie")
-            {
-                QFile img(":/img/zombie.svg");
-                diagram = new QGraphicsSvgItem(img.fileName());
-            }
-            else if(ui->infoTable->item(row, column)->text() == "Stopped")
-            {
-                ui->stopButton->setText("Resume");
-                QFile img(":/img/stopped.svg");
-                diagram = new QGraphicsSvgItem(img.fileName());
-            }
             else
             {
-                QFile img(":/img/unknown.svg");
+                QFile img(":/img/running.svg");
                 diagram = new QGraphicsSvgItem(img.fileName());
             }
+        }
+        else if(ui->infoTable->item(row, column)->text() == "Executing")
+        {
+            QFile img(":/img/executing.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
+        else if(ui->infoTable->item(row, column)->text() == "Ready")
+        {
+            QFile img(":/img/ready.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
+        else if(ui->infoTable->item(row, column)->text() == "Sleeping")
+        {
+            QFile img(":/img/interruptible.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
+        else if(ui->infoTable->item(row, column)->text() == "Disk Sleep")
+        {
+            QFile img(":/img/uninterruptible.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
+        else if(ui->infoTable->item(row, column)->text() == "Zombie")
+        {
+            QFile img(":/img/zombie.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
+        else if(ui->infoTable->item(row, column)->text() == "Stopped")
+        {
+            ui->stopButton->setText("Resume");
+            QFile img(":/img/stopped.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
+        else
+        {
+            QFile img(":/img/unknown.svg");
+            diagram = new QGraphicsSvgItem(img.fileName());
+        }
 
-            scale_diagram();
-            scene->addItem(diagram);
+        scale_diagram();
+        scene->addItem(diagram);
     }
 }
 
@@ -270,7 +282,7 @@ void Visualiser::init_record()
         if(file.isWritable())
         {
             sys::set_recording(true);
-            out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 4)->text() << "\n";
+            out << ui->infoTable->item(0, 0)->text() << "\n" << ui->infoTable->item(0, 1)->text() << "\n" << ui->infoTable->item(0, 4)->text() << "\n" << ui->infoTable->item(0, 6)->text() << "\n";
             file.close();
             recording_file_path = file.fileName();
             ui->recordOrPlayAgainButton->setText("Stop Recording");
@@ -445,6 +457,7 @@ void VisualiserUpdater::run()
             QString state = proc::format_state(proc::get_state(pid));
             QString cpu_usage;
             QString memory_usage = proc::get_memory_usage(pid);
+            QString threads = QString::number(proc::get_thread_count(pid));
 
             if(!(!this->recording && sys::get_is_recording()))  // Ensure that we don't calculate CPU usage in this way if another viewer instance is recording.
                 cpu_usage = QString::number(proc::get_cpu_usage(pid));
@@ -477,11 +490,12 @@ void VisualiserUpdater::run()
                     else
                         out << QTime::currentTime().toString() << "=" << state;
 
-                    out << "=" << cpu_usage << "=" << memory_usage << "\n";
+                    out << "=" << cpu_usage << "=" << memory_usage << "=" << threads << "\n";
                 }
 
                 update_data.push_back(state);
                 update_data.push_back(memory_usage);
+                update_data.push_back(threads);
             }
 
             emit(updated(update_data));
@@ -502,6 +516,7 @@ void VisualiserUpdater::run()
             update_data.push_back(in.readLine());
             update_data.push_back(in.readLine());
             update_data.push_back(in.readLine());
+            update_data.push_back(in.readLine());
 
             emit(read_recording_header(update_data));
             QString line = in.readLine();
@@ -512,6 +527,8 @@ void VisualiserUpdater::run()
                 update_data.clear();
                 QString timestamp = line.left(line.indexOf("="));
                 emit(recording_tick(timestamp, false));
+                line.remove(0, (line.indexOf("=") + 1));
+                update_data.push_back(line.left(line.indexOf("=")));
                 line.remove(0, (line.indexOf("=") + 1));
                 update_data.push_back(line.left(line.indexOf("=")));
                 line.remove(0, (line.indexOf("=") + 1));

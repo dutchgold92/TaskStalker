@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->procTable->horizontalHeader()->setHighlightSections(false);
     ui->procTable->addAction(ui->actionView);
+    ui->procTable->addAction(ui->actionViewParent);
     QAction *menu_separator = new QAction(this);
     menu_separator->setSeparator(true);
     ui->procTable->addAction(menu_separator);
@@ -75,6 +76,8 @@ void MainWindow::update_table()
     QTableWidgetItem *procprio_item;
     QTableWidgetItem *procuser_item;
     QTableWidgetItem *procmem_item;
+    QTableWidgetItem *procppid_item;
+    QTableWidgetItem *procthreads_item;
 
     while(true)
     {
@@ -94,6 +97,10 @@ void MainWindow::update_table()
                 procprio_item->setData(Qt::DisplayRole, proc_vector.at(x).priority);
                 procuser_item = new QTableWidgetItem(proc_vector.at(x).username, Qt::DisplayRole);
                 procmem_item = new QTableWidgetItem(proc_vector.at(x).memory_usage, Qt::DisplayRole);
+                procppid_item = new QTableWidgetItem;
+                procppid_item->setData(Qt::DisplayRole, proc_vector.at(x).ppid);
+                procthreads_item = new QTableWidgetItem;
+                procthreads_item->setData(Qt::DisplayRole, proc_vector.at(x).threads);
 
                 // Append new row
                 if(row_position == -1)
@@ -109,6 +116,8 @@ void MainWindow::update_table()
                 ui->procTable->setItem(row_position, 4, procprio_item);
                 ui->procTable->setItem(row_position, 5, procuser_item);
                 ui->procTable->setItem(row_position, 6, procmem_item);
+                ui->procTable->setItem(row_position, 7, procppid_item);
+                ui->procTable->setItem(row_position, 8, procthreads_item);
 
                 proc::cpu_usage usage = proc::get_cpu_usage_independent(proc_vector.at(x).pid, ((QTableWidgetCpuUsageItem*)ui->procTable->item(row_position, 3))->get_last_cpu_jiffies(), ((QTableWidgetCpuUsageItem*)ui->procTable->item(row_position, 3))->get_last_proc_jiffies());
 
@@ -377,4 +386,15 @@ void MainWindow::kill_confirmed()
 void MainWindow::on_actionProcess_Recording_triggered()
 {
     SelectRecording::get_instance(this);
+}
+
+/**
+ * @brief MainWindow::on_actionViewParent_triggered Called if "View Parent" is selected from context-menu. Opens viewer on parent process, if possible.
+ */
+void MainWindow::on_actionViewParent_triggered()
+{
+    if(ui->procTable->item(this->selected_row, 7)->text().toInt())
+        new Visualiser(this, ui->procTable->item(this->selected_row, 7)->text().toInt(), false);
+    else
+        new ErrorDialog(this, false, "This process has no parent", ErrorDialog::error);
 }

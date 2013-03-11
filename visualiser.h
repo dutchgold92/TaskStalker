@@ -63,6 +63,7 @@ private:
     QString recording_file_path;
     QGraphicsScene *scene;
     QGraphicsSvgItem *diagram;
+    QGraphicsSimpleTextItem *diagram_cpu_label;
     VisualiserUpdater *update_thread;
     void init_ui();
     void init_record();

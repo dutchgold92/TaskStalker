@@ -64,6 +64,7 @@ private slots:
     void on_actionProcessor_Activity_triggered();
     void kill_confirmed();
     void on_actionProcess_Recording_triggered();
+    void on_actionViewParent_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -29,12 +29,14 @@ namespace proc
     struct process
     {
         pid_t pid;
+        QString ppid;
         QString name;
         QString state;
         signed short priority;
         unsigned int uid;
         QString username;
         QString memory_usage;
+        unsigned short threads;
     };
 
     struct cpu_usage
@@ -54,6 +56,8 @@ namespace proc
     std::vector<process> list_processes();
     QString get_state(pid_t pid);
     QString get_name(pid_t pid);
+    QString get_parent_pid(pid_t pid);
+    unsigned short get_thread_count(pid_t pid);
     signed short get_priority(pid_t pid);
     unsigned int get_uid(pid_t pid);
     QString get_username_from_uid(unsigned int uid);
@@ -75,7 +79,7 @@ namespace proc
     QString format_state(QString state);
     QVector<pid_t> get_tasks_running();
     pid_t get_cpu_task(unsigned int cpu);
-    bool task_is_executing(pid_t pid);
+    signed short task_is_executing(pid_t pid);
 }
 
 #endif // PROC_H

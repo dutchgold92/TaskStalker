@@ -37,6 +37,13 @@ vector<proc::process> proc::list_processes()
                     p.pid = line.remove(0, (line.indexOf(":") + 1)).trimmed().toInt();
                     p.priority = proc::get_priority(p.pid);
                 }
+                else if(line.startsWith("PPid:"))
+                {
+                    p.ppid = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+
+                    if(p.ppid == "0")
+                        p.ppid = "N/A";
+                }
                 else if(line.startsWith("Uid:"))
                 {
                     line = line.remove(0, (line.indexOf(":") + 1)).trimmed();
@@ -49,6 +56,8 @@ vector<proc::process> proc::list_processes()
                     p.memory_usage = line.remove(0, (line.indexOf(":") + 1)).trimmed();
                     memory_entry = true;
                 }
+                else if(line.startsWith("Threads:"))
+                    p.threads = line.remove(0, (line.indexOf(":") + 1)).trimmed().toShort();
 
                 line = in.readLine();
             }
@@ -107,6 +116,59 @@ QString proc::get_name(pid_t pid)
     }
 
     return "";
+}
+
+/**
+ * @brief proc::get_parent_pid Returns the task's parent's PID (if any).
+ * @param pid
+ * @return
+ */
+QString proc::get_parent_pid(pid_t pid)
+{
+    QFile status_file(PATH + QString::number(pid) + "/status");
+    status_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&status_file);
+    QString line = in.readLine();
+
+    while(!line.isNull())
+    {
+        if(line.startsWith("PPid:"))
+        {
+            line = line.remove(0, (line.indexOf(":") + 1)).trimmed();
+
+            if(line != "0")
+                return line;
+            else
+                return "N/A";
+        }
+
+        line = in.readLine();
+    }
+
+    return "N/A";
+}
+
+/**
+ * @brief proc::get_thread_count Returns the number of threads of the process.
+ * @param pid
+ * @return
+ */
+unsigned short proc::get_thread_count(pid_t pid)
+{
+    QFile status_file(PATH + QString::number(pid) + "/status");
+    status_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&status_file);
+    QString line = in.readLine();
+
+    while(!line.isNull())
+    {
+        if(line.startsWith("Threads:"))
+            return line.remove(0, (line.indexOf(":") + 1)).trimmed().toInt();
+
+        line = in.readLine();
+    }
+
+    return 0;
 }
 
 /**
@@ -654,11 +716,11 @@ pid_t proc::get_cpu_task(unsigned int cpu)
 }
 
 /**
- * @brief proc::get_cpu_task Returns true if a task is currently executing, or false if not.
+ * @brief proc::get_cpu_task Returns the ID of the CPU on which the task is executing, or -1 if it simply isn't.
  * @param cpu Task to check
  * @return
  */
-bool proc::task_is_executing(pid_t pid)
+signed short proc::task_is_executing(pid_t pid)
 {
     QFile file("/proc/sched_debug");
 
@@ -667,14 +729,18 @@ bool proc::task_is_executing(pid_t pid)
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         QTextStream in(&file);
         QString line = in.readLine();
+        unsigned short cpu;
 
         while(!line.isNull())
         {
+            if(line.startsWith("cpu#"))
+                cpu++;
+
             if(line.contains(".curr->pid"))
                 if(line.remove(0, (line.indexOf(":") + 2)).toInt() == pid)
                 {
                     file.close();
-                    return true;
+                    return (cpu - 1);
                 }
 
             line = in.readLine();
@@ -682,5 +748,5 @@ bool proc::task_is_executing(pid_t pid)
     }
 
     file.close();
-    return false;
+    return -1;
 }

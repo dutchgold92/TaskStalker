@@ -158,5 +158,5 @@ void ViewRunning::on_outputTable_cellDoubleClicked(int row, int column)
     pid_t pid = ui->outputTable->item(row, 1)->text().toInt();
 
     if(pid > 0)
-        new Visualiser(this->parentWidget(), pid, false);
+        new Visualiser(this, pid, false);
 }

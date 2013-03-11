@@ -78,6 +78,7 @@ Visualiser::Visualiser(QWidget *parent, QString recording_file_path) : QDialog(p
 Visualiser::~Visualiser()
 {
     on_closeButton_clicked();
+    this->recording = false;
     update_thread->terminate();
     delete ui;
 }

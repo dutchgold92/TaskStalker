@@ -149,3 +149,14 @@ void ViewRunningUpdater::set_paused(bool pause)
     else
         update = true;
 }
+
+/**
+ * @brief ViewRunning::on_outputTable_cellDoubleClicked Opens a process viewer to display the task in the selected row (if any).
+ */
+void ViewRunning::on_outputTable_cellDoubleClicked(int row, int column)
+{
+    pid_t pid = ui->outputTable->item(row, 1)->text().toInt();
+
+    if(pid > 0)
+        new Visualiser(this->parentWidget(), pid, false);
+}

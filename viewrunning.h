@@ -3,6 +3,7 @@
 
 #include "sys.h"
 #include "proc.h"
+#include "visualiser.h"
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QDateTime>
@@ -43,6 +44,8 @@ private slots:
     void on_toggleUpdateButton_clicked();
     void receive_update(QVector<pid_t> update_data);
     void on_closeButton_clicked();
+
+    void on_outputTable_cellDoubleClicked(int row, int column);
 
 private:
     explicit ViewRunning(QWidget *parent = 0);

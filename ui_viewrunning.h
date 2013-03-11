@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'viewrunning.ui'
 **
-** Created: Fri Mar 8 17:16:08 2013
+** Created: Mon Mar 11 13:51:24 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -60,7 +60,7 @@ public:
         outputTable->setObjectName(QString::fromUtf8("outputTable"));
         outputTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         outputTable->setAlternatingRowColors(true);
-        outputTable->setSelectionMode(QAbstractItemView::NoSelection);
+        outputTable->setSelectionMode(QAbstractItemView::SingleSelection);
         outputTable->setSelectionBehavior(QAbstractItemView::SelectRows);
         outputTable->setShowGrid(false);
         outputTable->horizontalHeader()->setDefaultSectionSize(80);

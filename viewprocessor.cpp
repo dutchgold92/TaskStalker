@@ -220,3 +220,14 @@ void ViewProcessorUpdater::set_paused(bool pause)
     else
         update = true;
 }
+
+/**
+ * @brief ViewProcessor::on_procTable_cellDoubleClicked Opens a process viewer to display the task in the selected row (if any).
+ */
+void ViewProcessor::on_procTable_cellDoubleClicked(int row, int column)
+{
+    pid_t pid = ui->procTable->item(row, 0)->text().toInt();
+
+    if(pid > 0)
+        new Visualiser(this->parentWidget(), pid, false);
+}

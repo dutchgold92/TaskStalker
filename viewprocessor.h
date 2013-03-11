@@ -3,6 +3,7 @@
 
 #include "sys.h"
 #include "proc.h"
+#include "visualiser.h"
 #include "qgraphicsprocessitem.h"
 #include <QDialog>
 #include <QFuture>
@@ -49,6 +50,8 @@ private slots:
     void on_closeButton_clicked();
     void on_toggleUpdateButton_clicked();
     void graph_item_clicked();
+
+    void on_procTable_cellDoubleClicked(int row, int column);
 
 private:
     Ui::ViewProcessor *ui;

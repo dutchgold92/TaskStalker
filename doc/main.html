@@ -10,7 +10,7 @@
 	<div id="navigation">
 		<span style="float: left; text-align: left;"><a href="index.html">Previous Section: Introduction to Task Stalker</a></span>
 		&nbsp;|&nbsp;
-		<span style="float: right; text-align: right;"><a href="visualisation.html">Next Section: Visualisation Window</a></span>
+		<span style="float: right; text-align: right;"><a href="visualisation.html">Next Section: Process Viewer</a></span>
 	</div>
 
 	<h1>Main Window</h1>
@@ -19,7 +19,7 @@
 
 	<br />
 
-	<img src="mainwindow.png" alt="Main window" width="600" height="315" />
+	<img src="mainwindow.png" alt="Main window" width="680" height="285" />
 
 	<br />
 
@@ -40,20 +40,25 @@
 		<li>Process ID: Numbers used to identify processes. Every process has a unique ID.</li>
 		<li>Name: A name by which the task can also be identified, generally being the command which can be used to start it.</li>
 		<li>Status: Last known state of the process; either Running, Sleeping, Disk Sleep, Stopped, or Zombie. These states all give an indication to the current activity of the process, and are defined by Linux; see the "proc" system manual for more information.</li>
+		<li>CPU Usage: Statistical measurement of how much of the available processor resources are being used by this task.
 		<li>Priority: The priority rating or "nice" value assigned to the process, between 20 and -20. A higher priority means the process is more likely to yield the processor to another process, while a lower priority means it is less likely.</li>
+		<li>User: Username of the owner of this process.</li>
+		<li>Memory: Amount of memory allocated to the process. This memory may be shared among other processes.</li>
+		<li>Parent: Identifier of the task's parent process, if any.</li>
+		<li>Threads: Number of threads belonging to the task.</li>
 	</ol>
 
 	<p>A scrollbar will appear on the right-hand side of the window if it is not possible to display all processes in the available space. If this is so, you may drag the scrollbar to browse down further through the processes.</p>
 	<p>It is possible to sort the rows displayed by column; simply click on the respective column header to show in ascending order, or click twice for descending. For example, to list the processes in alphabetical order, click once upon the "Name" header. Sorting preferences can also be made permanent through the settings menu.</p>
 	<p>From the table, you may open the visualisation module, which allows you to manage the selected process and displays a visual representation of its state transitions. To open this module, navigate within the table to the process you want to view, and double-click anywhere within the table row.</p>
 
-	<h2>4) Process Right-Click Menu</h2>
+	<h2>Process Right-Click Menu</h2>
 	<p>Right-clicking on any row in the process information table will open a context menu. This menu has several options, such as to view or terminate the process. Each action is relative to the process in the selected table row.</p>
 
 	<div id="navigation2">
 		<span style="float: left; text-align: left;"><a href="index.html">Previous Section: Introduction to Task Stalker</a></span>
 		&nbsp;|&nbsp;
-		<span style="float: right; text-align: right;"><a href="visualisation.html">Next Section: Visualisation Window</a></span>
+		<span style="float: right; text-align: right;"><a href="visualisation.html">Next Section: Process Viewer</a></span>
 	</div>
 </body>
 </html>

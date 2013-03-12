@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<title>Visualisation Window</title>
+	<title>Process Viewer</title>
 	<style type="text/css">
 		@import url("style.css");
 	</style>
@@ -10,15 +10,15 @@
 	<div id="navigation">
 		<span style="float: left; text-align: left;"><a href="main.html">Previous Section: Main Window</a></span>
 		&nbsp;|&nbsp;
-		<span style="float: right; text-align: right;"><a href="simulator.html">Next Section: Simulation Window</a></span>
+		<span style="float: right; text-align: right;"><a href="recording.html">Next Section: Recording Viewer</a></span>
 	</div>
 
-	<h1>Visualisation Window</h1>
+	<h1>Process Viewer</h1>
 	<p>Once launched, this module presents you with a dialog window. Information in this dialog is relative to the process that was selected from the main window.</p>
 
 	<br />
 
-	<img src="viswindow.png" width="549" height="510" alt="Visualisation window" />
+	<img src="viswindow.png" width="798" height="576" alt="Visualisation window" />
 
 	<br />
 
@@ -28,8 +28,8 @@
 	<p>This table shows precisely the same information as the table seen in the application's main window, however it is limited to displaying the information only for the particular process. Priority information is omitted, and instead shown below the table. Additionally, it updates by default more frequently than the other table; the state of the process is read and output to the table every second, though this can be changed in the settings menu.</p>
 
 	<h2>2) Process State Model Diagram</h2>
-	<p>The image shown here is a diagram illustrating the traditional UNIX-like process state model, and is taken from William Stallings' book "Operating Systems: Internals and Design Principles". This model is significantly different from the one currently employed by Linux-based operating systems, though the concepts remain the same.</p>
-	<p>The image will show the process state highlighted in red which most closely relates to the actual state as defined by the system. This is updated every time the "State" cell is changed in the above table. A different diagram image is actually loaded for every state change, but this should occur seamlessly, appearing as if it is a single, animated image.</p>
+	<p>The image shown here is a scalable diagram illustrating the traditional UNIX-like process state model. This model is significantly different from the one currently employed by Linux-based operating systems, though the concepts remain the same.</p>
+	<p>The image will show the process state highlighted in red which most closely relates to the actual state as defined by the system. This is updated every time the "State" cell is changed in the above table.</p>
 
 	<h2>3) Set Priority Controls</h2>
 	<p>To change the priority or "nice" value this task holds in the system, adjust the numeric value in the box shown here by pressing the up or down buttons, then click the "Set Priority" button to submit the request. This may be unsuccessful depending on your user permissions and system security policy; commonly, a normal user can increase priority for their own processes, but not lower. They generally cannot modify the priority of other users' tasks or system tasks whatsoever.</p>
@@ -47,10 +47,19 @@
 	<h2>7) Close Button</h2>
 	<p>Click this button to close the visualisation system, and return to the main window of the application.</p>
 
+	<h2>8) Current CPU Display</h2>
+	<p>If the task is currently executing on a processor, this area shows which particular CPU core is in use.</p>
+
+	<h2>9) Record Button</h2>
+	<p>Enables recording of the process, which continues until the user clicks the button again to stop recording. The recording can then be selected and played from "Manage Recordings" in the program's "View" menu.</p>
+
+	<h2>10) Time Stamp</h2>
+	<p>Displays the current system time, at each update.</p>
+
 	<div id="navigation2">
 		<span style="float: left; text-align: left;"><a href="main.html">Previous Section: Main Window</a></span>
 		&nbsp;|&nbsp;
-		<span style="float: right; text-align: right;"><a href="simulator.html">Next Section: Simulation Window</a></span>
+		<span style="float: right; text-align: right;"><a href="recording.html">Next Section: Recording Viewer</a></span>
 	</div>
 </body>
 </html>

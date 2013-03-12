@@ -20,5 +20,8 @@
 	<file>doc/viewprocessor.html</file>
 	<file>doc/viewprocessorinit.png</file>
 	<file>doc/viewprocessor.png</file>
+	<file>doc/recording.html</file>
+	<file>doc/recording.png</file>
+	<file>doc/initrecording.png</file>
     </qresource>
 </RCC>

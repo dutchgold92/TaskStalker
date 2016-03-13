@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>doc/collection.qhc</file>
+        <file>doc/help.qch</file>
+        <file>doc/index.html</file>
+        <file>doc/info.html</file>
+        <file>doc/main.html</file>
+        <file>doc/visualisation.html</file>
+        <file>doc/viswindow.png</file>
+        <file>doc/mainwindow.png</file>
+        <file>doc/settings.html</file>
+        <file>doc/settings.png</file>
+        <file>doc/simulator.html</file>
+        <file>doc/simulatorinit.png</file>
+        <file>doc/style.css</file>
+        <file>doc/sysinfo.html</file>
+        <file>doc/sysinfo.png</file>
+        <file>doc/runningprocs.html</file>
+        <file>doc/runningprocs.png</file>
+        <file>doc/viewprocessor.html</file>
+        <file>doc/viewprocessorinit.png</file>
+        <file>doc/viewprocessor.png</file>
+        <file>doc/recording.html</file>
+        <file>doc/recording.png</file>
+        <file>doc/initrecording.png</file>
+    </qresource>
+</RCC>
